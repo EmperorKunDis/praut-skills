@@ -20,6 +20,17 @@ Sestavil jsem kompletní katalog komponent pokrývající všechny formáty od z
 | `<TripleLayout>` | 3-column pro porovnání (Před / Po / Rozdíl) | — |
 | `<PiPLayout>` | Webcam vlevo dole 18% přes screenshare | `webcamSrc`, `screenSrc` |
 | `<SpeakerScreenLayout>` | Mluvčí 34% / obsah 66% nebo opačně | `focus: 'speaker' \| 'screen'` |
+| `<ExplainerSlide>` | Slide s nadpisem, body textem a volitelným vizuálem | `title`, `body`, `visual?` |
+| `<LiquidGlassPanel>` | Glassmorphism panel přes SpiralGalaxy pozadí | `children`, `blur?` |
+| `<WebcamPlaceholder>` | Placeholder kruh pro webcam overlay (průhledný) | `size?` |
+
+---
+
+## 🔣 1b. IKONY (`src/components/icons/`)
+
+| Komponenta | Účel |
+|---|---|
+| `<PhosphorIcon>` | Wrapper pro Phosphor icon font — 1530 ikon × 6 váh (thin, light, regular, bold, fill, duotone) |
 
 ---
 
@@ -203,6 +214,8 @@ Sestavil jsem kompletní katalog komponent pokrývající všechny formáty od z
 | `<NoiseOverlay>` | Jemný film grain |
 | `<VignetteOverlay>` | Tmavé okraje |
 | `<ScanlineEffect>` | CRT scanline pro retro vibe |
+| `<SpaceNebula>` | Animované mlhoviny + hvězdy (subtle/medium/dramatic) |
+| `<SpiralGalaxy>` | Canvas density-wave galaxie (~6000 hvězd) — **DEFAULT pozadí pro PrautVideoFrame** |
 
 ---
 
@@ -264,11 +277,9 @@ Sestavil jsem kompletní katalog komponent pokrývající všechny formáty od z
 | `useTypewriter()` | Hook pro typewriter efekt |
 | `useCountUp()` | Hook pro animovaná čísla |
 | `interpolateColors()` | Smooth barevné přechody |
-| `springPreset` | Předdefinované spring konfigurace (smooth, bouncy, snappy) |
+| `springs` | Předdefinované spring konfigurace (`smooth`, `bouncy`, `snappy`, `gentle`) — importuj z `tokens.ts` |
 | `easings` | Sjednocené easing křivky |
-| `<AudioWaveform>` | Vizualizace audio waveformu |
-| `<Captions>` | Synced titulky s wordtiming |
-| `<WatermarkPraut>` | Diskrétní watermark v rohu |
+| `<WatermarkPraut>` | Diskrétní watermark v rohu (umístěn v `frame/`) |
 
 ---
 

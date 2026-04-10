@@ -22,6 +22,9 @@ Structure: 14 component categories + templates + hooks.
 - `SafeArea` — scale-to-fit wrapper
 - `SlideRoot` — slide content background
 - `SplitLayout` / `TripleLayout` / `PiPLayout` / `SpeakerScreenLayout`
+- `ExplainerSlide` — slide with title, body, optional visual
+- `LiquidGlassPanel` — glassmorphism panel over SpiralGalaxy
+- `WebcamPlaceholder` — transparent circle for webcam overlay
 - `WatermarkPraut`
 
 ## 2. Typography (`src/components/typography/`)
@@ -149,7 +152,9 @@ Structure: 14 component categories + templates + hooks.
 - `RippleEffect` — concentric expanding rings
 
 ## 12. Backgrounds (`src/components/backgrounds/`)
-- `NavyBackground` — solid `frame.bg`
+- **`SpiralGalaxy`** — **DEFAULT background for PrautVideoFrame** — canvas density-wave galaxy (~6000 stars)
+- **`SpaceNebula`** — animated nebula clouds + stars (`subtle` | `medium` | `dramatic` intensity)
+- `NavyBackground` — solid `frame.bg` (fallback for simple slides)
 - `GradientMesh` — animated radial gradients
 - `ParticleField` — drifting blue particles
 - `StarField` — twinkling pinpricks
@@ -158,6 +163,9 @@ Structure: 14 component categories + templates + hooks.
 - `NoiseOverlay` — film grain
 - `VignetteOverlay` — corner darkening
 - `ScanlineEffect` — CRT scanlines
+
+> **Layer order:** SpiralGalaxy → LiquidGlassPanel → children → TopBar → Watermark.
+> All frame wrappers render SpiralGalaxy by default (`includeBackground={true}`).
 
 ## 13. Media (`src/components/media/`)
 - `ProcessedImage` — bordered image with overlay

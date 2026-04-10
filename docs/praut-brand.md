@@ -49,11 +49,11 @@ export const colors = {
     info:    '#506FFB',
   },
   // Logo gradient (text)
-  logoText: 'linear-gradient(135deg, #9FBFFF 0%, #D6B0FF 100%)',
+  logoText: 'linear-gradient(135deg, #506FFB 0%, #8D2AF3 100%)',
 } as const;
 
 export const gradients = {
-  logoText:    'linear-gradient(135deg, #9FBFFF 0%, #D6B0FF 100%)',
+  logoText:    'linear-gradient(135deg, #506FFB 0%, #8D2AF3 100%)',
   brandPrimary:'linear-gradient(135deg, #8D2AF3 0%, #3B4EF0 100%)',
   brandWide:   'linear-gradient(135deg, #BC7EFF 0%, #8D2AF3 50%, #3B4EF0 100%)',
   dark:        'linear-gradient(145deg, #0a0e2e 0%, #141a52 100%)',
@@ -88,13 +88,26 @@ export const typeScale = {
 export const frame = {
   width: 1920,
   height: 1080,
-  topBarHeight: 48,
+  topBarHeight: 72,
   sidePadding: 14,
   bottomPadding: 14,
   borderWidth: 1.5,
   borderColor: '#506FFB',
   borderRadius: 4,
   bg: '#060818',
+} as const;
+
+// Short (9:16) and Square (1:1) frame variants
+export const frameShort = {
+  width: 1080, height: 1920, topBarHeight: 80,
+  sidePadding: 18, bottomPadding: 18,
+  borderWidth: 2, borderColor: '#506FFB', borderRadius: 8, bg: '#060818',
+} as const;
+
+export const frameSquare = {
+  width: 1080, height: 1080, topBarHeight: 64,
+  sidePadding: 16, bottomPadding: 16,
+  borderWidth: 2, borderColor: '#506FFB', borderRadius: 8, bg: '#060818',
 } as const;
 
 // ❌ ŽÁDNÉ drop-shadows na dark mode — jen glow
@@ -122,6 +135,30 @@ export const timing = {
   slow:    45,   // 1.5s
   reveal:  60,   // 2.0s
 } as const;
+
+// Channel metadata — TopBar right-side text
+export const channel = {
+  name: 'Martin Švanda',
+  episodePrefix: 'EP',
+  taglines: [
+    'Progressive Automatisation', 'Prime Automatisation',
+    'Private Automatisation', 'Precise Automatisation',
+    'Practical Automatisation', 'Predictive Automatisation',
+    'Process Automatisation', 'Professional Automatisation',
+    'Productive Automatisation',
+  ],
+} as const;
+
+// Deterministic tagline based on episode number
+export const pickTagline = (episodeNumber?: string): string => { /* hash-based */ };
+
+// Append alpha to hex: withOpacity('#506FFB', 0.4) → '#506FFB66'
+export const withOpacity = (hex: string, alpha: number): string => { /* ... */ };
+
+// Cyclic series colors for charts (max 4 series recommended)
+export const seriesColors = [
+  colors.purple[600], colors.blue[400], colors.blue[500], colors.purple[700],
+] as const;
 ```
 
 ---
@@ -316,13 +353,17 @@ Pro každou ze 15 kategorií tabulka říká: **jaké tokeny použít defaultně
 ### 11. Backgrounds & atmosphere
 | Komponenta | Token |
 |---|---|
-| `<NavyBackground>` | `frame.bg` |
+| **`<SpiralGalaxy>`** | **DEFAULT pozadí pro PrautVideoFrame** — canvas density-wave galaxie (~6000 hvězd), automaticky renderuje za children |
+| **`<SpaceNebula>`** | Animované mlhoviny + hvězdy, 3 intenzity: `subtle` / `medium` / `dramatic`. Pro IntroAnimation a dramatické scény |
+| `<NavyBackground>` | `frame.bg` — fallback pro jednoduché slidy |
 | `<GradientMesh>` | mix `colors.navy[900]`, `colors.purple[800]`, `colors.blue[900]` ve velmi nízké opacity |
 | `<ParticleField>` particle | `colors.blue[400]`, opacity 0.3 |
 | `<StarField>` | `colors.purple[100]`, opacity 0.4 |
 | `<GridBackground>` | line `colors.blue[400]/0.1` |
 | `<NoiseOverlay>` | grain opacity 0.03 |
 | `<VignetteOverlay>` | radial-gradient od center transparent k `colors.navy[950]` |
+
+> **Důležité:** `PrautVideoFrame`, `PrautShortFrame` a `PrautSquareFrame` automaticky renderují `<SpiralGalaxy>` jako pozadí (prop `includeBackground`, default `true`). Layer order: **SpiralGalaxy → LiquidGlassPanel → children → TopBar → Watermark**.
 
 ### 12. Media & assets
 | Komponenta | Token |
@@ -357,7 +398,7 @@ Pro každou ze 15 kategorií tabulka říká: **jaké tokeny použít defaultně
 ### 15. Utilities & hooks
 | Utility | Token |
 |---|---|
-| `springPreset` | importuje `springs` z `tokens.ts` |
+| `springs` | importuje z `tokens.ts` — 4 presety: `smooth`, `bouncy`, `snappy`, `gentle` |
 | `easings` | jen 3 globální: `linear`, `Easing.out(Easing.cubic)`, `Easing.bezier(0.4, 0, 0.2, 1)` |
 | `interpolateColors` | vždy mezi `colors.navy[X]` a `colors.purple[Y]` |
 | `<WatermarkPraut>` | bottom-right, 14px padding, opacity 0.6, brain mark 20px + "PRAUT" caption |

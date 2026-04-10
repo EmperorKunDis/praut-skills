@@ -29,7 +29,18 @@ What it gives you:
 - Outer **1.5px `#506FFB` border** with `frame.borderRadius` 4.
 - **TopBar** with brand lockup left, episode meta right (default: `EP 01 / Praut AI Channel`).
 - **Watermark** (`bottom-right brain mark + PRAUT`, opacity 0.6).
-- Background `frame.bg` (#060818).
+- **SpiralGalaxy** canvas background (density-wave spiral, ~6000 stars) — rendered by default.
+- Background `frame.bg` (#060818) behind the galaxy.
+
+### Layer order
+
+```
+SpiralGalaxy → LiquidGlassPanel → children → TopBar → Watermark
+```
+
+The `<SpiralGalaxy>` component is the **default background** for all three frame
+variants. Disable with `includeBackground={false}` if you need a plain navy bg
+or a custom `<SpaceNebula>` instead.
 
 ### Props
 
@@ -40,6 +51,7 @@ What it gives you:
 | `channelName` | `string?` | `"Praut AI Channel"` | Override channel label |
 | `includeTopBar` | `boolean?` | `true` | Hide for raw frames |
 | `includeWatermark` | `boolean?` | `true` | Hide for clean exports |
+| `includeBackground` | `boolean?` | `true` | Render the SpiralGalaxy behind children |
 | `frameless` | `boolean?` | `false` | Drop the brand border completely |
 | `borderState` | `'active' \| 'passive'` | `'active'` | Active = full glow border, passive = 1px 25% opacity |
 
