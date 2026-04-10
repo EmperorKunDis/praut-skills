@@ -42,7 +42,7 @@ Sestavil jsem kompletní katalog komponent pokrývající všechny formáty od z
 | `<H1>`, `<H2>`, `<H3>` | Hierarchie nadpisů s předdefinovanými barvami |
 | `<BodyText>` | Body 16-20px, weight 500+ |
 | `<MonoLabel>` | IBM Plex Mono pro labely a čísla |
-| `<GradientText>` | Text s logo gradientem #9FBFFF → #D6B0FF |
+| `<GradientText>` | Text s logo gradientem #506FFB → #8D2AF3 |
 | `<TypewriterText>` | Postupné psaní znak po znaku (terminal vibe) |
 | `<WordReveal>` | Slovo po slově fade-in (stagger) |
 | `<LineReveal>` | Řádek po řádku slide-up |

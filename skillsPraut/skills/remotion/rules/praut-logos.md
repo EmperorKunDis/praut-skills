@@ -53,7 +53,7 @@ import {BrandLogo} from '@/components/frame/BrandLogo';
 ```
 
 The full lockup is `BrainMark + "PRAUT"` text in the brand `logoText` gradient
-(`#9FBFFF → #D6B0FF`). Used automatically by `<TopBar>`.
+(`#506FFB → #8D2AF3`). Used automatically by `<TopBar>`.
 
 ## `<WatermarkPraut />`
 

@@ -152,4 +152,4 @@ When converting any generic Remotion component to Praut brand:
 ## Helpers
 
 - `withOpacity(hex, alpha)` → `'#506FFB66'` (RGBA hex8 string)
-- `seriesColors` → `[purple-600, blue-400, purple-300, blue-500]` for chart series
+- `seriesColors` → `[purple-600, blue-400, blue-500, purple-700]` for chart series
