@@ -8,7 +8,7 @@ metadata:
 Use `<Sequence>` to delay when an element appears in the timeline.
 
 ```tsx
-import { Sequence } from "remotion";
+import { Sequence, useVideoConfig } from "remotion";
 
 const {fps} = useVideoConfig();
 
