@@ -15,8 +15,47 @@ This skill is forked from `@remotion/skills` for **Praut s.r.o.** — every vide
 - [./rules/praut-frame-system.md](./rules/praut-frame-system.md) — `<PrautVideoFrame>`, `<TopBar>`, safe area
 - [./rules/praut-icons.md](./rules/praut-icons.md) — `<PhosphorIcon>` usage and recommended icons
 - [./rules/praut-logos.md](./rules/praut-logos.md) — brand logos, brain mark, watermark
-- [./rules/praut-component-library.md](./rules/praut-component-library.md) — catalog of all 100+ branded components
+- [./rules/praut-component-library.md](./rules/praut-component-library.md) — catalog of all 152 branded components
 - [./rules/praut-templates.md](./rules/praut-templates.md) — how to compose full video templates
+
+### Component source code (assets/)
+
+The `./rules/assets/` directory contains the **full source code** of every branded
+component, organized by category. When generating new compositions or adapting
+existing ones, **read the relevant asset file first** to understand props, styling
+and animation patterns:
+
+- `assets/tokens.ts` — design tokens (single source of truth)
+- `assets/frame-components.tsx` — PrautVideoFrame, TopBar, SafeArea, layouts (16)
+- `assets/typography-components.tsx` — headings, text animations (16)
+- `assets/backgrounds-components.tsx` — **SpiralGalaxy**, SpaceNebula, particles (11)
+- `assets/ai-visuals-components.tsx` — NeuralNetwork, RAGPipeline, etc. (18)
+- `assets/charts-components.tsx` — bar, line, pie, radar, etc. (15)
+- `assets/code-components.tsx` — CodeBlock, TerminalWindow, etc. (10)
+- `assets/lists-components.tsx` — TopTen, StepByStep, Checklist (9)
+- `assets/cards-components.tsx` — GlowCard, GlassCard, StatCard (12)
+- `assets/chapters-components.tsx` — ChapterCard, EndScreen, HookCard (8)
+- `assets/cta-components.tsx` — SubscribeButton, LikeAnimation (9)
+- `assets/transitions-components.tsx` — Fade, Wipe, PuzzleAssemble (9)
+- `assets/media-components.tsx` — mockups, avatars, logos (9)
+- `assets/educational-components.tsx` — DefinitionBox, MindMap (9)
+- `assets/icons-components.tsx` — PhosphorIcon wrapper (2)
+- `assets/hooks-utilities.ts` — useScaleToFit, easings, etc. (6)
+- `assets/templates.tsx` — 10 complete video templates
+
+### Default background — SpiralGalaxy
+
+`<PrautVideoFrame>`, `<PrautShortFrame>` and `<PrautSquareFrame>` automatically
+render `<SpiralGalaxy>` (canvas density-wave galaxy, ~6000 stars) behind children.
+Disable with `includeBackground={false}` for plain navy or custom `<SpaceNebula>`.
+
+**Layer order:** SpiralGalaxy → LiquidGlassPanel → children → TopBar → Watermark.
+
+### Channel metadata
+
+`tokens.ts` exports `channel` (name, episodePrefix, taglines) and `pickTagline(episodeNumber)`
+for deterministic tagline selection. `withOpacity(hex, alpha)` for hex+alpha.
+`seriesColors` for chart series (max 4).
 
 ### Five universal rules (NEVER violate)
 
