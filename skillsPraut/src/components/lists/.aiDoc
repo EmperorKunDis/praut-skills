@@ -1,0 +1,28 @@
+---
+@META
+dir: skillsPraut/src/components/lists/
+updated: 2026-04-09
+files: 9
+stack: React, Remotion, TypeScript
+
+@EXPORTS
+ChecklistAnimated.tsx: ChecklistAnimated — staggered tick animation per item
+DoVsDont.tsx: DoVsDont — side-by-side green DO / red DON'T columns
+FeatureList.tsx: FeatureList — staggered feature items with icons
+MythVsFact.tsx: MythVsFact — side-by-side "Mytus" vs "Pravda" cards
+NumberedList.tsx: NumberedList — animated numbered list with gradient numerals
+ProsConsTable.tsx: ProsConsTable — side-by-side pros (green) / cons (red) columns
+StepByStep.tsx: StepByStep — horizontal steps with arrows, staggered reveal
+TopTenCard.tsx: TopTenCard — single ranked card (winner gets gradient + glow)
+TopTenReveal.tsx: TopTenReveal — countdown #10 → #1 via Sequence timing
+
+@DEPENDENCIES
+internal: styles/tokens | icons/PhosphorIcon | hooks/useStaggeredAnimation
+external: remotion (Sequence, interpolate)
+
+@STANDARDS
+- Staggered animations use timing.fast or timing.medium from tokens
+- Color coding: success = green, error = red, warning = yellow
+- Czech labels: "Mytus", "Pravda", "Ano", "Ne"
+- TopTenReveal items: index 0 = #10, index 9 = #1
+---

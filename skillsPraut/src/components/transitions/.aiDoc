@@ -1,0 +1,29 @@
+---
+@META
+dir: skillsPraut/src/components/transitions/
+updated: 2026-04-09
+files: 9
+stack: React, Remotion, TypeScript
+
+@EXPORTS
+FadeTransition.tsx: FadeTransition — fade in/out wrapper using springs.smooth
+GlitchTransition.tsx: GlitchTransition — RGB-split glitch for durationFrames
+MorphTransition.tsx: MorphTransition — cross-fade morph between two children (opacity + blur)
+ParticleBurst.tsx: ParticleBurst — radial particle burst from center (purple/blue)
+PuzzleAssemble.tsx: PuzzleAssemble — 4 puzzle tiles slide into brain mark + "CX" badge
+RippleEffect.tsx: RippleEffect — concentric expanding rings from center
+SlideTransition.tsx: SlideTransition — directional slide using springs.snappy
+WipeTransition.tsx: WipeTransition — purple gradient mask sweep reveal
+ZoomTransition.tsx: ZoomTransition — scale-zoom using springs.smooth
+
+@DEPENDENCIES
+internal: styles/tokens (colors, springs, timing, glow, fonts)
+external: remotion (AbsoluteFill, spring, interpolate, useCurrentFrame, useVideoConfig)
+
+@STANDARDS
+- All transitions accept startFrame + durationFrames props
+- Default duration: timing.medium (24 frames / 0.8s)
+- PuzzleAssemble is the signature Praut brand transition
+- PuzzleAssemble tiles: #506FFB at 100/70/45/25% opacity
+- Deterministic seeded random for ParticleBurst
+---

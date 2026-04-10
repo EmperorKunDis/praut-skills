@@ -1,0 +1,36 @@
+---
+@META
+dir: skillsPraut/src/
+updated: 2026-04-09
+files: 2
+stack: React, Remotion, TypeScript
+
+@EXPORTS
+index.ts: registerRoot(RemotionRoot) — app entry point
+Root.tsx: RemotionRoot — registers all 17 compositions
+
+@VARS_CONSTANTS
+FPS: number = 30 — frame rate
+W: number = 1920 — width
+H: number = 1080 — height
+
+@FUNCTIONS
+RemotionRoot() → React.FC
+  purpose: register all demo compositions
+  side-effects: none
+
+@PROCESSES
+boot: index.ts → registerRoot → Root.tsx → font loading → compositions
+
+@INTERFACES
+Compositions: BrandShowcase | FrameShowcase | TypographyShowcase | IconShowcase | ChapterIntro | IntroAnimation | BarChartDemo | NeuralNetDemo | RAGDemo | TerminalDemo | TopTenDemo | CardsShowcase | CTAShowcase | BackgroundsShowcase | EducationalShowcase | ExplainerVideo | ShortVideo
+
+@DEPENDENCIES
+internal: styles/tokens | components/* | compositions/* | hooks/*
+external: remotion | @remotion/google-fonts
+
+@STANDARDS
+- Montserrat weights 500-800, subsets latin + latin-ext
+- IBM Plex Mono weights 400-500, subsets latin + latin-ext
+- ShortVideo uses 1080x1920 (9:16), all others 1920x1080
+---

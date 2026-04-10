@@ -1,0 +1,30 @@
+---
+@META
+dir: skillsPraut/
+updated: 2026-04-09
+files: 3
+stack: Remotion 4, React 19, TypeScript 5.4
+
+@EXPORTS
+package.json: @praut/remotion-skill — project config & scripts
+tsconfig.json: TS config — ESNext, JSX react-jsx, strict
+README.md: project overview
+
+@VARS_CONSTANTS
+FPS: number = 30 — standard frame rate
+W: number = 1920 — standard width
+H: number = 1080 — standard height
+
+@INTERFACES
+Scripts: { dev: "remotion studio" | render | build | typecheck | extract-glyphs }
+
+@DEPENDENCIES
+internal: src/ | scripts/ | skills/ | public/
+external: remotion ^4 | @remotion/* ^4 | react ^19 | typescript ^5.4
+
+@STANDARDS
+- Path alias: @/* → src/*
+- Fonts loaded in Root.tsx: Montserrat + IBM Plex Mono (latin-ext for Czech)
+- Phosphor icon fonts loaded as side-effect from icons/loadPhosphorFont.ts
+- All compositions registered in Root.tsx via <Composition>
+---

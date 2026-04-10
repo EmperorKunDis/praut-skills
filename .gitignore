@@ -1,0 +1,8 @@
+node_modules/
+.DS_Store
+*.mp4
+phosphor-icons/PNGs/
+phosphor-icons/SVGs/
+phosphor-icons/SVGs Flat/
+skillsPraut/.remotion/
+skillsPraut/out/

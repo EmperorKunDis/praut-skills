@@ -1,0 +1,46 @@
+---
+@META
+dir: skillsPraut/src/styles/
+updated: 2026-04-09
+files: 1
+stack: TypeScript
+
+@EXPORTS
+tokens.ts: colors | gradients | fonts | fontWeight | typeScale | frame | frameShort | frameSquare | glow | springs | timing | channel | seriesColors — brand design tokens
+
+@VARS_CONSTANTS
+colors.navy.950: string = "#060818" — darkest frame bg
+colors.blue.400: string = "#506FFB" — primary border & logo mark
+colors.purple.600: string = "#8D2AF3" — main CTA
+colors.purple.50: string = "#FAF5FF" — heading text
+fonts.primary: string = "Montserrat" — main font
+fonts.mono: string = "IBM Plex Mono" — code font
+frame.width: number = 1920 — 16:9 reference
+frame.height: number = 1080 — 16:9 reference
+springs.smooth: SpringConfig = {damping:200,stiffness:100,mass:0.8} — default animation
+timing.fast: number = 12 — 0.4s @ 30fps
+timing.medium: number = 24 — 0.8s @ 30fps
+
+@FUNCTIONS
+pickTagline(episodeNumber?) → string
+  purpose: deterministic tagline from episode
+  side-effects: none
+
+withOpacity(hex, alpha) → string
+  purpose: append alpha to hex color
+  side-effects: none
+
+@INTERFACES
+Tokens: { colors | gradients | fonts | fontWeight | typeScale | frame | glow | springs | timing }
+
+@STANDARDS
+- SINGLE SOURCE OF TRUTH for all brand values
+- NEVER hardcode hex outside this file
+- fontWeight >= 500 on dark mode
+- glow.* instead of drop-shadow rgba(0,0,0,...)
+- springs.* for all animations
+- timing.* for all durations
+
+@WARNINGS
+- logoText gradient differs between docs (9FBFFF→D6B0FF) and code (506FFB→8D2AF3) — code is canonical
+---

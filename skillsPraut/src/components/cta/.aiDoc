@@ -1,0 +1,28 @@
+---
+@META
+dir: skillsPraut/src/components/cta/
+updated: 2026-04-09
+files: 9
+stack: React, Remotion, TypeScript
+
+@EXPORTS
+BellNotification.tsx: BellNotification — wobbling bell icon with red badge
+CommentPrompt.tsx: CommentPrompt — "write a comment" card with chat icon
+DiscordCTA.tsx: DiscordCTA — Discord join card with member count
+EndScreenGrid.tsx: EndScreenGrid — 2x2 grid of NextVideoCard placeholders
+LikeAnimation.tsx: LikeAnimation — pulsing thumbs-up with springs.bouncy
+NewsletterCTA.tsx: NewsletterCTA — newsletter signup card with email input mockup
+NextVideoCard.tsx: NextVideoCard — empty 480x270 next-video frame placeholder
+ShareCard.tsx: ShareCard — social platform share pill buttons (X|LinkedIn|Facebook|Discord)
+SubscribeButton.tsx: SubscribeButton — purple-to-blue gradient CTA pill button
+
+@DEPENDENCIES
+internal: styles/tokens | icons/PhosphorIcon
+external: remotion (interpolate, spring, useCurrentFrame, useVideoConfig)
+
+@STANDARDS
+- NextVideoCard is intentionally empty — content added in YouTube editor
+- SubscribeButton uses gradients.brandPrimary + glow.cta
+- All Czech-language labels ("Odebírat", "Sdílej video", etc.)
+- EndScreenGrid defaults to 4 cards (2x2)
+---

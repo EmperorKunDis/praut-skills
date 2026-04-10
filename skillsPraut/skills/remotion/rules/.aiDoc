@@ -1,0 +1,57 @@
+---
+@META
+dir: skillsPraut/skills/remotion/rules/
+updated: 2026-04-09
+files: 43
+stack: Markdown
+
+@EXPORTS
+praut-brand-tokens.md: design tokens reference — single source of truth
+praut-frame-system.md: PrautVideoFrame, TopBar, SafeArea usage
+praut-component-library.md: catalog of 100+ branded components
+praut-icons.md: PhosphorIcon usage guide + recommended icons
+praut-logos.md: brand logos, brain mark, watermark rules
+praut-templates.md: how to compose full video templates
+animations.md: Remotion animation best practices
+sequencing.md: Sequence & TransitionSeries patterns
+timing.md: timing conventions + spring presets
+transitions.md: @remotion/transitions usage
+fonts.md: font loading rules
+assets.md: static file handling
+audio.md: audio in Remotion
+audio-visualization.md: spectrum/waveform visualization
+calculate-metadata.md: dynamic metadata calculation
+can-decode.md: codec detection
+charts.md: chart component patterns
+compositions.md: composition registration rules
+display-captions.md: caption rendering
+extract-frames.md: frame extraction
+ffmpeg.md: FFmpeg integration
+get-audio-duration.md: audio duration API
+get-video-dimensions.md: video dimension API
+get-video-duration.md: video duration API
+gifs.md: GIF handling
+images.md: image handling
+import-srt-captions.md: SRT subtitle import
+light-leaks.md: light leak effects
+lottie.md: Lottie animation integration
+maps.md: map rendering
+measuring-dom-nodes.md: DOM measurement
+measuring-text.md: text measurement
+parameters.md: composition parameters
+sfx.md: sound effects
+subtitles.md: subtitle/caption system
+tailwind.md: Tailwind CSS usage
+text-animations.md: text animation patterns
+transcribe-captions.md: caption transcription
+transparent-videos.md: transparent video rendering
+trimming.md: video trimming
+videos.md: video element usage
+voiceover.md: voiceover integration
+3d.md: 3D rendering with @remotion/three
+
+@STANDARDS
+- Praut-specific rules (praut-*.md) take priority over generic Remotion rules
+- Generic rules forked from @remotion/skills — adapted for Praut brand
+- All rules reference tokens.ts as the canonical source
+---

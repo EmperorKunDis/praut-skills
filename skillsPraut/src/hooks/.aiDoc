@@ -1,0 +1,45 @@
+---
+@META
+dir: skillsPraut/src/hooks/
+updated: 2026-04-09
+files: 6
+stack: TypeScript, Remotion
+
+@EXPORTS
+easings.ts: easings — 3 sanctioned easing curves (linear | out | standard)
+interpolateColors.ts: interpolateColors — linear hex color interpolation
+useCountUp.ts: useCountUp — spring-based count-up animation hook
+useScaleToFit.ts: useScaleToFit — scale factor for reference→actual dimensions
+useStaggeredAnimation.ts: useStaggeredAnimation — (index)→progress stagger mapper
+useTypewriter.ts: useTypewriter — character-by-character typing effect
+
+@FUNCTIONS
+interpolateColors(t, from, to) → string
+  purpose: lerp between two hex colors
+  side-effects: none
+
+useCountUp({from,to,startFrame,config}) → number
+  purpose: animated numeric count-up
+  side-effects: none
+
+useScaleToFit(refW?, refH?) → number
+  purpose: scale 1920x1080 to actual size
+  side-effects: none
+
+useStaggeredAnimation(opts?) → (index)→number
+  purpose: staggered spring per list item
+  side-effects: none
+
+useTypewriter({fullText,pauseAfter,charFrames,pauseSeconds}) → string
+  purpose: typewriter substring at frame
+  side-effects: none
+
+@DEPENDENCIES
+internal: styles/tokens (springs, timing, frame)
+external: remotion (spring, useCurrentFrame, useVideoConfig, Easing, interpolate)
+
+@STANDARDS
+- All hooks use tokens.springs/timing defaults
+- No custom easing — use easings.ts only
+- Deterministic output per frame
+---

@@ -1,0 +1,38 @@
+---
+@META
+dir: skillsPraut/src/components/ai-visuals/
+updated: 2026-04-09
+files: 18
+stack: React, Remotion, TypeScript, SVG
+
+@EXPORTS
+AgentLoop.tsx: AgentLoop — animated Think → Act → Observe cycle
+AttentionMatrix.tsx: AttentionMatrix — token attention weights (wraps HeatmapGrid)
+ContextWindow.tsx: ContextWindow — sliding context window over token sequence
+CostCalculator.tsx: CostCalculator — LLM cost breakdown (input + output pricing)
+DiffusionSteps.tsx: DiffusionSteps — denoising step squares (noise → image)
+EmbeddingSpace.tsx: EmbeddingSpace — 2D embedding scatter (wraps ScatterPlot)
+HallucinationDemo.tsx: HallucinationDemo — correct vs hallucinated side-by-side
+ModelArchitecture.tsx: ModelArchitecture — encoder/decoder layer box diagram
+MoEDiagram.tsx: MoEDiagram — Mixture of Experts routing with active highlights
+NeuralNetwork.tsx: NeuralNetwork — animated feedforward NN (SVG neurons + synapses)
+ParameterCounter.tsx: ParameterCounter — model parameter count comparison cards
+PromptResponse.tsx: PromptResponse — chat-style prompt + typewriter streaming response
+RAGPipeline.tsx: RAGPipeline — Query → Vector DB → Context → LLM → Answer diagram
+TemperatureSlider.tsx: TemperatureSlider — visual slider for LLM temperature (0..1)
+TokenizerView.tsx: TokenizerView — colored token chips in series colors
+ToolCallVisual.tsx: ToolCallVisual — function call visualization (name + args + result)
+TrainingLoss.tsx: TrainingLoss — exponential decay loss curve (wraps AnimatedLineChart)
+TransformerBlock.tsx: TransformerBlock — Multi-Head Attention + FFN block diagram
+
+@DEPENDENCIES
+internal: styles/tokens | icons/PhosphorIcon | charts/HeatmapGrid | charts/ScatterPlot | charts/AnimatedLineChart | typography/CountUpNumber | code/CodeBlock | hooks/useTypewriter
+external: remotion (interpolate, spring, useCurrentFrame, useVideoConfig)
+
+@STANDARDS
+- Composite components: AttentionMatrix wraps HeatmapGrid, EmbeddingSpace wraps ScatterPlot, TrainingLoss wraps AnimatedLineChart
+- AgentLoop cycles every 30 frames per step
+- NeuralNetwork activates layer by layer with springs.snappy
+- Czech labels: "Deterministicky", "Kreativni"
+- All diagrams use gradients.card background + blue[400] borders
+---

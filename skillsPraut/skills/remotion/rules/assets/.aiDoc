@@ -1,0 +1,25 @@
+---
+@META
+dir: skillsPraut/skills/remotion/rules/assets/
+updated: 2026-04-09
+files: 3
+stack: React, Remotion, TypeScript
+
+@EXPORTS
+charts-bar-chart.tsx: reference snippet — self-contained Praut-branded bar chart
+text-animations-typewriter.tsx: reference snippet — self-contained typewriter effect
+text-animations-word-highlight.tsx: reference snippet — self-contained word highlight
+
+@PROCESSES
+skill-reference: rule.md mentions pattern → links to assets/ snippet → AI copies & adapts
+
+@DEPENDENCIES
+internal: src/styles/tokens (imported via relative path ../../../../)
+external: remotion
+
+@STANDARDS
+- Reference snippets mirror production components but are SELF-CONTAINED
+- All visual values come from tokens.ts — never hardcoded hex
+- Used by skill rules as code examples for AI code generation
+- Ideal composition size: 1920x1080
+---

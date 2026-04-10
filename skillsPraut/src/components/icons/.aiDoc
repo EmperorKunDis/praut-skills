@@ -1,0 +1,37 @@
+---
+@META
+dir: skillsPraut/src/components/icons/
+updated: 2026-04-09
+files: 3
+stack: React, Remotion, TypeScript
+
+@EXPORTS
+PhosphorIcon.tsx: PhosphorIcon — render Phosphor icon glyph from webfont
+loadPhosphorFont.ts: PHOSPHOR_FONT_FAMILIES — side-effect loader for 6 font weights
+phosphor-glyphs.json: glyph mapping — icon-name → unicode codepoint (~1530 icons)
+
+@VARS_CONSTANTS
+FAMILY_BY_WEIGHT: Record — maps weight name to font family string
+PHOSPHOR_FONT_FAMILIES: string[] — all 6 loaded font family names
+
+@FUNCTIONS
+PhosphorIcon({name,size,color,weight,glow}) → React.FC | null
+  purpose: render icon as font glyph
+  side-effects: none
+
+@INTERFACES
+PhosphorWeight: "regular" | "bold" | "fill" | "light" | "thin" | "duotone"
+PhosphorGlow: "none" | "subtle" | "active" | "cta"
+PhosphorIconName: keyof typeof phosphorGlyphsJson
+
+@DEPENDENCIES
+internal: styles/tokens (colors, glow)
+external: remotion (staticFile) | @remotion/fonts (loadFont)
+
+@STANDARDS
+- loadPhosphorFont.ts MUST be imported once at Root.tsx level
+- Use weight="fill" for UI icons, "duotone" for decorative
+- Default color: colors.blue[400]
+- Default size: 24px
+- Returns null + console.warn for unknown icon names
+---

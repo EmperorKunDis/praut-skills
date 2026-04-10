@@ -1,0 +1,37 @@
+---
+@META
+dir: skillsPraut/src/components/typography/
+updated: 2026-04-09
+files: 16
+stack: React, Remotion, TypeScript
+
+@EXPORTS
+AnimatedQuote.tsx: AnimatedQuote — branded quote card with purple quote-mark
+BodyText.tsx: BodyText — 18px Montserrat 500 body copy
+CountUpNumber.tsx: CountUpNumber — animated number with spring count-up
+DisplayHeading.tsx: DisplayHeading — 48px Montserrat 800, optional gradient
+GlitchText.tsx: GlitchText — RGB split glitch effect
+GradientText.tsx: GradientText — text with brand gradient via background-clip
+H1.tsx: H1 — 36px heading
+H2.tsx: H2 — 28px heading
+H3.tsx: H3 — 22px heading
+HighlightedText.tsx: HighlightedText — inline purple background highlight animation
+KeyTakeaway.tsx: KeyTakeaway — "Key takeaway" callout with warning border
+LineReveal.tsx: LineReveal — staggered line-by-line slide-up reveal
+MonoLabel.tsx: MonoLabel — IBM Plex Mono caption label
+ScrambleText.tsx: ScrambleText — hacker-style character scramble settle
+TypewriterText.tsx: TypewriterText — character-by-character typing with cursor
+WordReveal.tsx: WordReveal — staggered word-by-word fade reveal
+
+@DEPENDENCIES
+internal: styles/tokens | hooks/useCountUp | hooks/useStaggeredAnimation | hooks/useTypewriter | icons/PhosphorIcon
+external: remotion (interpolate, useCurrentFrame, useVideoConfig)
+
+@STANDARDS
+- All text uses typeScale from tokens.ts
+- fontWeight >= 500 always
+- Headings: purple[50] (#FAF5FF)
+- Body: purple[200] (#E4CFFF)
+- Caption: purple[300] (#D6B0FF)
+- Gradient text uses gradients.logoText
+---

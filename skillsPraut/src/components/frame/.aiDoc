@@ -1,0 +1,48 @@
+---
+@META
+dir: skillsPraut/src/components/frame/
+updated: 2026-04-09
+files: 16
+stack: React, Remotion, TypeScript
+
+@EXPORTS
+BrainMark.tsx: BrainMark — brain puzzle mark from public/logo/logopraut.svg
+BrandLogo.tsx: BrandLogo — mark + "PRAUT" wordmark lockup (full|mark|text)
+ExplainerSlide.tsx: ExplainerSlide — top 60% visual + bottom 40% text + webcam slot
+LiquidGlassPanel.tsx: LiquidGlassPanel — frosted glassmorphism overlay panel
+PiPLayout.tsx: PiPLayout — full screen + 18% webcam bottom-left
+PrautShortFrame.tsx: PrautShortFrame — 9:16 (1080x1920) brand frame
+PrautSquareFrame.tsx: PrautSquareFrame — 1:1 (1080x1080) brand frame
+PrautVideoFrame.tsx: PrautVideoFrame — master 16:9 (1920x1080) brand frame
+SafeArea.tsx: SafeArea — scale-to-fit container for reference resolution
+SlideRoot.tsx: SlideRoot — navy[900] slide background with padding
+SpeakerScreenLayout.tsx: SpeakerScreenLayout — speaker 34% / screen 66% split
+SplitLayout.tsx: SplitLayout — 2-column layout with configurable ratio
+TopBar.tsx: TopBar — 72px bar with BrainMark left, channel info right
+TripleLayout.tsx: TripleLayout — 3-column grid for comparisons
+WatermarkPraut.tsx: WatermarkPraut — corner watermark (mark + "PRAUT" text)
+WebcamPlaceholder.tsx: WebcamPlaceholder — 280x160 empty bordered rectangle
+
+@FUNCTIONS
+PrautVideoFrame({episodeNumber,includeTopBar,includeBackground,includeGlass,...}) → React.FC
+  purpose: master frame with all layers
+  side-effects: none
+
+SafeArea({referenceWidth,referenceHeight}) → React.FC
+  purpose: scale children to fit composition
+  side-effects: none
+
+@INTERFACES
+PrautVideoFrameProps: { episodeNumber? | episodeTitle? | channelName? | tagline? | includeTopBar? | includeWatermark? | frameless? | borderState? | includeBackground? | includeGlass? | children }
+
+@DEPENDENCIES
+internal: styles/tokens | hooks/useScaleToFit | backgrounds/SpiralGalaxy
+external: remotion (AbsoluteFill, Img, staticFile)
+
+@STANDARDS
+- PrautVideoFrame is the outermost wrapper for ALL 16:9 compositions
+- Layer order: SpiralGalaxy → LiquidGlassPanel → children → TopBar → Watermark
+- SafeArea handles resolution independence
+- WebcamPlaceholder is transparent — composited in YouTube editor
+- TopBar auto-generates tagline via pickTagline()
+---

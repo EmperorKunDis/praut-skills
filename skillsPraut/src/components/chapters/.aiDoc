@@ -1,0 +1,36 @@
+---
+@META
+dir: skillsPraut/src/components/chapters/
+updated: 2026-04-09
+files: 8
+stack: React, Remotion, TypeScript
+
+@EXPORTS
+ChapterCard.tsx: ChapterCard — fullscreen "KAPITOLA 01" intro with gradient title
+ChapterTransition.tsx: ChapterTransition — quick 1.5s chapter sting divider
+EndScreen.tsx: EndScreen — outro slate with subscribe + like + next-video placeholder
+HookCard.tsx: HookCard — first 3s oversized hook text on SpiralGalaxy
+IntroAnimation.tsx: IntroAnimation — 5s space fly-through into brain mark
+ProgressBar.tsx: ProgressBar — auto-progress bar driven by composition timeline
+SectionDivider.tsx: SectionDivider — horizontal line with optional number
+TableOfContents.tsx: TableOfContents — animated chapter list with active highlight
+
+@FUNCTIONS
+IntroAnimation({tagline?}) → React.FC
+  purpose: 5s brand intro with SpiralGalaxy
+  side-effects: none
+
+@PROCESSES
+video-structure: HookCard (0-3s) → IntroAnimation (3-8s) → ChapterCard → content → EndScreen
+
+@DEPENDENCIES
+internal: styles/tokens | backgrounds/SpiralGalaxy | cta/SubscribeButton | cta/NextVideoCard | cta/LikeAnimation
+external: remotion (AbsoluteFill, Img, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig)
+
+@STANDARDS
+- IntroAnimation timeline: 0-45f fly-through → 30-75f mark fade → 60-90f name → 75-120f tagline
+- ChapterCard overline: fonts.mono, "KAPITOLA" + number
+- EndScreen uses empty NextVideoCard — no content inside
+- ProgressBar gradient: gradients.brandPrimary
+- Czech labels: "Diky za sledovani", "KAPITOLA"
+---

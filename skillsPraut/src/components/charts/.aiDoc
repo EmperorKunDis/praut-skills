@@ -1,0 +1,42 @@
+---
+@META
+dir: skillsPraut/src/components/charts/
+updated: 2026-04-09
+files: 15
+stack: React, Remotion, TypeScript, SVG
+
+@EXPORTS
+AnimatedBarChart.tsx: AnimatedBarChart — staggered spring-growth bar chart
+AnimatedLineChart.tsx: AnimatedLineChart — SVG line chart with drawing animation
+AnimatedPieChart.tsx: AnimatedPieChart — SVG pie with rotational reveal
+BenchmarkTable.tsx: BenchmarkTable — tabular benchmark display (MMLU, HumanEval)
+ComparisonChart.tsx: ComparisonChart — side-by-side A vs B bars per row
+DonutChart.tsx: DonutChart — donut ring with center label + count-up
+GrowthCurve.tsx: GrowthCurve — exponential growth curve (compute/params)
+HeatmapGrid.tsx: HeatmapGrid — color-coded grid (navy[800] → purple[600])
+KPIGrid.tsx: KPIGrid — grid of MetricCards (default 3 columns)
+MetricCard.tsx: MetricCard — big animated count-up number + label + delta
+PercentageBar.tsx: PercentageBar — horizontal animated percentage bar
+RadarChart.tsx: RadarChart — SVG spider/radar chart for model comparison
+ScatterPlot.tsx: ScatterPlot — SVG scatter plot with animated reveal
+StackedBarChart.tsx: StackedBarChart — stacked segments per group
+TimelineChart.tsx: TimelineChart — horizontal timeline with events
+
+@INTERFACES
+Bar: { label: string, value: number, highlight?: boolean }
+Point: { label: string, value: number }
+Slice: { label: string, value: number }
+RadarAxis: { label: string, max?: number }
+RadarSeries: { name: string, values: number[] }
+
+@DEPENDENCIES
+internal: styles/tokens (seriesColors, colors, fonts, glow, timing) | hooks/interpolateColors | typography/CountUpNumber
+external: remotion (interpolate, spring, useCurrentFrame, useVideoConfig)
+
+@STANDARDS
+- Series colors: seriesColors[] (purple[600], blue[400], blue[500], purple[700])
+- Max 4 series recommended
+- All charts animate via timing.reveal (60 frames / 2s)
+- Highlighted items get glow.cta
+- Czech axis labels default (Cas, Compute, Cena, Vykon)
+---

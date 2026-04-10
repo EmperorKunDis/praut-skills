@@ -1,0 +1,35 @@
+---
+@META
+dir: skillsPraut/src/components/educational/
+updated: 2026-04-09
+files: 9
+stack: React, Remotion, TypeScript, SVG
+
+@EXPORTS
+AnalogyVisual.tsx: AnalogyVisual — "X is like Y" with icons and relation symbol
+BeforeAfterSlider.tsx: BeforeAfterSlider — animated divider sweep revealing "after"
+ConceptMap.tsx: ConceptMap — labeled boxes connected by SVG lines
+DecisionTree.tsx: DecisionTree — recursive yes/no tree with active path highlighting
+DefinitionBox.tsx: DefinitionBox — "Co je to X?" purple-bordered definition card
+FlowchartNode.tsx: FlowchartNode — pill (start) | rect (process) | diamond (decision)
+FormulaDisplay.tsx: FormulaDisplay — plain-text math formula display (no KaTeX)
+HierarchyDiagram.tsx: HierarchyDiagram — recursive tree with root gradient + children
+MindMap.tsx: MindMap — central node + radial branches at specified angles
+
+@INTERFACES
+TreeNode: { label: string, active?: boolean, yes?: TreeNode, no?: TreeNode }
+HNode: { label: string, children?: HNode[] }
+Concept: { id: string, label: string, x: number, y: number }
+Link: { from: string, to: string, label?: string }
+
+@DEPENDENCIES
+internal: styles/tokens (colors, fonts, fontWeight, gradients, glow) | icons/PhosphorIcon
+external: remotion (interpolate, useCurrentFrame)
+
+@STANDARDS
+- ConceptMap positions are manually specified (x,y)
+- DecisionTree active path highlighted with brandPrimary gradient + cta glow
+- FormulaDisplay uses plain text — KaTeX intentionally NOT a dependency
+- Czech labels: "Definice", "jako"
+- BeforeAfterSlider uses timing.reveal (60f / 2s)
+---

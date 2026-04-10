@@ -1,0 +1,35 @@
+---
+@META
+dir: skillsPraut/src/templates/
+updated: 2026-04-09
+files: 10
+stack: React, Remotion, TypeScript, @remotion/transitions
+
+@EXPORTS
+CaseStudyTemplate.tsx: CaseStudyTemplate — Problem → Solution → Implementation → Results
+ComparisonTemplate.tsx: ComparisonTemplate — A vs B side-by-side + recommendation
+DeepDiveTemplate.tsx: DeepDiveTemplate — Hook → 5 chapters → Outro
+ExplainerTemplate.tsx: ExplainerTemplate — Hook → Definition + Example → Takeaway → Outro
+MythBustingTemplate.tsx: MythBustingTemplate — Hook → Myth vs Reality → Evidence → Conclusion
+NewsTemplate.tsx: NewsTemplate — Headline → Context → Details → Impact → Opinion → Outro
+ReviewTemplate.tsx: ReviewTemplate — Hook → Demo → Pros/Cons → Verdict
+ShortTemplate.tsx: ShortTemplate — 9:16 Hook → Punchline → CTA (60s)
+TopTenTemplate.tsx: TopTenTemplate — Hook → countdown #10→#1 → Outro
+TutorialTemplate.tsx: TutorialTemplate — Hook → Heading → Steps → Outro
+
+@PROCESSES
+video-flow: Hook (HookCard 90f) → TransitionSeries (fade) → content slides → EndScreen
+
+@DEPENDENCIES
+internal: components/frame/* | components/chapters/* | components/cards/* | components/lists/* | components/typography/* | components/cta/* | components/educational/* | styles/tokens
+external: @remotion/transitions (TransitionSeries, linearTiming, fade, slide)
+
+@STANDARDS
+- ALL templates use PrautVideoFrame (or PrautShortFrame for ShortTemplate)
+- ALL transitions use fade() with timing.medium (24f)
+- ShortTemplate uses slide() transition instead of fade
+- Hook phase: 90 frames (3s)
+- Chapter intro: 60 frames (2s)
+- EndScreen: 120 frames (4s)
+- All templates are fade-transitioned via TransitionSeries
+---

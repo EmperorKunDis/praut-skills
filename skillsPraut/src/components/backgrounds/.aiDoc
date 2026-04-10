@@ -1,0 +1,39 @@
+---
+@META
+dir: skillsPraut/src/components/backgrounds/
+updated: 2026-04-09
+files: 11
+stack: React, Remotion, TypeScript, SVG, Canvas
+
+@EXPORTS
+CircuitPattern.tsx: CircuitPattern — SVG circuit-board pattern in low-opacity blue
+GradientMesh.tsx: GradientMesh — animated radial gradient navy/purple/blue
+GridBackground.tsx: GridBackground — tech grid with configurable cell size
+NavyBackground.tsx: NavyBackground — flat frame.bg (#060818)
+NoiseOverlay.tsx: NoiseOverlay — SVG turbulence film grain at 3% opacity
+ParticleField.tsx: ParticleField — deterministic drifting blue particles
+ScanlineEffect.tsx: ScanlineEffect — CRT scanline bands overlay
+SpaceNebula.tsx: SpaceNebula — animated nebula clouds + stars (subtle|medium|dramatic)
+SpiralGalaxy.tsx: SpiralGalaxy — canvas density-wave galaxy (~6000 stars)
+StarField.tsx: StarField — twinkling star pinpricks
+VignetteOverlay.tsx: VignetteOverlay — radial corner darkening
+
+@FUNCTIONS
+SpiralGalaxy() → React.FC
+  purpose: canvas galaxy background for frames
+  side-effects: none (canvas render per frame)
+
+SpaceNebula({intensity,loopFrames,flyThrough}) → React.FC
+  purpose: animated nebula with configurable intensity
+  side-effects: none
+
+@DEPENDENCIES
+internal: styles/tokens (colors, frame, withOpacity) | hooks/interpolateColors
+external: remotion (AbsoluteFill, useCurrentFrame, useVideoConfig)
+
+@STANDARDS
+- SpiralGalaxy is the DEFAULT background for PrautVideoFrame
+- All backgrounds use deterministic seeded random — stable across renders
+- Overlays (Noise, Scanline, Vignette) use pointerEvents: "none"
+- All colors from tokens — no hardcoded hex
+---
