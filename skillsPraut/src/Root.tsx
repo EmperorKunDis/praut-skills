@@ -24,6 +24,7 @@ import { EducationalShowcase } from "./compositions/EducationalShowcase";
 import { IntroAnimationDemo } from "./compositions/IntroAnimationDemo";
 import { ExplainerVideoDemo } from "./compositions/ExplainerVideoDemo";
 import { ShortVideoDemo } from "./compositions/ShortVideoDemo";
+import { EP01 } from "./compositions/EP01";
 
 // Praut uses Montserrat (primary) + IBM Plex Mono (mono) per the brand book.
 // `latin-ext` is mandatory for Czech diacritics (áčďěéíňóřšťúůýž).
@@ -198,6 +199,16 @@ export const RemotionRoot: React.FC = () => (
       fps={FPS}
       width={1080}
       height={1920}
+    />
+
+    {/* EP01 — 10 Mýtů o AI */}
+    <Composition
+      id="EP01"
+      component={EP01}
+      durationInFrames={38160}
+      fps={FPS}
+      width={W}
+      height={H}
     />
   </>
 );
