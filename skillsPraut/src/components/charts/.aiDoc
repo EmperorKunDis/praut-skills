@@ -1,7 +1,7 @@
 ---
 @META
 dir: skillsPraut/src/components/charts/
-updated: 2026-04-09
+updated: 2026-04-13
 files: 15
 stack: React, Remotion, TypeScript, SVG
 
@@ -23,11 +23,11 @@ StackedBarChart.tsx: StackedBarChart — stacked segments per group
 TimelineChart.tsx: TimelineChart — horizontal timeline with events
 
 @INTERFACES
-Bar: { label: string, value: number, highlight?: boolean }
-Point: { label: string, value: number }
-Slice: { label: string, value: number }
-RadarAxis: { label: string, max?: number }
-RadarSeries: { name: string, values: number[] }
+Bar: { label, value:number, highlight? }
+Point: { label, value:number }
+Slice: { label, value:number }
+RadarAxis: { label, max? }
+RadarSeries: { name, values:number[] }
 
 @DEPENDENCIES
 internal: styles/tokens (seriesColors, colors, fonts, glow, timing) | hooks/interpolateColors | typography/CountUpNumber
@@ -38,5 +38,5 @@ external: remotion (interpolate, spring, useCurrentFrame, useVideoConfig)
 - Max 4 series recommended
 - All charts animate via timing.reveal (60 frames / 2s)
 - Highlighted items get glow.cta
-- Czech axis labels default (Cas, Compute, Cena, Vykon)
+- Czech axis labels default (Čas, Compute, Cena, Výkon)
 ---

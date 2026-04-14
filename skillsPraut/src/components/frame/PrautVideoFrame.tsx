@@ -8,11 +8,10 @@ import { LiquidGlassPanel } from "./LiquidGlassPanel";
 
 type Props = {
   episodeNumber?: string;
-  /** @deprecated kept for back-compat; TopBar now uses pickTagline instead */
-  episodeTitle?: string;
-  channelName?: string;
-  /** Override the bottom-line tagline in the TopBar. */
-  tagline?: string;
+  /** Name of the episode (e.g. "10 Mýtů o AI"). */
+  episodeName?: string;
+  /** Current chapter / myth label for the TopBar second line. */
+  chapterLabel?: string;
   includeTopBar?: boolean;
   includeWatermark?: boolean;
   /** Render content without the outer brand border (for raw exports). */
@@ -38,8 +37,8 @@ type Props = {
  */
 export const PrautVideoFrame: React.FC<Props> = ({
   episodeNumber,
-  channelName,
-  tagline,
+  episodeName,
+  chapterLabel,
   includeTopBar = true,
   includeWatermark = false,
   frameless = false,
@@ -72,8 +71,8 @@ export const PrautVideoFrame: React.FC<Props> = ({
             {includeTopBar ? (
               <TopBar
                 episodeNumber={episodeNumber}
-                channelName={channelName}
-                tagline={tagline}
+                episodeName={episodeName}
+                chapterLabel={chapterLabel}
               />
             ) : null}
             {children}
@@ -83,8 +82,8 @@ export const PrautVideoFrame: React.FC<Props> = ({
             {includeTopBar ? (
               <TopBar
                 episodeNumber={episodeNumber}
-                channelName={channelName}
-                tagline={tagline}
+                episodeName={episodeName}
+                chapterLabel={chapterLabel}
               />
             ) : null}
             {children}

@@ -48,17 +48,17 @@ export const IntroAnimation: React.FC<Props> = ({
   });
 
   const markProgress = spring({
-    frame: frame - 30,
+    frame: frame - 15,
     fps,
     config: springs.smooth,
   });
   const wordmarkProgress = spring({
-    frame: frame - 60,
+    frame: frame - 30,
     fps,
     config: springs.smooth,
   });
   const taglineProgress = spring({
-    frame: frame - 75,
+    frame: frame - 45,
     fps,
     config: springs.smooth,
   });
@@ -73,7 +73,8 @@ export const IntroAnimation: React.FC<Props> = ({
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          gap: 32,
+          gap: 240,
+          paddingBottom: "240px"
         }}
       >
         <div
@@ -86,7 +87,7 @@ export const IntroAnimation: React.FC<Props> = ({
           <Img
             src={staticFile("logo/logopraut.svg")}
             alt="Praut brain mark"
-            style={{ width: 320, height: 320, objectFit: "contain" }}
+            style={{ width: 640, height: 640, objectFit: "contain" }}
           />
         </div>
         <div
@@ -104,19 +105,6 @@ export const IntroAnimation: React.FC<Props> = ({
           }}
         >
           {channel.name}
-        </div>
-        <div
-          style={{
-            fontFamily: fonts.mono,
-            fontSize: 22,
-            color: colors.purple[200],
-            letterSpacing: 4,
-            textTransform: "uppercase",
-            opacity: taglineProgress,
-            transform: `translateY(${(1 - taglineProgress) * 16}px)`,
-          }}
-        >
-          {tagline}
         </div>
       </AbsoluteFill>
     </AbsoluteFill>

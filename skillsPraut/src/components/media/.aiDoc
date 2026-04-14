@@ -1,7 +1,7 @@
 ---
 @META
 dir: skillsPraut/src/components/media/
-updated: 2026-04-09
+updated: 2026-04-13
 files: 9
 stack: React, Remotion, TypeScript
 
@@ -11,10 +11,14 @@ AvatarCircle.tsx: AvatarCircle — circular avatar with blue border, gradient mo
 BrowserMockup.tsx: BrowserMockup — browser window chrome with traffic-light dots + URL bar
 LogoCloud.tsx: LogoCloud — tiled grid of partner/tool logos at 60% opacity
 MacBookMockup.tsx: MacBookMockup — laptop body with screen content slot
-PhoneMockup.tsx: PhoneMockup — iPhone-style frame mockup with screen slot
-ProcessedImage.tsx: ProcessedImage — branded image: rounded corners, blue border, glow, bottom-fade
+PhoneMockup.tsx: PhoneMockup — iPhone-style frame mockup (360×740) with screen slot
+ProcessedImage.tsx: ProcessedImage — branded image with rounded corners, blue border, glow, bottom-fade
 RoundedScreenshot.tsx: RoundedScreenshot — large rounded screenshot with border + glow
 VideoEmbed.tsx: VideoEmbed — branded OffthreadVideo wrapper with border + glow
+
+@INTERFACES
+BrowserMockupProps: { url?, children, style? }
+PhoneMockupProps: { children, style? }
 
 @DEPENDENCIES
 internal: styles/tokens (colors, frame, glow, gradients) | icons/PhosphorIcon

@@ -1,25 +1,39 @@
 ---
 @META
 dir: skillsPraut/skills/remotion/rules/assets/
-updated: 2026-04-09
-files: 3
+updated: 2026-04-13
+files: 17
 stack: React, Remotion, TypeScript
 
 @EXPORTS
-charts-bar-chart.tsx: reference snippet — self-contained Praut-branded bar chart
-text-animations-typewriter.tsx: reference snippet — self-contained typewriter effect
-text-animations-word-highlight.tsx: reference snippet — self-contained word highlight
+tokens.ts: design tokens — colors, gradients, fonts, springs, timing, channel metadata
+frame-components.tsx: PrautVideoFrame, TopBar, SafeArea, layouts (16 components)
+typography-components.tsx: H1-H3, GradientText, TypewriterText, etc. (16 components)
+backgrounds-components.tsx: SpiralGalaxy, SpaceNebula, ParticleField, etc. (11 components)
+ai-visuals-components.tsx: NeuralNetwork, RAGPipeline, AgentLoop, etc. (18 components)
+charts-components.tsx: AnimatedBarChart, LineChart, PieChart, Radar, etc. (15 components)
+code-components.tsx: CodeBlock, TerminalWindow, EditorWindow, etc. (10 components)
+lists-components.tsx: TopTenReveal, StepByStep, Checklist, etc. (9 components)
+cards-components.tsx: GlowCard, GlassCard, StatCard, etc. (12 components)
+chapters-components.tsx: ChapterCard, EndScreen, HookCard, IntroAnimation (8 components)
+cta-components.tsx: SubscribeButton, LikeAnimation, EndScreenGrid (9 components)
+transitions-components.tsx: Fade, Wipe, Glitch, PuzzleAssemble (9 components)
+media-components.tsx: BrowserMockup, PhoneMockup, AvatarCircle (9 components)
+educational-components.tsx: DefinitionBox, MindMap, ConceptMap (9 components)
+icons-components.tsx: PhosphorIcon wrapper + loadPhosphorFont (2 exports)
+hooks-utilities.ts: useScaleToFit, useCountUp, useTypewriter, easings (6 exports)
+templates.tsx: 10 complete video templates (Explainer, TopTen, MythBusting, etc.)
 
 @PROCESSES
-skill-reference: rule.md mentions pattern → links to assets/ snippet → AI copies & adapts
+skill-reference: rule.md describes pattern → links to assets/ file → AI reads full source → adapts for composition
 
 @DEPENDENCIES
-internal: src/styles/tokens (imported via relative path ../../../../)
-external: remotion
+internal: mirrors src/styles/tokens & src/components/* (self-contained copies)
+external: remotion | @remotion/transitions
 
 @STANDARDS
-- Reference snippets mirror production components but are SELF-CONTAINED
-- All visual values come from tokens.ts — never hardcoded hex
+- Asset files are SELF-CONTAINED copies of production components
+- All visual values from tokens — never hardcoded hex
 - Used by skill rules as code examples for AI code generation
-- Ideal composition size: 1920x1080
+- Total: 152 components + 6 hooks + 10 templates across all asset files
 ---

@@ -72,13 +72,20 @@ import {
 type Props = {
   number: string;
   title: string;
+  /** Override the overline label. Defaults to "KAPITOLA". */
+  prefix?: string;
 };
 
 /**
- * Full-screen chapter intro: "KAPITOLA 01" overline, brand-blue divider line,
- * then large gradient title.
+ * Full-screen chapter intro: overline (default "KAPITOLA 01"), brand-blue
+ * divider line, then large gradient title. Use `prefix` to customise the
+ * overline label (e.g. "MÝTUS" for myth-busting episodes).
  */
-export const ChapterCard: React.FC<Props> = ({ number, title }) => {
+export const ChapterCard: React.FC<Props> = ({
+  number,
+  title,
+  prefix = "KAPITOLA",
+}) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const numberProgress = spring({ frame, fps, config: springs.smooth });
@@ -110,7 +117,7 @@ export const ChapterCard: React.FC<Props> = ({ number, title }) => {
           letterSpacing: 4,
         }}
       >
-        KAPITOLA {number}
+        {prefix} {number}
       </div>
       <div
         style={{

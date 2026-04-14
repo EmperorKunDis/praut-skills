@@ -1,7 +1,7 @@
 ---
 @META
 dir: skillsPraut/src/hooks/
-updated: 2026-04-09
+updated: 2026-04-13
 files: 6
 stack: TypeScript, Remotion
 
@@ -14,24 +14,24 @@ useStaggeredAnimation.ts: useStaggeredAnimation — (index)→progress stagger m
 useTypewriter.ts: useTypewriter — character-by-character typing effect
 
 @FUNCTIONS
-interpolateColors(t, from, to) → string
-  purpose: lerp between two hex colors
+interpolateColors(t:number, from:string, to:string) → string
+  purpose: lerp between two #RRGGBB hex colors
   side-effects: none
 
-useCountUp({from,to,startFrame,config}) → number
-  purpose: animated numeric count-up
+useCountUp({from?,to,startFrame?,config?}) → number
+  purpose: animated numeric count-up via spring
   side-effects: none
 
-useScaleToFit(refW?, refH?) → number
-  purpose: scale 1920x1080 to actual size
+useScaleToFit(refW?:number, refH?:number) → number
+  purpose: scale 1920x1080 reference to actual composition size
   side-effects: none
 
-useStaggeredAnimation(opts?) → (index)→number
-  purpose: staggered spring per list item
+useStaggeredAnimation({staggerFrames?,startFrame?,config?}) → (index:number)→number
+  purpose: staggered spring progress per list item index
   side-effects: none
 
-useTypewriter({fullText,pauseAfter,charFrames,pauseSeconds}) → string
-  purpose: typewriter substring at frame
+useTypewriter({fullText,pauseAfter?,charFrames?,pauseSeconds?}) → string
+  purpose: typewriter substring at current frame
   side-effects: none
 
 @DEPENDENCIES
@@ -40,6 +40,9 @@ external: remotion (spring, useCurrentFrame, useVideoConfig, Easing, interpolate
 
 @STANDARDS
 - All hooks use tokens.springs/timing defaults
-- No custom easing — use easings.ts only
-- Deterministic output per frame
+- No custom easing — use easings.ts only (linear | out | standard)
+- Deterministic output per frame — stable across renders
+- useCountUp defaults to springs.smooth
+- useStaggeredAnimation defaults to timing.fast (12f) stagger
+- useTypewriter defaults to 2 frames per character
 ---

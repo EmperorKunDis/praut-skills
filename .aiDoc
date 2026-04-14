@@ -1,15 +1,15 @@
 ---
 @META
 dir: /
-updated: 2026-04-09
-files: 0
-stack: Remotion, React, TypeScript, Phosphor Icons
+updated: 2026-04-13
+files: 2
+stack: Remotion 4, React 19, TypeScript 5.4, Phosphor Icons
 
 @PROCESSES
-praut-video-production: brand docs + tokens → component library → templates → rendered videos
+praut-video-production: tokens.ts → component library (152) → templates (10) → compositions → rendered videos
 
 @DEPENDENCIES
-internal: skillsPraut/ | docs/ | phosphor-icons/
+internal: skillsPraut/
 external: none (monorepo root)
 
 @STANDARDS
@@ -17,13 +17,13 @@ external: none (monorepo root)
 - Brand: Praut s.r.o. — Martin Švanda AI Channel
 - Fonts: Montserrat (primary) + IBM Plex Mono (mono)
 - Colors: navy bg (60%) | blue accent (30%) | purple CTA (10%)
-- Icons: Phosphor icon font (6 weights)
+- Icons: Phosphor icon font (6 weights, ~1530 glyphs)
 - No hardcoded hex outside tokens.ts
 - fontWeight >= 500 on dark mode
 - glow.* instead of boxShadow rgba(0,0,0,...)
+- Animations via springs.* and timing.* presets only
 
 @WARNINGS
-- phosphor-icons/ contains binary font assets — skip in code analysis
-- img/ contains image assets only
-- .claude/ contains Claude Code config
+- docs/, img/, phosphor-icons/ directories removed from working tree
+- Public font assets in skillsPraut/public/fonts/phosphor/
 ---

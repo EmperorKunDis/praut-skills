@@ -4,15 +4,16 @@ import {
   colors,
   fonts,
   fontWeight,
-  pickTagline,
   typeScale,
 } from "../../styles/tokens";
 import { BrandLogo } from "./BrandLogo";
 
 type Props = {
   episodeNumber?: string;
-  channelName?: string;
-  tagline?: string;
+  /** Name of the episode (e.g. "10 Mýtů o AI"). Shown next to episode number. */
+  episodeName?: string;
+  /** Current chapter / myth label shown on the second line. */
+  chapterLabel?: string;
 };
 
 /**
@@ -21,16 +22,19 @@ type Props = {
  * Layout: logo left, two-line text right, both vertically centered.
  * Padding is measured from the GLASS border (not the frame border),
  * so content sits comfortably inside the frosted panel.
+ *
+ * Line 1: "EP 01 / 10 Mýtů o AI"  (episodeNumber + episodeName)
+ * Line 2: "MÝTUS 03 — AI nahradí …" (chapterLabel)
  */
 export const TopBar: React.FC<Props> = ({
   episodeNumber,
-  channelName = channel.name,
-  tagline,
+  episodeName,
+  chapterLabel,
 }) => {
   const rightLabel = episodeNumber
-    ? `${channel.episodePrefix} ${episodeNumber} / ${channelName}`
-    : channelName;
-  const subline = tagline ?? pickTagline(episodeNumber);
+    ? `${channel.episodePrefix} ${episodeNumber}${episodeName ? ` / ${episodeName}` : ""}`
+    : (episodeName ?? "");
+  const subline = chapterLabel ?? "";
 
   // Glass panel: inset=28 from frame border, borderRadius=20.
   // TopBar sits INSIDE the glass, so padding = distance from glass inner edge.

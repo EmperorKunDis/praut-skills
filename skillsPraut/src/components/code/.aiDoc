@@ -1,13 +1,13 @@
 ---
 @META
 dir: skillsPraut/src/components/code/
-updated: 2026-04-09
+updated: 2026-04-13
 files: 10
 stack: React, Remotion, TypeScript
 
 @EXPORTS
 APIRequest.tsx: APIRequest — method + URL + request/response code blocks
-CodeBlock.tsx: CodeBlock — syntax-highlighted code (naive regex highlighter)
+CodeBlock.tsx: CodeBlock — syntax-highlighted code (naive regex, no external lib)
 CodeDiff.tsx: CodeDiff — diff view with add/remove/context line coloring
 CodeTypewriter.tsx: CodeTypewriter — CodeBlock with character-by-character typing
 CommandLine.tsx: CommandLine — single-line CLI prompt with typewriter + blinking cursor
@@ -15,20 +15,19 @@ CurlExample.tsx: CurlExample — curl command + response in TerminalWindow
 EditorWindow.tsx: EditorWindow — VS Code-like editor with tabs + code area
 FileTree.tsx: FileTree — file/folder tree with active file highlight
 JSONViewer.tsx: JSONViewer — pretty-printed JSON with color-coded types
-TerminalWindow.tsx: TerminalWindow — macOS terminal window with traffic-light dots
+TerminalWindow.tsx: TerminalWindow — macOS terminal with traffic-light dots
 
 @INTERFACES
-FileNode: { name: string, type: "file"|"folder", active?: boolean, children?: FileNode[] }
-DiffLine: { type: "add"|"remove"|"context", text: string }
+FileNode: { name, type: "file"|"folder", active?, children? }
+DiffLine: { type: "add"|"remove"|"context", text }
 
 @DEPENDENCIES
 internal: styles/tokens (colors, fonts, frame, withOpacity) | hooks/useTypewriter | icons/PhosphorIcon
 external: remotion (interpolate, useCurrentFrame)
 
 @STANDARDS
-- CodeBlock uses naive regex highlighter — no external syntax lib
-- Keywords highlighted in purple[600], strings in success, numbers in blue[400]
-- All code windows use navy[950] background + blue[400] border at 25% opacity
-- TerminalWindow title default: "praut@macbook ~ %"
+- CodeBlock: naive regex — keywords purple[600], strings success, numbers blue[400]
+- All code windows: navy[950] bg + blue[400] border at 25% opacity
+- TerminalWindow default title: "praut@macbook ~ %"
 - Method colors: GET=success, POST=blue, PUT=warning, DELETE=error, PATCH=purple
 ---

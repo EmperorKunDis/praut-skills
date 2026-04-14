@@ -28,14 +28,14 @@ What it gives you:
 - **1920×1080** safe area with `useScaleToFit` — works on any output size.
 - Outer **1.5px `#506FFB` border** with `frame.borderRadius` 4.
 - **TopBar** with brand lockup left, episode meta right (default: `EP 01 / Praut AI Channel`).
-- **Watermark** (`bottom-right brain mark + PRAUT`, opacity 0.6).
+- **Watermark** disabled by default (`includeWatermark={false}`). Enable with `includeWatermark={true}` for non-production renders.
 - **SpiralGalaxy** canvas background (density-wave spiral, ~6000 stars) — rendered by default.
 - Background `frame.bg` (#060818) behind the galaxy.
 
 ### Layer order
 
 ```
-SpiralGalaxy → LiquidGlassPanel → children → TopBar → Watermark
+SpiralGalaxy → LiquidGlassPanel → children → TopBar → (Watermark if enabled)
 ```
 
 The `<SpiralGalaxy>` component is the **default background** for all three frame
@@ -50,7 +50,7 @@ or a custom `<SpaceNebula>` instead.
 | `episodeTitle` | `string?` | undefined | Optional subtitle in TopBar |
 | `channelName` | `string?` | `"Praut AI Channel"` | Override channel label |
 | `includeTopBar` | `boolean?` | `true` | Hide for raw frames |
-| `includeWatermark` | `boolean?` | `true` | Hide for clean exports |
+| `includeWatermark` | `boolean?` | `false` | Off by default; enable for non-production renders |
 | `includeBackground` | `boolean?` | `true` | Render the SpiralGalaxy behind children |
 | `frameless` | `boolean?` | `false` | Drop the brand border completely |
 | `borderState` | `'active' \| 'passive'` | `'active'` | Active = full glow border, passive = 1px 25% opacity |
@@ -78,6 +78,18 @@ import {PrautSquareFrame} from '@/components/frame/PrautSquareFrame';
 - `<TripleLayout first second third gap?>` — 3-column equal grid
 - `<PiPLayout webcamSrc screenSrc>` — picture-in-picture for tutorials
 - `<SpeakerScreenLayout speaker screen focus?>` — talking head + content slide
+
+## WebcamPlaceholder
+
+Green-screen square (240x240, `#00FF00`) anchored **bottom-right** with 48px insets.
+Keyed out in post-production and replaced with Martin's talking-head webcam feed.
+
+```tsx
+<WebcamPlaceholder />              // 240×240 green square, bottom-right
+<WebcamPlaceholder width={320} height={320} />  // larger override
+```
+
+The `<ExplainerSlide>` renders it automatically when `includeWebcam={true}` (default).
 
 ## TopBar metadata format
 

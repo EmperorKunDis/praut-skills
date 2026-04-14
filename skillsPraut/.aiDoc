@@ -1,13 +1,13 @@
 ---
 @META
 dir: skillsPraut/
-updated: 2026-04-09
+updated: 2026-04-13
 files: 3
 stack: Remotion 4, React 19, TypeScript 5.4
 
 @EXPORTS
 package.json: @praut/remotion-skill — project config & scripts
-tsconfig.json: TS config — ESNext, JSX react-jsx, strict
+tsconfig.json: TS config — ESNext, JSX react-jsx, strict, path alias @/*→src/*
 README.md: project overview
 
 @VARS_CONSTANTS
@@ -26,5 +26,6 @@ external: remotion ^4 | @remotion/* ^4 | react ^19 | typescript ^5.4
 - Path alias: @/* → src/*
 - Fonts loaded in Root.tsx: Montserrat + IBM Plex Mono (latin-ext for Czech)
 - Phosphor icon fonts loaded as side-effect from icons/loadPhosphorFont.ts
-- All compositions registered in Root.tsx via <Composition>
+- All 18 compositions registered in Root.tsx via <Composition>
+- EP01 is production episode (38160 frames / ~21 min)
 ---

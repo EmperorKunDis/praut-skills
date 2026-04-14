@@ -1,14 +1,14 @@
 ---
 @META
 dir: skillsPraut/skills/remotion/rules/
-updated: 2026-04-09
+updated: 2026-04-13
 files: 43
 stack: Markdown
 
 @EXPORTS
 praut-brand-tokens.md: design tokens reference — single source of truth
 praut-frame-system.md: PrautVideoFrame, TopBar, SafeArea usage
-praut-component-library.md: catalog of 100+ branded components
+praut-component-library.md: catalog of 152 branded components
 praut-icons.md: PhosphorIcon usage guide + recommended icons
 praut-logos.md: brand logos, brain mark, watermark rules
 praut-templates.md: how to compose full video templates

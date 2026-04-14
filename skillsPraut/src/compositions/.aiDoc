@@ -1,8 +1,8 @@
 ---
 @META
 dir: skillsPraut/src/compositions/
-updated: 2026-04-09
-files: 17
+updated: 2026-04-13
+files: 18
 stack: React, Remotion, TypeScript
 
 @EXPORTS
@@ -13,9 +13,10 @@ CardsShowcase.tsx: CardsShowcase — card components gallery (Stat + Glow + sema
 ChapterIntro.tsx: ChapterIntro — chapter card "01 / Co je to LLM"
 CTAShowcase.tsx: CTAShowcase — CTA components (subscribe + like + bell + newsletter)
 EducationalShowcase.tsx: EducationalShowcase — DefinitionBox + Formula + Analogy
+EP01.tsx: EP01 — "10 Mýtů o AI" production episode (93 scén, 38160 framů, prefix="MÝTUS", neutral › bullets, DefOverlay top-center tooltip, no watermark, green-screen webcam, IntroAnimation 640 logo)
 ExplainerVideoDemo.tsx: ExplainerVideoDemo — full ExplainerTemplate about tokenization
 FrameShowcase.tsx: FrameShowcase — SplitLayout demo
-IconShowcase.tsx: IconShowcase — Phosphor icon grid (12 icons x 6 weights)
+IconShowcase.tsx: IconShowcase — Phosphor icon grid (12 icons × 6 weights)
 IntroAnimationDemo.tsx: IntroAnimationDemo — IntroAnimation with "AI Channel" tagline
 NeuralNetDemo.tsx: NeuralNetDemo — feedforward NN [4,6,6,2]
 RAGDemo.tsx: RAGDemo — RAG pipeline diagram
@@ -26,14 +27,17 @@ TypographyShowcase.tsx: TypographyShowcase — full typography hierarchy demo
 
 @PROCESSES
 demo-render: Root.tsx registers composition → remotion studio previews → remotion render exports
+ep01-production: 93 scenes → FadeTransition sequences → 38160 frames @ 30fps → ~21 min video
 
 @DEPENDENCIES
 internal: components/* | templates/* | styles/tokens
-external: remotion (AbsoluteFill)
+external: remotion (AbsoluteFill, Sequence)
 
 @STANDARDS
-- All compositions wrapped in PrautVideoFrame (except ShortVideoDemo)
-- Default episodeNumber "00" for showcases, numbered for demos
-- Standard dimensions: 1920x1080 @ 30fps (except ShortVideo: 1080x1920)
+- All compositions wrapped in PrautVideoFrame (except ShortVideoDemo → PrautShortFrame)
+- Default episodeNumber "00" for showcases, numbered for production
+- Standard: 1920×1080 @ 30fps (except ShortVideo: 1080×1920)
 - Demo data in Czech language
+- EP01 uses local SideList + ScreenPlaceholder helper components
+- EP01 patterns (best practices): no watermark, green-screen WebcamPlaceholder 240×240, neutral › bullets in SideList, DefOverlay top-center tooltip (no darkening), ChapterCard prefix="MÝTUS", IntroAnimation 640 logo, MythBustedCard with italic myth text above verdict
 ---

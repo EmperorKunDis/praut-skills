@@ -49,7 +49,7 @@ and animation patterns:
 render `<SpiralGalaxy>` (canvas density-wave galaxy, ~6000 stars) behind children.
 Disable with `includeBackground={false}` for plain navy or custom `<SpaceNebula>`.
 
-**Layer order:** SpiralGalaxy → LiquidGlassPanel → children → TopBar → Watermark.
+**Layer order:** SpiralGalaxy → LiquidGlassPanel → children → TopBar → (Watermark if enabled).
 
 ### Channel metadata
 
@@ -67,6 +67,21 @@ for deterministic tagline selection. `withOpacity(hex, alpha)` for hex+alpha.
 
 **NEVER hardcode hex codes outside `src/styles/tokens.ts`.**
 **Always import branded components from `src/components/{category}/`.**
+
+### EP01 production patterns (best practices for all episodes)
+
+These patterns were established in the EP01 composition ("10 Mytu o AI") and should be followed in all future episodes:
+
+1. **No watermark** — `PrautVideoFrame` defaults to `includeWatermark={false}`. Watermark is not used in production videos.
+2. **WebcamPlaceholder** — 240x240 green-screen square (`#00FF00`), bottom-RIGHT, keyed out in post-production. No border/glow, just solid green fill.
+3. **ChapterCard prefix** — use the `prefix` prop to override "KAPITOLA" (e.g. `prefix="MYTUS"` for myth-based episodes).
+4. **IntroAnimation** — logo 640x640, no tagline, `gap: 240`, `paddingBottom: 240px`, faster spring timing.
+5. **SideList** — use neutral `›` bullets (not checkmarks), `purple[200]` heading color, `alignSelf: "center"`, inline spring opacity animation (no `<FadeTransition>` wrapper).
+6. **DefOverlay** — small tooltip overlay at top-center (15% horizontal padding), no background darkening, should not obscure underlying slide content.
+7. **ScreenPlaceholder** — subtle "doplnit screenshot" text with `PhosphorIcon` (Monitor), `navy[600]` color for placeholder state.
+8. **Intro structure** — `PrautVideoFrame` from frame 0 (no watermark), intro overlay with `SpiralGalaxy` + green-screen `WebcamPlaceholder` + `IntroAnimation`.
+9. **MythBustedCard** — shows original myth text in italic above the verdict for context.
+10. **DefinitionBox** — "DEFINICE" label uses `purple[200]` for contrast (not `purple[300]`).
 
 ---
 

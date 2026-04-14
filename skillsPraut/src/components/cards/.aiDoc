@@ -1,14 +1,14 @@
 ---
 @META
 dir: skillsPraut/src/components/cards/
-updated: 2026-04-09
+updated: 2026-04-13
 files: 12
 stack: React, TypeScript
 
 @EXPORTS
 ComparisonCard.tsx: ComparisonCard — A vs B with "VS" badge
 ErrorCard.tsx: ErrorCard — red border + x-circle icon callout
-GlassCard.tsx: GlassCard — glassmorphism semi-transparent card
+GlassCard.tsx: GlassCard — glassmorphism semi-transparent card (20px blur)
 GlowCard.tsx: GlowCard — gradient bg + purple border + subtle glow
 InfoCard.tsx: InfoCard — blue border + info icon callout
 PersonCard.tsx: PersonCard — avatar + name + role card
@@ -20,17 +20,18 @@ ToolCard.tsx: ToolCard — tool/product logo + name + tagline
 WarningCard.tsx: WarningCard — yellow border + warning icon callout
 
 @INTERFACES
-Semantic cards: { title?: string, children: ReactNode, style?: CSSProperties }
-StatCardProps: { value: string, label: string, delta?: string, deltaPositive?: boolean, icon?: string }
+GlassCardProps: { children, padding?, style? }
+StatCardProps: { value, label, delta?, deltaPositive?, icon?, iconWeight?, style? }
 ComparisonCardProps: { leftTitle, leftContent, rightTitle, rightContent }
+SemanticCardProps: { title?, children, style? }
 
 @DEPENDENCIES
 internal: styles/tokens | icons/PhosphorIcon | typography/AnimatedQuote
 external: none
 
 @STANDARDS
-- Semantic cards (Error|Info|Success|Tip|Warning) share same layout pattern
-- All use navy[800] background with colored left border
-- StatCard uses gradient number via background-clip
+- Semantic cards (Error|Info|Success|Tip|Warning) share same layout — colored left border
+- All use navy[800] background
+- StatCard gradient number via background-clip
 - maxWidth 880px for semantic cards
 ---

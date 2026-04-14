@@ -150,8 +150,8 @@ type Props = {
  *   -- chart, code, neural network, image, etc. Centered.
  * - **Bottom section** (default 40% height): explanation text. Padded so it
  *   never collides with the webcam slot.
- * - **Webcam placeholder** (default on): empty 280x160 bordered box anchored
- *   bottom-right where Martin's talking head will be composited in YouTube.
+ * - **Webcam placeholder** (default on): solid green-screen 240x240 square
+ *   anchored bottom-right, keyed out in post-production for Martin's webcam.
  *
  * Place inside `<PrautVideoFrame>` so the SpaceNebula background and TopBar
  * are present.
@@ -164,7 +164,7 @@ export const ExplainerSlide: React.FC<Props> = ({
 }) => {
   const topHeight = `${topRatio * 100}%`;
   const bottomHeight = `${(1 - topRatio) * 100}%`;
-  const webcamWidth = 280;
+  const webcamWidth = 240;
   const webcamRightInset = 48;
 
   return (
@@ -944,12 +944,12 @@ export const WatermarkPraut: React.FC<Props> = ({
 // WebcamPlaceholder.tsx
 // ============================================================
 import React from "react";
-import { colors, frame, glow } from "../../styles/tokens";
+import { frame } from "../../styles/tokens";
 
 type Props = {
-  /** Width in px. Defaults to 280. */
+  /** Width in px. Defaults to 240 (square). */
   width?: number;
-  /** Height in px. Defaults to 160. */
+  /** Height in px. Defaults to 240 (square). */
   height?: number;
   /** Inset from the right edge in px. Defaults to 48. */
   rightInset?: number;
@@ -959,16 +959,17 @@ type Props = {
 };
 
 /**
- * Empty bordered rectangle anchored bottom-right of its containing slide.
+ * Green-screen square anchored bottom-RIGHT of its containing slide.
  *
- * Reserves space for a webcam talking-head feed that the user composites in
- * during YouTube editing. The placeholder itself renders nothing inside --
- * brand-blue 1.5px border + active glow only, transparent interior so the
- * SpaceNebula and slide content read through.
+ * Renders a solid #00FF00 green-screen rectangle (240×240 by default) that
+ * will be keyed out and replaced with Martin's talking-head webcam feed
+ * during post-production. The green fill makes chroma-key removal trivial.
+ *
+ * Position: bottom-right corner with 48px insets.
  */
 export const WebcamPlaceholder: React.FC<Props> = ({
-  width = 280,
-  height = 160,
+  width = 240,
+  height = 240,
   rightInset = 48,
   bottomInset = 48,
   style,
@@ -981,10 +982,8 @@ export const WebcamPlaceholder: React.FC<Props> = ({
         bottom: bottomInset,
         width,
         height,
-        border: `${frame.borderWidth}px solid ${colors.blue[400]}`,
         borderRadius: 12,
-        background: "transparent",
-        boxShadow: glow.active,
+        background: "#00FF00",
         zIndex: 30,
         ...style,
       }}

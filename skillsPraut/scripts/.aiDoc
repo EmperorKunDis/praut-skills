@@ -1,27 +1,33 @@
 ---
 @META
 dir: skillsPraut/scripts/
-updated: 2026-04-09
-files: 1
-stack: Node.js (ESM)
+updated: 2026-04-13
+files: 2
+stack: Node.js (ESM), Bash
 
 @EXPORTS
 extract-phosphor-glyphs.mjs: CLI script — extracts icon glyphs from Phosphor CSS to JSON
+install-skill.sh: CLI script — symlinks skill into ~/.claude/skills/remotion
 
 @FUNCTIONS
 extract-phosphor-glyphs.mjs() → void
   purpose: parse style.css → phosphor-glyphs.json
   side-effects: file (writes src/components/icons/phosphor-glyphs.json)
 
+install-skill.sh() → void
+  purpose: symlink skills/remotion to ~/.claude/skills/remotion
+  side-effects: file (creates symlink)
+
 @PROCESSES
-glyph-extraction: phosphor-icons/Fonts/regular/style.css → regex parse .ph-<name>:before → JSON map → phosphor-glyphs.json
+glyph-extraction: phosphor-icons/Fonts/regular/style.css → regex .ph-<name>:before → JSON → phosphor-glyphs.json
+skill-install: detect existing → mkdir -p → ln -s → confirm
 
 @DEPENDENCIES
-internal: phosphor-icons/Fonts/regular/style.css (input)
+internal: phosphor-icons/Fonts/regular/style.css (input for glyphs)
 external: node:fs | node:path | node:url
 
 @STANDARDS
-- Run via: npm run extract-glyphs (or node scripts/extract-phosphor-glyphs.mjs)
-- Output: src/components/icons/phosphor-glyphs.json
-- Exits with code 1 if no glyphs extracted
+- Run glyphs via: npm run extract-glyphs
+- install-skill.sh: idempotent — detects existing symlink
+- Exits with code 1 if no glyphs extracted or dir exists (not symlink)
 ---

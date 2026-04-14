@@ -1,7 +1,7 @@
 ---
 @META
 dir: skillsPraut/src/templates/
-updated: 2026-04-09
+updated: 2026-04-13
 files: 10
 stack: React, Remotion, TypeScript, @remotion/transitions
 

@@ -1,7 +1,7 @@
 ---
 @META
 dir: skillsPraut/src/components/backgrounds/
-updated: 2026-04-09
+updated: 2026-04-13
 files: 11
 stack: React, Remotion, TypeScript, SVG, Canvas
 
@@ -18,22 +18,18 @@ SpiralGalaxy.tsx: SpiralGalaxy — canvas density-wave galaxy (~6000 stars)
 StarField.tsx: StarField — twinkling star pinpricks
 VignetteOverlay.tsx: VignetteOverlay — radial corner darkening
 
-@FUNCTIONS
-SpiralGalaxy() → React.FC
-  purpose: canvas galaxy background for frames
-  side-effects: none (canvas render per frame)
-
-SpaceNebula({intensity,loopFrames,flyThrough}) → React.FC
-  purpose: animated nebula with configurable intensity
-  side-effects: none
+@INTERFACES
+ParticleFieldProps: { count?, speed?, color? }
+SpaceNebulaProps: { intensity?: "subtle"|"medium"|"dramatic", loopFrames?, flyThrough? }
 
 @DEPENDENCIES
 internal: styles/tokens (colors, frame, withOpacity) | hooks/interpolateColors
 external: remotion (AbsoluteFill, useCurrentFrame, useVideoConfig)
 
 @STANDARDS
-- SpiralGalaxy is the DEFAULT background for PrautVideoFrame
+- SpiralGalaxy is DEFAULT background for PrautVideoFrame
 - All backgrounds use deterministic seeded random — stable across renders
 - Overlays (Noise, Scanline, Vignette) use pointerEvents: "none"
 - All colors from tokens — no hardcoded hex
+- SpiralGalaxy uses canvas 2D with density-wave algorithm, ~6000 stars
 ---

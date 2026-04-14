@@ -570,7 +570,7 @@ const TimelineGrid: React.FC = () => {
 export const EP01: React.FC = () => {
   return (
     <>
-      <PrautVideoFrame episodeNumber="01">
+      <PrautVideoFrame episodeNumber="01" episodeName="10 Mýtů o AI">
         {/* ═══ INTRO (0–660) ═══════════════════════════════════════════════ */}
 
         {/* Scéna 1+2 — handled by INTRO OVERLAY after </PrautVideoFrame> */}

@@ -1,12 +1,12 @@
 ---
 @META
 dir: skillsPraut/src/components/ai-visuals/
-updated: 2026-04-09
+updated: 2026-04-13
 files: 18
 stack: React, Remotion, TypeScript, SVG
 
 @EXPORTS
-AgentLoop.tsx: AgentLoop — animated Think → Act → Observe cycle
+AgentLoop.tsx: AgentLoop — animated Think → Act → Observe cycle (30f per step)
 AttentionMatrix.tsx: AttentionMatrix — token attention weights (wraps HeatmapGrid)
 ContextWindow.tsx: ContextWindow — sliding context window over token sequence
 CostCalculator.tsx: CostCalculator — LLM cost breakdown (input + output pricing)
@@ -25,14 +25,20 @@ ToolCallVisual.tsx: ToolCallVisual — function call visualization (name + args 
 TrainingLoss.tsx: TrainingLoss — exponential decay loss curve (wraps AnimatedLineChart)
 TransformerBlock.tsx: TransformerBlock — Multi-Head Attention + FFN block diagram
 
+@INTERFACES
+NeuralNetworkProps: { layers: number[], width?, height?, style? }
+RAGPipelineProps: { style? }
+AgentLoopProps: { style? }
+TokenizerViewProps: { tokens: string[], style? }
+
 @DEPENDENCIES
 internal: styles/tokens | icons/PhosphorIcon | charts/HeatmapGrid | charts/ScatterPlot | charts/AnimatedLineChart | typography/CountUpNumber | code/CodeBlock | hooks/useTypewriter
 external: remotion (interpolate, spring, useCurrentFrame, useVideoConfig)
 
 @STANDARDS
-- Composite components: AttentionMatrix wraps HeatmapGrid, EmbeddingSpace wraps ScatterPlot, TrainingLoss wraps AnimatedLineChart
+- Composite: AttentionMatrix→HeatmapGrid, EmbeddingSpace→ScatterPlot, TrainingLoss→AnimatedLineChart
 - AgentLoop cycles every 30 frames per step
-- NeuralNetwork activates layer by layer with springs.snappy
-- Czech labels: "Deterministicky", "Kreativni"
+- NeuralNetwork activates layer-by-layer with springs.snappy
+- Czech labels where applicable ("Deterministicky", "Kreativní")
 - All diagrams use gradients.card background + blue[400] borders
 ---

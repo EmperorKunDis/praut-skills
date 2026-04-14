@@ -24,7 +24,7 @@ Structure: 14 component categories + templates + hooks.
 - `SplitLayout` / `TripleLayout` / `PiPLayout` / `SpeakerScreenLayout`
 - `ExplainerSlide` — slide with title, body, optional visual
 - `LiquidGlassPanel` — glassmorphism panel over SpiralGalaxy
-- `WebcamPlaceholder` — transparent circle for webcam overlay
+- `WebcamPlaceholder` — green-screen square (240×240, #00FF00) anchored bottom-right, keyed out in post-production
 - `WatermarkPraut`
 
 ## 2. Typography (`src/components/typography/`)
@@ -50,7 +50,7 @@ Structure: 14 component categories + templates + hooks.
 - `PhosphorIconName` — type alias
 
 ## 4. Chapters & Navigation (`src/components/chapters/`)
-- `ChapterCard` — full-screen chapter intro
+- `ChapterCard` — full-screen chapter intro (`prefix` prop: default "KAPITOLA", override e.g. "MÝTUS")
 - `ChapterTransition` — quick chapter sting
 - `ProgressBar` — auto-driven progress
 - `TableOfContents` — animated chapter list

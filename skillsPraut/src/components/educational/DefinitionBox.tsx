@@ -25,7 +25,7 @@ export const DefinitionBox: React.FC<Props> = ({ term, definition, style }) => (
       style={{
         fontFamily: fonts.mono,
         fontSize: 14,
-        color: colors.purple[300],
+        color: colors.purple[200],
         letterSpacing: 2,
         textTransform: "uppercase",
         marginBottom: 12,

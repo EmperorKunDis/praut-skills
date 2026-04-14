@@ -1,33 +1,41 @@
 ---
 @META
 dir: skillsPraut/src/styles/
-updated: 2026-04-09
+updated: 2026-04-13
 files: 1
 stack: TypeScript
 
 @EXPORTS
-tokens.ts: colors | gradients | fonts | fontWeight | typeScale | frame | frameShort | frameSquare | glow | springs | timing | channel | seriesColors — brand design tokens
+tokens.ts: colors | gradients | fonts | fontWeight | typeScale | frame | frameShort | frameSquare | glow | springs | timing | channel | seriesColors | pickTagline | withOpacity — brand design tokens
 
 @VARS_CONSTANTS
-colors.navy.950: string = "#060818" — darkest frame bg
-colors.blue.400: string = "#506FFB" — primary border & logo mark
-colors.purple.600: string = "#8D2AF3" — main CTA
-colors.purple.50: string = "#FAF5FF" — heading text
-fonts.primary: string = "Montserrat" — main font
-fonts.mono: string = "IBM Plex Mono" — code font
-frame.width: number = 1920 — 16:9 reference
-frame.height: number = 1080 — 16:9 reference
-springs.smooth: SpringConfig = {damping:200,stiffness:100,mass:0.8} — default animation
-timing.fast: number = 12 — 0.4s @ 30fps
-timing.medium: number = 24 — 0.8s @ 30fps
+colors.navy.950: "#060818" — darkest frame bg
+colors.blue.400: "#506FFB" — primary border & logo mark
+colors.purple.600: "#8D2AF3" — main CTA
+colors.purple.50: "#FAF5FF" — heading text
+fonts.primary: "Montserrat" — main font
+fonts.mono: "IBM Plex Mono" — code font
+frame.width: 1920 — 16:9 reference
+frame.height: 1080 — 16:9 reference
+frameShort: {1080x1920} — 9:16 short format
+frameSquare: {1080x1080} — 1:1 square format
+springs.smooth: {damping:200,stiffness:100,mass:0.8} — default animation
+springs.bouncy: {damping:12,stiffness:100,mass:0.5} — playful bounce
+springs.snappy: {damping:200,stiffness:300,mass:0.5} — quick snap
+springs.gentle: {damping:30,stiffness:80,mass:1.0} — slow ease
+timing.instant: 6 — 0.2s
+timing.fast: 12 — 0.4s
+timing.medium: 24 — 0.8s
+timing.slow: 45 — 1.5s
+timing.reveal: 60 — 2.0s
 
 @FUNCTIONS
 pickTagline(episodeNumber?) → string
-  purpose: deterministic tagline from episode
+  purpose: deterministic tagline from episode number
   side-effects: none
 
 withOpacity(hex, alpha) → string
-  purpose: append alpha to hex color
+  purpose: append alpha channel to hex color
   side-effects: none
 
 @INTERFACES
@@ -40,7 +48,6 @@ Tokens: { colors | gradients | fonts | fontWeight | typeScale | frame | glow | s
 - glow.* instead of drop-shadow rgba(0,0,0,...)
 - springs.* for all animations
 - timing.* for all durations
-
-@WARNINGS
-- logoText gradient differs between docs (9FBFFF→D6B0FF) and code (506FFB→8D2AF3) — code is canonical
+- seriesColors: [purple[600], blue[400], blue[500], purple[700]] — max 4 series
+- channel.taglines: 9 tagline variants, deterministic via pickTagline()
 ---
