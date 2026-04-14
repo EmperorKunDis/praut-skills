@@ -519,7 +519,7 @@ const TimelineGrid: React.FC = () => {
 
 export const EP01: React.FC = () => {
   return (
-    <PrautVideoFrame episodeNumber="01">
+    <PrautVideoFrame episodeNumber="01" includeWatermark>
       {/* ═══ INTRO (0–660) ═══════════════════════════════════════════════ */}
 
       {/* Scéna 1 — HookCard (0–600, 20s) */}

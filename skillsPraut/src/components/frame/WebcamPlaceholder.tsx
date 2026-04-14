@@ -6,15 +6,15 @@ type Props = {
   width?: number;
   /** Height in px. Defaults to 160. */
   height?: number;
-  /** Inset from the right edge in px. Defaults to 48. */
-  rightInset?: number;
+  /** Inset from the left edge in px. Defaults to 48. */
+  leftInset?: number;
   /** Inset from the bottom edge in px. Defaults to 48. */
   bottomInset?: number;
   style?: React.CSSProperties;
 };
 
 /**
- * Empty bordered rectangle anchored bottom-right of its containing slide.
+ * Empty bordered rectangle anchored bottom-left of its containing slide.
  *
  * Reserves space for a webcam talking-head feed that the user composites in
  * during YouTube editing. The placeholder itself renders nothing inside —
@@ -24,7 +24,7 @@ type Props = {
 export const WebcamPlaceholder: React.FC<Props> = ({
   width = 280,
   height = 160,
-  rightInset = 48,
+  leftInset = 48,
   bottomInset = 48,
   style,
 }) => {
@@ -32,7 +32,7 @@ export const WebcamPlaceholder: React.FC<Props> = ({
     <div
       style={{
         position: "absolute",
-        right: rightInset,
+        left: leftInset,
         bottom: bottomInset,
         width,
         height,
