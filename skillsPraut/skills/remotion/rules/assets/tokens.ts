@@ -141,7 +141,7 @@ export const timing = {
 
 // Channel metadata defaults — TopBar right-side text
 export const channel = {
-  name: "Martin Svanda",
+  name: "Martin Švanda",
   episodePrefix: "EP",
   taglines: [
     "Progressive Automatisation",
@@ -196,6 +196,149 @@ export const seriesColors = [
   colors.purple[700],
 ] as const;
 
+// ──────────────────────────────────────────────────────────
+// Layout & Safe Zone
+// ──────────────────────────────────────────────────────────
+
+/** Ochranná zóna — 64 px od všech okrajů. Žádný text, grafika ani speaker. */
+export const safeZone = {
+  padding: 64,
+} as const;
+
+/** Master layouty — každý záběr MUSÍ použít jeden z těchto dvou. */
+export const layouts = {
+  /** Centrovaný obsah, max 80 % šířky. Pro plné grafy, titulní karty. */
+  singleFocus: { maxWidth: "80%", align: "center" as const },
+  /** Split screen: 35 % vlevo (text/speaker), 65 % vpravo (vizuál), gap 48 px. */
+  splitScreen: { left: "35%", right: "65%", gap: 48 },
+} as const;
+
+// ──────────────────────────────────────────────────────────
+// Navigační prvky (vždy na stejném místě)
+// ──────────────────────────────────────────────────────────
+
+export const nav = {
+  /** Vlevo nahoře — navigační štítek (název kapitoly / zdroj dat). */
+  chapterLabel: {
+    font: fonts.mono,
+    size: 14,
+    color: "#BC7EFF",
+    position: "top-left" as const,
+  },
+  /** Vpravo dole — číslování slidu (např. 04 / 28). */
+  slideNumber: {
+    font: fonts.mono,
+    size: 14,
+    color: "#BC7EFF",
+    position: "bottom-right" as const,
+  },
+  /** Vlevo dole — floating info box (doplňující kontext ke grafu). */
+  infoBox: {
+    bg: "#0F1440",
+    border: "1px solid rgba(141,42,243,0.18)",
+    borderRadius: 12,
+  },
+} as const;
+
+// ──────────────────────────────────────────────────────────
+// Episode header (vpravo nahoře — vždy viditelný)
+// ──────────────────────────────────────────────────────────
+
+/**
+ * Episode header — vpravo nahoře nonstop:
+ *   řádek 1: "EP 01 / 10 Mýtů o AI"
+ *   řádek 2: název aktuální kapitoly
+ */
+export const episodeHeader = {
+  /** Formát prvního řádku. Nahradit {number} a {title}. */
+  format: "EP {number} / {title}",
+  /** Pod titulem epizody vždy název aktuální kapitoly. */
+  chapterSubtitle: true,
+  font: fonts.mono,
+  size: 12,
+  color: colors.purple[200],
+  position: "top-right" as const,
+} as const;
+
+// ──────────────────────────────────────────────────────────
+// Hierarchie obsahu
+// ──────────────────────────────────────────────────────────
+
+/**
+ * Timing objevování: nadpis → body → footnote/definice.
+ * Velikost: nadpis > body > footnote. NIKDY naopak.
+ * DefOverlay musí být vizuálně MENŠÍ než hlavní sdělení.
+ */
+export const hierarchy = {
+  /** Pořadí objevování na screenu. */
+  order: ["heading", "body", "footnote"] as const,
+  rules: {
+    /** Nadpis musí mít min. tento font size. */
+    headingMinSize: 28,
+    /** Body text max. tento font size (nesmí být větší než heading). */
+    bodyMaxSize: 23,
+    /** Poznámky/definice max. tento font size. */
+    footnoteMaxSize: 18,
+    /** DefOverlay box max. šířka — nesmí soupeřit s hlavním sdělením. */
+    defOverlayMaxWidth: "70%",
+  },
+} as const;
+
+// ──────────────────────────────────────────────────────────
+// Webcam / speaker
+// ──────────────────────────────────────────────────────────
+
+/** Webcam placeholder — čtvercový green screen, vpravo dole. */
+export const webcam = {
+  size: 240,
+  shape: "square" as const,
+  background: "#00FF00",
+  position: "bottom-right" as const,
+  inset: 48,
+  /** Logo nesmí být v blízkosti webcam — narušuje kompozici. */
+  noLogoNearby: true,
+} as const;
+
+// ──────────────────────────────────────────────────────────
+// DefOverlay pravidla
+// ──────────────────────────────────────────────────────────
+
+/**
+ * DefOverlay = malá doprovodná vysvětlivka termínu.
+ * NESMÍ zakrývat hlavní obsah. Žádné ztmavení pozadí.
+ * Pozice: nahoře uprostřed, 15 % padding vlevo/vpravo.
+ */
+export const defOverlay = {
+  position: "top-center" as const,
+  horizontalPadding: "15%",
+  topOffset: 90,
+  maxWidth: 1000,
+  zIndex: 40,
+  /** Žádné ztmavení screenu — definice je jen doprovodná. */
+  noDarkening: true,
+} as const;
+
+// ──────────────────────────────────────────────────────────
+// Screenshot & datová vizualizace
+// ──────────────────────────────────────────────────────────
+
+/**
+ * Screenshoty NESMÍ být ploché obdélníky.
+ * Povinné: zaoblené rohy + glow stín.
+ * Grafy: mřížka nikdy bílá — použít fialový rgba.
+ */
+export const screenshot = {
+  borderRadius: 12,
+  glow: "0 0 40px rgba(141,42,243,0.15)",
+  /** Mřížka a osy grafů — jemná fialová. */
+  gridColor: "rgba(141,42,243,0.08)",
+  gridColorStrong: "rgba(141,42,243,0.18)",
+} as const;
+
+// ──────────────────────────────────────────────────────────
+// Type
+// ──────────────────────────────────────────────────────────
+
 export type Tokens = {
   colors: typeof colors;
   gradients: typeof gradients;
@@ -206,4 +349,48 @@ export type Tokens = {
   glow: typeof glow;
   springs: typeof springs;
   timing: typeof timing;
+  safeZone: typeof safeZone;
+  layouts: typeof layouts;
+  nav: typeof nav;
+  episodeHeader: typeof episodeHeader;
+  hierarchy: typeof hierarchy;
+  webcam: typeof webcam;
+  defOverlay: typeof defOverlay;
+  screenshot: typeof screenshot;
 };
+
+// ──────────────────────────────────────────────────────────
+// WCAG kontrasty (referenční tabulka)
+// ──────────────────────────────────────────────────────────
+//
+// | Barva textu  | Na pozadí  | Kontrast | WCAG    |
+// |------------- |----------- |--------- |-------- |
+// | #FAF5FF      | #060818    | 18.2:1   | AAA ✅  |
+// | #E4CFFF      | #060818    | 13.4:1   | AAA ✅  |
+// | #D6B0FF      | #060818    |  9.1:1   | AAA ✅  |
+// | #9FBFFF      | #060818    |  8.2:1   | AAA ✅  |
+// | #506FFB      | #060818    |  4.8:1   | AA ⚠️  |
+// | #FAF5FF      | #0a0e2e    | 16.8:1   | AAA ✅  |
+// | #FAF5FF      | #0f1440    | 14.5:1   | AAA ✅  |
+//
+// ⚠️ #506FFB pro text: splňuje AA jen na 18px+ bold nebo 24px+ regular.
+//    Pro menší text použít #9FBFFF nebo #E4CFFF.
+
+// ──────────────────────────────────────────────────────────
+// Zakázané kombinace (NIKDY nepoužívat)
+// ──────────────────────────────────────────────────────────
+//
+// ❌ #000000 jako pozadí — používat Navy škálu
+// ❌ #FFFFFF jako text — používat #FAF5FF
+// ❌ Purple jako background area — purple je ACCENT only (10 %)
+// ❌ fontWeight < 500 na dark mode
+// ❌ drop shadows na dark mode — používat glow.*
+// ❌ #BC7EFF jako main text (kontrast nedostatečný)
+// ❌ Logo přilepené k okrajům nebo přes jiné prvky
+// ❌ Nezpracované fotky (musí mít borderRadius + glow)
+// ❌ Více než 2 akcentní barvy současně
+// ❌ Volný layout — MUSÍ se použít layouts.singleFocus nebo layouts.splitScreen
+// ❌ Text/grafika v ochranné zóně (safeZone.padding = 64 px od okrajů)
+// ❌ DefOverlay větší než hlavní sdělení
+// ❌ Heading menší fontem než body text pod ním
+// ❌ Duplicitní definice (např. SaaS) — jen první výskyt
