@@ -1,33 +1,45 @@
 ---
 @META
-dir: skillsPraut/scripts/
-updated: 2026-04-13
-files: 2
-stack: Node.js (ESM), Bash
+dir: skillsPraut/scripts
+updated: 2026-04-15
+files: 2 (extract-phosphor-glyphs.mjs, install-skill.sh)
+stack: Node.js ESM, Bash
 
 @EXPORTS
-extract-phosphor-glyphs.mjs: CLI script — extracts icon glyphs from Phosphor CSS to JSON
-install-skill.sh: CLI script — symlinks skill into ~/.claude/skills/remotion
+extract-phosphor-glyphs.mjs: CLI — regex-scans Phosphor regular style.css → phosphor-glyphs.json
+install-skill.sh: CLI — symlinks skills/remotion → ~/.claude/skills/remotion
+
+@VARS_CONSTANTS
+styleCssPath: ../phosphor-icons/Fonts/regular/style.css (external sibling, NOT in working tree)
+outPath: ../src/components/icons/phosphor-glyphs.json
+GLYPH_REGEX: /\.ph\.ph-([a-z0-9-]+):before\s*\{\s*content:\s*"\\([0-9a-fA-F]+)";?\s*\}/g
+SKILL_DIR: $HOME/.claude/skills/remotion
+SCRIPT_DIR: <repo>/skillsPraut/skills/remotion
 
 @FUNCTIONS
 extract-phosphor-glyphs.mjs() → void
-  purpose: parse style.css → phosphor-glyphs.json
+  purpose: parse style.css → phosphor-glyphs.json (~1530 entries)
   side-effects: file (writes src/components/icons/phosphor-glyphs.json)
-
 install-skill.sh() → void
   purpose: symlink skills/remotion to ~/.claude/skills/remotion
   side-effects: file (creates symlink)
 
 @PROCESSES
-glyph-extraction: phosphor-icons/Fonts/regular/style.css → regex .ph-<name>:before → JSON → phosphor-glyphs.json
-skill-install: detect existing → mkdir -p → ln -s → confirm
+glyph-extraction: read style.css → regex match `.ph-<name>:before { content: "\<hex>" }` → map name→unicode → write JSON
+skill-install: detect symlink → skip if present | create symlink otherwise → available as /remotion skill
 
 @DEPENDENCIES
-internal: phosphor-icons/Fonts/regular/style.css (input for glyphs)
-external: node:fs | node:path | node:url
+internal: ../src/components/icons/ (write target)
+external: node:fs, node:path, node:url (stdlib only), bash
 
 @STANDARDS
-- Run glyphs via: npm run extract-glyphs
-- install-skill.sh: idempotent — detects existing symlink
-- Exits with code 1 if no glyphs extracted or dir exists (not symlink)
+- ESM script (.mjs) | exit 1 if no glyphs extracted
+- Install script idempotent — safe re-run
+- Symlink preferred over copy — auto-propagate updates
+- Run: bun run extract-glyphs
+
+@WARNINGS
+- phosphor-icons/ sibling directory required by glyph script but NOT in working tree
+  → must be cloned/downloaded separately for glyph refresh to succeed
+- phosphor-glyphs.json committed; script is refresh-only
 ---

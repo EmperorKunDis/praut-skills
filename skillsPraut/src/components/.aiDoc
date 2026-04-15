@@ -1,0 +1,41 @@
+---
+@META
+dir: skillsPraut/src/components
+updated: 2026-04-15
+subdirs: 14
+total_components: ~152
+
+@EXPORTS
+(category index — each subdir has its own .aiDoc with full component details)
+ai-visuals/ (18): AgentLoop, AttentionMatrix, ContextWindow, CostCalculator, DiffusionSteps, EmbeddingSpace, HallucinationDemo, MoEDiagram, ModelArchitecture, NeuralNetwork, ParameterCounter, PromptResponse, RAGPipeline, TemperatureSlider, TokenizerView, ToolCallVisual, TrainingLoss, TransformerBlock
+backgrounds/ (11): CircuitPattern, GradientMesh, GridBackground, NavyBackground, NoiseOverlay, ParticleField, ScanlineEffect, SpaceNebula, SpiralGalaxy, StarField, VignetteOverlay
+cards/ (12): Comparison, Error, Glass, Glow, Info, Person, Quote, Stat, Success, Tip, Tool, Warning
+chapters/ (8): ChapterCard, ChapterTransition, EndScreen, HookCard, IntroAnimation, ProgressBar, SectionDivider, TableOfContents
+charts/ (15): AnimatedBar|Line|Pie, Benchmark|Comparison|Donut|GrowthCurve|Heatmap|KPIGrid|Metric|Percentage|Radar|Scatter|StackedBar|Timeline
+code/ (10): APIRequest, CodeBlock, CodeDiff, CodeTypewriter, CommandLine, CurlExample, EditorWindow, FileTree, JSONViewer, TerminalWindow
+cta/ (9): BellNotification, CommentPrompt, DiscordCTA, EndScreenGrid, LikeAnimation, NewsletterCTA, NextVideoCard, ShareCard, SubscribeButton
+educational/ (9): AnalogyVisual, BeforeAfterSlider, ConceptMap, DecisionTree, DefinitionBox, FlowchartNode, HierarchyDiagram, MindMap
+frame/ (16): BrainMark, BrandLogo, ExplainerSlide, LiquidGlassPanel, PiPLayout, PrautShortFrame, PrautSquareFrame, PrautVideoFrame, SafeArea, SlideRoot, SpeakerScreenLayout, SplitLayout, TopBar, TripleLayout, WatermarkPraut, WebcamPlaceholder
+icons/ (1 + font loader): PhosphorIcon + loadPhosphorFont + phosphor-glyphs.json
+lists/ (9): ChecklistAnimated, DoVsDont, FeatureList, MythVsFact, NumberedList, ProsConsTable, StepByStep, TopTenCard, TopTenReveal
+media/ (9): AnimatedIcon, AvatarCircle, BrowserMockup, LogoCloud, MacBookMockup, PhoneMockup, ProcessedImage, RoundedScreenshot, VideoEmbed
+transitions/ (9): FadeTransition, GlitchTransition, MorphTransition, ParticleBurst, PuzzleAssemble, RippleEffect, SlideTransition, WipeTransition, ZoomTransition
+typography/ (16): AnimatedQuote, BodyText, CountUpNumber, DisplayHeading, GlitchText, GradientText, H1, H2, H3, HighlightedText, KeyTakeaway, LineReveal, MonoLabel, ScrambleText, TypewriterText, WordReveal
+
+@PROCESSES
+component-import: categories → compositions/templates import named exports
+styling-flow: tokens.ts → per-category component uses colors/fonts/glow/springs → composed into scenes
+
+@DEPENDENCIES
+internal: styles/tokens (universal) | hooks/* (animation hooks)
+external: remotion (useCurrentFrame, spring, interpolate, AbsoluteFill, Sequence, Img, Video)
+
+@STANDARDS
+- Every component imports brand values from styles/tokens
+- Animated components use useCurrentFrame + spring/interpolate
+- Props follow pattern: { ...data, style?: CSSProperties }
+- Default export NOT used — named exports only
+- Components are pure (no effects beyond Remotion hooks)
+- No Tailwind — inline styles only
+- Component filename = exported name (PascalCase)
+---

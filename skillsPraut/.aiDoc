@@ -1,31 +1,34 @@
 ---
 @META
-dir: skillsPraut/
-updated: 2026-04-13
-files: 3
-stack: Remotion 4, React 19, TypeScript 5.4
+dir: skillsPraut
+updated: 2026-04-15
+files: 6 (package.json, tsconfig.json, bun.lock, README.md, .gitignore)
+stack: Remotion 4, React 19, @remotion/{bundler,cli,fonts,google-fonts,lottie,shapes,three,transitions}, TypeScript 5.4
 
 @EXPORTS
-package.json: @praut/remotion-skill — project config & scripts
-tsconfig.json: TS config — ESNext, JSX react-jsx, strict, path alias @/*→src/*
-README.md: project overview
+package.json → name: @praut/remotion-skill v1.0.0 (private)
+tsconfig.json → ESNext + JSX react-jsx + strict + path alias @/*→src/*
 
 @VARS_CONSTANTS
-FPS: number = 30 — standard frame rate
-W: number = 1920 — standard width
-H: number = 1080 — standard height
+SCRIPTS: dev=remotion studio | render=remotion render | build=remotion bundle | typecheck=tsc --noEmit | extract-glyphs=node scripts/extract-phosphor-glyphs.mjs
 
-@INTERFACES
-Scripts: { dev: "remotion studio" | render | build | typecheck | extract-glyphs }
+@PROCESSES
+dev: bun dev → remotion studio → localhost:3000 preview
+render: bun render <CompositionId> out/<name>.mp4
+glyph-refresh: bun run extract-glyphs → regenerates src/components/icons/phosphor-glyphs.json
 
 @DEPENDENCIES
-internal: src/ | scripts/ | skills/ | public/
-external: remotion ^4 | @remotion/* ^4 | react ^19 | typescript ^5.4
+internal: src/ (entry) | skills/ (claude skill) | scripts/ | public/ (fonts+logos)
+external runtime: remotion@^4, react@^19, react-dom@^19, all @remotion/* @^4
+external dev: typescript@^5.4, @types/react(@^19), @types/react-dom@^19
 
 @STANDARDS
+- Package manager: bun (bun.lock) — NOT yarn, NOT npm
+- Entry point: src/index.ts → registerRoot(RemotionRoot)
 - Path alias: @/* → src/*
-- Fonts loaded in Root.tsx: Montserrat + IBM Plex Mono (latin-ext for Czech)
-- Phosphor icon fonts loaded as side-effect from icons/loadPhosphorFont.ts
-- All 18 compositions registered in Root.tsx via <Composition>
-- EP01 is production episode (38160 frames / ~21 min)
+- Font loading happens once in Root.tsx (Montserrat + IBM Plex Mono + Phosphor)
+- Private package — never published to npm
+
+@WARNINGS
+- node_modules/, out/, renders/ .gitignored (large artifacts)
 ---

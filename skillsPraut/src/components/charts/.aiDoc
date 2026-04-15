@@ -1,7 +1,7 @@
 ---
 @META
-dir: skillsPraut/src/components/charts/
-updated: 2026-04-13
+dir: skillsPraut/src/components/charts
+updated: 2026-04-15
 files: 15
 stack: React, Remotion, TypeScript, SVG
 

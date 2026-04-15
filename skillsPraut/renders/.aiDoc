@@ -1,0 +1,47 @@
+---
+@META
+dir: skillsPraut/renders
+updated: 2026-04-15
+files: 3 tracked (deduplicate_frames.py, dedup_report.json, concat_list.txt)
+stack: Python (PIL, imagehash), FFmpeg
+
+@EXPORTS
+deduplicate_frames.py: CLI — perceptual-hash frame deduplication
+dedup_report.json: analysis output — JSON with frame groups
+concat_list.txt: FFmpeg concat demuxer list (segment paths)
+
+@VARS_CONSTANTS
+THRESHOLD: 10 — pHash Hamming distance for "same scene"
+FRAMES_DIR: ./epizoda1_screens
+HASH_SIZE: 16 (pHash variant)
+
+@FUNCTIONS
+deduplicate_frames.main() → void
+  purpose: pHash-based frame deduplication
+  side-effects: file (writes dedup_report.json, deletes frames with --delete)
+
+@PROCESSES
+frame-dedup: glob frame_*.png → pHash(hash_size=16) → consecutive-pair distance check → group similar → keep first → report (+ optional delete)
+video-concat: segment MP4s → concat_list.txt → ffmpeg -f concat -i list.txt → final EP01.mp4
+
+@DEPENDENCIES
+internal: ./epizoda1_screens/ (extracted frames input) | ./thumbnails/ (YouTube candidates)
+external: imagehash, Pillow (PIL), FFmpeg
+
+@STANDARDS
+- Dry run by default — --delete flag required for actual removal
+- Report written before any deletion (audit trail)
+- Segment workflow: EP01 rendered in parts (seg1..seg4) then concat
+
+@WARNINGS
+- All .mp4 files .gitignored — not tracked
+- epizoda1_screens/ large binary directory (PNGs) — not tracked
+- renders/.ruff_cache/ present but should not be committed
+- Entire renders/ directory is in .gitignore per root .gitignore
+
+@ARTIFACTS
+- EP01.mp4 / EP01-final.mp4 / EP01-preview.mp4 — production outputs
+- EP01-seg{1,2,3,4}.mp4 — per-segment renders for concat
+- Epizoda1.mp4 / Epizoda1_cast{1,2}.mp4 — earlier cut iterations
+- render-log.txt / render-seg4-log.txt — Remotion render logs
+---

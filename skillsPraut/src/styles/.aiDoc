@@ -1,53 +1,62 @@
 ---
 @META
-dir: skillsPraut/src/styles/
-updated: 2026-04-13
-files: 1
+dir: skillsPraut/src/styles
+updated: 2026-04-15
+files: 1 (tokens.ts)
 stack: TypeScript
 
 @EXPORTS
-tokens.ts: colors | gradients | fonts | fontWeight | typeScale | frame | frameShort | frameSquare | glow | springs | timing | channel | seriesColors | pickTagline | withOpacity — brand design tokens
+tokens.ts: colors | gradients | fonts | fontWeight | typeScale | frame | frameShort | frameSquare | glow | springs | timing | channel | seriesColors | pickTagline | withOpacity | safeZone | layouts | nav | episodeHeader | hierarchy | webcam | defOverlay | screenshot | Tokens (type)
 
 @VARS_CONSTANTS
-colors.navy.950: "#060818" — darkest frame bg
-colors.blue.400: "#506FFB" — primary border & logo mark
-colors.purple.600: "#8D2AF3" — main CTA
+colors.navy.950: "#060818" — frame bg darkest
+colors.navy.900: "#0a0e2e" — slide content bg
+colors.navy.800: "#0f1440" — card base
+colors.blue.400: "#506FFB" — primary border + logo mark
 colors.purple.50: "#FAF5FF" — heading text
-fonts.primary: "Montserrat" — main font
-fonts.mono: "IBM Plex Mono" — code font
-frame.width: 1920 — 16:9 reference
-frame.height: 1080 — 16:9 reference
-frameShort: {1080x1920} — 9:16 short format
-frameSquare: {1080x1080} — 1:1 square format
-springs.smooth: {damping:200,stiffness:100,mass:0.8} — default animation
-springs.bouncy: {damping:12,stiffness:100,mass:0.5} — playful bounce
-springs.snappy: {damping:200,stiffness:300,mass:0.5} — quick snap
-springs.gentle: {damping:30,stiffness:80,mass:1.0} — slow ease
-timing.instant: 6 — 0.2s
-timing.fast: 12 — 0.4s
-timing.medium: 24 — 0.8s
-timing.slow: 45 — 1.5s
-timing.reveal: 60 — 2.0s
+colors.purple.200: "#E4CFFF" — body text
+colors.purple.600: "#8D2AF3" — main CTA
+colors.semantic: { success, warning, error, info }
+fonts.primary: '"Montserrat", sans-serif'
+fonts.mono: '"IBM Plex Mono", monospace'
+fontWeight: body=500 | bodyEmphasis=600 | heading=700 | display=800
+frame: {1920×1080, topBarHeight=72, borderColor=blue.400, bg=navy.950}
+frameShort: 1080×1920 9:16 | frameSquare: 1080×1080 1:1
+springs: smooth | bouncy | snappy | gentle
+timing: instant=6 | fast=12 | medium=24 | slow=45 | reveal=60 (frames @30fps)
+safeZone.padding: 64 — no content within
+layouts: singleFocus (maxWidth 80%) | splitScreen (35/65, gap 48)
+channel: { name="Martin Švanda", episodePrefix="EP", taglines[9] }
+webcam: { size=240, shape=square, background=#00FF00, position=bottom-right, inset=48 }
+defOverlay: { position=top-center, horizontalPadding=15%, topOffset=90, maxWidth=1000 }
+screenshot: { borderRadius=12, glow=purple, gridColor=faint-purple }
 
 @FUNCTIONS
-pickTagline(episodeNumber?) → string
-  purpose: deterministic tagline from episode number
+pickTagline(episodeNumber?: string) → string
+  purpose: deterministic tagline hash of episode number
   side-effects: none
-
-withOpacity(hex, alpha) → string
-  purpose: append alpha channel to hex color
+withOpacity(hex: string, alpha: 0..1) → "#RRGGBBAA"
+  purpose: append 8-bit alpha to 6-digit hex
   side-effects: none
 
 @INTERFACES
-Tokens: { colors | gradients | fonts | fontWeight | typeScale | frame | glow | springs | timing }
+Tokens: { colors, gradients, fonts, fontWeight, typeScale, frame, glow, springs, timing, safeZone, layouts, nav, episodeHeader, hierarchy, webcam, defOverlay, screenshot }
 
 @STANDARDS
-- SINGLE SOURCE OF TRUTH for all brand values
-- NEVER hardcode hex outside this file
-- fontWeight >= 500 on dark mode
-- glow.* instead of drop-shadow rgba(0,0,0,...)
-- springs.* for all animations
-- timing.* for all durations
-- seriesColors: [purple[600], blue[400], blue[500], purple[700]] — max 4 series
-- channel.taglines: 9 tagline variants, deterministic via pickTagline()
+- SINGLE SOURCE OF TRUTH — every component imports from here
+- NEVER hardcode hex anywhere else
+- fontWeight ≥ 500 on dark mode
+- glow.* instead of drop-shadow rgba(0,0,0,*)
+- springs.* for all animations | timing.* for all durations
+- seriesColors = [purple.600, blue.400, blue.500, purple.700] — max 4 series
+- hierarchy rules: heading ≥ 28px | body ≤ 23px | footnote ≤ 18px | DefOverlay ≤ 70% width
+- WCAG: AAA for #FAF5FF/#E4CFFF/#D6B0FF on navy.950 | blue.400 AA only at 18px+ bold
+
+@WARNINGS
+- ❌ #000000 bg | ❌ #FFFFFF text | ❌ purple as bg area | ❌ fontWeight < 500
+- ❌ drop shadows on dark mode | ❌ #BC7EFF as main text (insufficient contrast)
+- ❌ Logo near webcam | ❌ unprocessed photos (need borderRadius + glow)
+- ❌ > 2 accent colors concurrent | ❌ free layout outside layouts.*
+- ❌ content within safeZone.padding (64px) | ❌ DefOverlay bigger than main message
+- ❌ heading smaller than body below | ❌ duplicate term definitions
 ---
