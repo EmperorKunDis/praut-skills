@@ -83,6 +83,13 @@ These patterns were established in the EP01 composition ("10 Mytu o AI") and sho
 9. **MythBustedCard** — shows original myth text in italic above the verdict for context.
 10. **DefinitionBox** — "DEFINICE" label uses `purple[200]` for contrast (not `purple[300]`).
 
+### Animation rules (enter/exit lifecycle)
+
+1. Every element MUST have enter AND exit animation using `useEnterExit` hook or manual spring pattern.
+2. Elements appear hierarchically: heading first (delay 0) → body (delay 6-12) → footnote/detail (delay 12-24).
+3. Available easings: `outBack` (overshoot), `inOutExpo` (dramatic), `easeOutElastic` (spring), `easeOutBounce` (ball drop).
+4. Exit pattern: calculate from `durationInFrames - 12` (or 18 for charts).
+
 ---
 
 ## When to use

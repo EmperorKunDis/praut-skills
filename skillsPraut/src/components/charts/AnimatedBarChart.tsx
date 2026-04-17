@@ -37,12 +37,19 @@ export const AnimatedBarChart: React.FC<Props> = ({
   style,
 }) => {
   const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
+  const { fps, durationInFrames } = useVideoConfig();
   const max = maxValue ?? Math.max(...data.map((d) => d.value));
+
+  // Exit — bars shrink down in last 18 frames
+  const exitStart = durationInFrames - 18;
+  const exitProgress =
+    frame >= exitStart
+      ? spring({ frame: frame - exitStart, fps, config: springs.smooth })
+      : 0;
   const barWidth = (width - (data.length - 1) * 24) / data.length;
 
   return (
-    <svg width={width} height={height + 60} style={style}>
+    <svg width={width} height={height + 80} style={style}>
       {[0, 0.25, 0.5, 0.75, 1].map((t) => (
         <line
           key={t}
@@ -62,7 +69,8 @@ export const AnimatedBarChart: React.FC<Props> = ({
           fps,
           config: springs.smooth,
         });
-        const barHeight = (bar.value / max) * height * progress;
+        const barHeight =
+          (bar.value / max) * height * progress * (1 - exitProgress);
         const fill = bar.highlight
           ? colors.purple[600]
           : seriesColors[i % seriesColors.length];
@@ -80,16 +88,13 @@ export const AnimatedBarChart: React.FC<Props> = ({
             />
             <text
               x={i * (barWidth + 24) + barWidth / 2}
-              y={height - barHeight - 12}
+              y={Math.max(24, height - barHeight - 14)}
               textAnchor="middle"
-              fill={colors.purple[100]}
+              fill={colors.purple[50]}
               fontFamily={fonts.primary}
-              fontWeight={fontWeight.bodyEmphasis}
-              fontSize={20}
-              opacity={interpolate(localFrame, [12, 24], [0, 1], {
-                extrapolateLeft: "clamp",
-                extrapolateRight: "clamp",
-              })}
+              fontWeight={fontWeight.heading}
+              fontSize={22}
+              opacity={progress * (1 - exitProgress)}
             >
               {bar.value.toLocaleString("cs-CZ")}
             </text>
@@ -97,9 +102,10 @@ export const AnimatedBarChart: React.FC<Props> = ({
               x={i * (barWidth + 24) + barWidth / 2}
               y={height + 28}
               textAnchor="middle"
-              fill={colors.purple[100]}
+              fill={colors.purple[50]}
               fontFamily={fonts.mono}
               fontSize={14}
+              fontWeight={fontWeight.body}
             >
               {bar.label}
             </text>

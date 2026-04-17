@@ -7,9 +7,11 @@
 import React from "react";
 import {
   AbsoluteFill,
+  Img,
   Sequence,
   interpolate,
   spring,
+  staticFile,
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
@@ -59,7 +61,38 @@ import {
 
 // ─── Local helper components ────────────────────────────────────────────────
 
-/** Single-side ProsCons list (PRO-only or CON-only slide). */
+/** Chapter label overlay — shows current myth/chapter name under episode info. */
+const ChapterLabel: React.FC<{ label: string }> = ({ label }) => {
+  const frame = useCurrentFrame();
+  const { fps, durationInFrames } = useVideoConfig();
+  const fadeIn = spring({ frame, fps, config: springs.smooth });
+  const exitStart = durationInFrames - 12;
+  const exitP =
+    frame >= exitStart
+      ? spring({ frame: frame - exitStart, fps, config: springs.smooth })
+      : 0;
+  return (
+    <div
+      style={{
+        position: "absolute",
+        top: 60,
+        right: 24,
+        zIndex: 51,
+        fontFamily: fonts.mono,
+        fontSize: 11,
+        color: colors.purple[300],
+        letterSpacing: 1.5,
+        textTransform: "uppercase" as const,
+        opacity: fadeIn * (1 - exitP),
+        pointerEvents: "none",
+      }}
+    >
+      {label}
+    </div>
+  );
+};
+
+/** Single-side ProsCons list — staggered slide-in items. */
 const SideList: React.FC<{
   heading: string;
   items: string[];
@@ -69,8 +102,14 @@ const SideList: React.FC<{
   const accentColor = side === "pro" ? colors.purple[300] : colors.blue[400];
   const bulletChar = "›";
   const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
-  const fadeIn = spring({ frame, fps, config: springs.smooth });
+  const { fps, durationInFrames } = useVideoConfig();
+  const cardIn = spring({ frame, fps, config: springs.snappy });
+  const exitStart = durationInFrames - 12;
+  const exitP =
+    frame >= exitStart
+      ? spring({ frame: frame - exitStart, fps, config: springs.smooth })
+      : 0;
+  const headingIn = spring({ frame: frame - 6, fps, config: springs.snappy });
   return (
     <>
       <AbsoluteFill
@@ -87,7 +126,8 @@ const SideList: React.FC<{
             borderLeft: `4px solid ${accentColor}`,
             borderRadius: 12,
             padding: "36px 44px",
-            opacity: fadeIn,
+            opacity: cardIn * (1 - exitP),
+            transform: `scale(${interpolate(cardIn, [0, 1], [0.95, 1]) * (1 - exitP * 0.05)})`,
           }}
         >
           <div
@@ -99,6 +139,8 @@ const SideList: React.FC<{
               color: colors.purple[200],
               marginBottom: 28,
               fontWeight: fontWeight.bodyEmphasis,
+              opacity: headingIn,
+              transform: `translateX(${interpolate(headingIn, [0, 1], [-16, 0])}px)`,
             }}
           >
             {heading}
@@ -113,29 +155,38 @@ const SideList: React.FC<{
               gap: 18,
             }}
           >
-            {items.map((item, i) => (
-              <li
-                key={i}
-                style={{
-                  fontFamily: fonts.primary,
-                  fontSize: 23,
-                  fontWeight: fontWeight.body,
-                  color: colors.purple[100],
-                  lineHeight: 1.4,
-                }}
-              >
-                <span
+            {items.map((item, i) => {
+              const itemIn = spring({
+                frame: frame - 12 - i * 6,
+                fps,
+                config: springs.snappy,
+              });
+              return (
+                <li
+                  key={i}
                   style={{
-                    color: accentColor,
-                    marginRight: 10,
-                    fontWeight: fontWeight.heading,
+                    fontFamily: fonts.primary,
+                    fontSize: 23,
+                    fontWeight: fontWeight.body,
+                    color: colors.purple[100],
+                    lineHeight: 1.4,
+                    opacity: itemIn,
+                    transform: `translateX(${interpolate(itemIn, [0, 1], [-24, 0])}px)`,
                   }}
                 >
-                  {bulletChar}
-                </span>
-                {item}
-              </li>
-            ))}
+                  <span
+                    style={{
+                      color: accentColor,
+                      marginRight: 10,
+                      fontWeight: fontWeight.heading,
+                    }}
+                  >
+                    {bulletChar}
+                  </span>
+                  {item}
+                </li>
+              );
+            })}
           </ul>
         </div>
       </AbsoluteFill>
@@ -144,15 +195,23 @@ const SideList: React.FC<{
   );
 };
 
-/** Empty screenshot / screencast placeholder with source label. */
+/** Screenshot or green-screen placeholder with source label. */
 const ScreenPlaceholder: React.FC<{
   url?: string;
   label: string;
   withWebcam?: boolean;
-}> = ({ url, label, withWebcam = true }) => {
+  /** Path to actual screenshot image (staticFile). Replaces green placeholder. */
+  imageSrc?: string;
+}> = ({ url, label, withWebcam = true, imageSrc }) => {
   const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
-  const fadeIn = spring({ frame, fps, config: springs.smooth });
+  const { fps, durationInFrames } = useVideoConfig();
+  const frameIn = spring({ frame, fps, config: springs.snappy });
+  const labelIn = spring({ frame: frame - 10, fps, config: springs.smooth });
+  const exitStart = durationInFrames - 12;
+  const exitP =
+    frame >= exitStart
+      ? spring({ frame: frame - exitStart, fps, config: springs.smooth })
+      : 0;
   return (
     <AbsoluteFill style={{ padding: "120px 160px 100px" }}>
       <div
@@ -163,19 +222,32 @@ const ScreenPlaceholder: React.FC<{
           margin: "auto",
           width: "100%",
           maxWidth: 1400,
-          opacity: fadeIn,
+          opacity: frameIn * (1 - exitP),
+          transform: `scale(${interpolate(frameIn, [0, 1], [0.92, 1])})`,
         }}
       >
-        {url ? (
+        {imageSrc ? (
+          <Img
+            src={staticFile(imageSrc)}
+            style={{
+              width: "100%",
+              aspectRatio: "16 / 9",
+              objectFit: "cover",
+              borderRadius: 12,
+              boxShadow: "0 0 40px rgba(141,42,243,0.15)",
+            }}
+          />
+        ) : url ? (
           <BrowserMockup url={url} style={{ width: "100%" }}>
             <div
               style={{
-                height: 460,
+                aspectRatio: "16 / 9",
+                width: "100%",
                 display: "flex",
                 flexDirection: "column" as const,
                 alignItems: "center",
                 justifyContent: "center",
-                background: colors.navy[900],
+                background: "#00FF00",
                 gap: 12,
               }}
             >
@@ -200,14 +272,14 @@ const ScreenPlaceholder: React.FC<{
           <div
             style={{
               width: "100%",
-              height: 520,
+              aspectRatio: "16 / 9",
               border: `2px dashed ${colors.blue[400]}`,
               borderRadius: 12,
               display: "flex",
               flexDirection: "column" as const,
               alignItems: "center",
               justifyContent: "center",
-              background: colors.navy[900],
+              background: "#00FF00",
               gap: 12,
             }}
           >
@@ -237,6 +309,8 @@ const ScreenPlaceholder: React.FC<{
             letterSpacing: 1,
             textAlign: "center" as const,
             maxWidth: 1300,
+            opacity: labelIn * (1 - exitP),
+            transform: `translateY(${interpolate(labelIn, [0, 1], [12, 0])}px)`,
           }}
         >
           {label}
@@ -253,8 +327,13 @@ const DefOverlay: React.FC<{ term: string; definition: string }> = ({
   definition,
 }) => {
   const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
+  const { fps, durationInFrames } = useVideoConfig();
   const fadeIn = spring({ frame, fps, config: springs.smooth });
+  const exitStart = durationInFrames - 10;
+  const exitP =
+    frame >= exitStart
+      ? spring({ frame: frame - exitStart, fps, config: springs.smooth })
+      : 0;
   return (
     <div
       style={{
@@ -264,8 +343,8 @@ const DefOverlay: React.FC<{ term: string; definition: string }> = ({
         right: "15%",
         zIndex: 40,
         pointerEvents: "none",
-        opacity: fadeIn,
-        transform: `translateY(${interpolate(fadeIn, [0, 1], [20, 0])}px)`,
+        opacity: fadeIn * (1 - exitP),
+        transform: `translateY(${interpolate(fadeIn, [0, 1], [20, 0]) + exitP * 20}px)`,
       }}
     >
       <DefinitionBox
@@ -277,108 +356,152 @@ const DefOverlay: React.FC<{ term: string; definition: string }> = ({
   );
 };
 
-/** Key points list for ExplainerSlide bottomText. */
+/** Key points list — heading first, then staggered items. */
 const KeyPoints: React.FC<{ heading?: string; points: string[] }> = ({
   heading,
   points,
-}) => (
-  <div
-    style={{
-      display: "flex",
-      flexDirection: "column" as const,
-      gap: 14,
-      maxWidth: 1200,
-    }}
-  >
-    {heading && (
-      <div
-        style={{
-          fontFamily: fonts.primary,
-          fontWeight: fontWeight.display,
-          fontSize: 34,
-          color: colors.purple[50],
-          lineHeight: 1.2,
-          marginBottom: 4,
-        }}
-      >
-        {heading}
-      </div>
-    )}
-    <ol
+}) => {
+  const frame = useCurrentFrame();
+  const { fps, durationInFrames } = useVideoConfig();
+  const headIn = spring({ frame, fps, config: springs.snappy });
+  const exitStart = durationInFrames - 12;
+  const exitP =
+    frame >= exitStart
+      ? spring({ frame: frame - exitStart, fps, config: springs.smooth })
+      : 0;
+  return (
+    <div
       style={{
-        margin: 0,
-        padding: 0,
-        listStyle: "none",
         display: "flex",
         flexDirection: "column" as const,
-        gap: 12,
+        gap: 14,
+        maxWidth: 1200,
       }}
     >
-      {points.map((pt, i) => (
-        <li
-          key={i}
-          style={{ display: "flex", gap: 14, alignItems: "flex-start" }}
+      {heading && (
+        <div
+          style={{
+            fontFamily: fonts.primary,
+            fontWeight: fontWeight.display,
+            fontSize: 34,
+            color: colors.purple[50],
+            lineHeight: 1.2,
+            marginBottom: 4,
+            opacity: headIn * (1 - exitP),
+            transform: `translateX(${interpolate(headIn, [0, 1], [-20, 0])}px)`,
+          }}
         >
-          <span
-            style={{
-              fontFamily: fonts.mono,
-              color: colors.blue[400],
-              fontWeight: fontWeight.bodyEmphasis,
-              fontSize: 21,
-              minWidth: 30,
-            }}
-          >
-            {i + 1}.
-          </span>
-          <span
-            style={{
-              fontFamily: fonts.primary,
-              fontSize: 21,
-              fontWeight: fontWeight.body,
-              color: colors.purple[100],
-              lineHeight: 1.45,
-            }}
-          >
-            {pt}
-          </span>
-        </li>
-      ))}
-    </ol>
-  </div>
-);
+          {heading}
+        </div>
+      )}
+      <ol
+        style={{
+          margin: 0,
+          padding: 0,
+          listStyle: "none",
+          display: "flex",
+          flexDirection: "column" as const,
+          gap: 12,
+        }}
+      >
+        {points.map((pt, i) => {
+          const itemIn = spring({
+            frame: frame - 8 - i * 6,
+            fps,
+            config: springs.snappy,
+          });
+          return (
+            <li
+              key={i}
+              style={{
+                display: "flex",
+                gap: 14,
+                alignItems: "flex-start",
+                opacity: itemIn * (1 - exitP),
+                transform: `translateX(${interpolate(itemIn, [0, 1], [-16, 0])}px)`,
+              }}
+            >
+              <span
+                style={{
+                  fontFamily: fonts.mono,
+                  color: colors.blue[400],
+                  fontWeight: fontWeight.bodyEmphasis,
+                  fontSize: 21,
+                  minWidth: 30,
+                }}
+              >
+                {i + 1}.
+              </span>
+              <span
+                style={{
+                  fontFamily: fonts.primary,
+                  fontSize: 21,
+                  fontWeight: fontWeight.body,
+                  color: colors.purple[100],
+                  lineHeight: 1.45,
+                }}
+              >
+                {pt}
+              </span>
+            </li>
+          );
+        })}
+      </ol>
+    </div>
+  );
+};
 
-/** Big quote heading for ExplainerSlide topContent. */
-const BigQuote: React.FC<{ text: string }> = ({ text }) => (
-  <div
-    style={{
-      fontFamily: fonts.primary,
-      fontWeight: fontWeight.display,
-      fontSize: 46,
-      background: gradients.logoText,
-      WebkitBackgroundClip: "text",
-      WebkitTextFillColor: "transparent",
-      backgroundClip: "text",
-      textAlign: "center" as const,
-      lineHeight: 1.15,
-      maxWidth: 1400,
-      padding: "0 60px",
-    }}
-  >
-    {text}
-  </div>
-);
+/** Big quote heading — clip-path wipe reveal + subtle scale. */
+const BigQuote: React.FC<{ text: string }> = ({ text }) => {
+  const frame = useCurrentFrame();
+  const { fps, durationInFrames } = useVideoConfig();
+  const reveal = spring({ frame, fps, config: springs.snappy });
+  const wipePercent = interpolate(reveal, [0, 1], [0, 100]);
+  const exitStart = durationInFrames - 12;
+  const exitP =
+    frame >= exitStart
+      ? spring({ frame: frame - exitStart, fps, config: springs.smooth })
+      : 0;
+  const exitWipe = interpolate(exitP, [0, 1], [0, 100]);
+  return (
+    <div
+      style={{
+        fontFamily: fonts.primary,
+        fontWeight: fontWeight.display,
+        fontSize: 46,
+        background: gradients.logoText,
+        WebkitBackgroundClip: "text",
+        WebkitTextFillColor: "transparent",
+        backgroundClip: "text",
+        textAlign: "center" as const,
+        lineHeight: 1.15,
+        maxWidth: 1400,
+        padding: "0 60px",
+        clipPath: `inset(0 ${100 - wipePercent}% 0 ${exitWipe}%)`,
+        transform: `scale(${interpolate(reveal, [0, 1], [0.96, 1])})`,
+      }}
+    >
+      {text}
+    </div>
+  );
+};
 
-/** Chapter "Mýtus vyvrácen" closing card. */
+/** Chapter "Mýtus vyvrácen" closing card — elastic verdict pop. */
 const MythBustedCard: React.FC<{
   number: string;
   subtitle: string;
   mythText?: string;
 }> = ({ number, subtitle, mythText }) => {
   const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
-  const p1 = spring({ frame, fps, config: springs.smooth });
-  const p2 = spring({ frame: frame - 10, fps, config: springs.smooth });
-  const pSub = spring({ frame: frame - 20, fps, config: springs.smooth });
+  const { fps, durationInFrames } = useVideoConfig();
+  const p1 = spring({ frame, fps, config: springs.bouncy });
+  const p2 = spring({ frame: frame - 10, fps, config: springs.snappy });
+  const pSub = spring({ frame: frame - 20, fps, config: springs.bouncy });
+  const exitStart = durationInFrames - 12;
+  const exitP =
+    frame >= exitStart
+      ? spring({ frame: frame - exitStart, fps, config: springs.smooth })
+      : 0;
   return (
     <AbsoluteFill
       style={{
@@ -396,7 +519,7 @@ const MythBustedCard: React.FC<{
             fontSize: 18,
             fontWeight: fontWeight.body,
             color: colors.purple[300],
-            opacity: p1,
+            opacity: p1 * (1 - exitP),
             marginBottom: 8,
             textAlign: "center" as const,
             maxWidth: 1200,
@@ -411,7 +534,8 @@ const MythBustedCard: React.FC<{
           fontFamily: fonts.mono,
           fontSize: 22,
           color: colors.semantic.success,
-          opacity: p1,
+          opacity: p1 * (1 - exitP),
+          transform: `scale(${interpolate(p1, [0, 1], [0.7, 1]) * (1 - exitP * 0.1)})`,
           letterSpacing: 4,
           marginBottom: 14,
         }}
@@ -420,10 +544,11 @@ const MythBustedCard: React.FC<{
       </div>
       <div
         style={{
-          width: interpolate(p2, [0, 1], [0, 300]),
+          width: interpolate(p2, [0, 1], [0, 300]) * (1 - exitP),
           height: 2,
           background: colors.semantic.success,
           marginBottom: 28,
+          opacity: 1 - exitP,
         }}
       />
       <div
@@ -435,8 +560,8 @@ const MythBustedCard: React.FC<{
           WebkitBackgroundClip: "text",
           WebkitTextFillColor: "transparent",
           backgroundClip: "text",
-          opacity: pSub,
-          transform: `translateY(${interpolate(pSub, [0, 1], [20, 0])}px)`,
+          opacity: pSub * (1 - exitP),
+          transform: `translateY(${interpolate(pSub, [0, 1], [30, 0])}px) scale(${interpolate(pSub, [0, 1], [0.9, 1]) * (1 - exitP * 0.1)})`,
           textAlign: "center" as const,
           maxWidth: 1400,
           lineHeight: 1.15,
@@ -450,7 +575,15 @@ const MythBustedCard: React.FC<{
 };
 
 /** Timeline grid for Myth 8 scene 69. */
+/** Timeline grid — cards stagger left-to-right with exit. */
 const TimelineGrid: React.FC = () => {
+  const frame = useCurrentFrame();
+  const { fps, durationInFrames } = useVideoConfig();
+  const exitStart = durationInFrames - 12;
+  const exitP =
+    frame >= exitStart
+      ? spring({ frame: frame - exitStart, fps, config: springs.smooth })
+      : 0;
   const tiers = [
     {
       title: "Do 1 dne",
@@ -510,57 +643,66 @@ const TimelineGrid: React.FC = () => {
         padding: "0 40px",
       }}
     >
-      {tiers.map((tier, i) => (
-        <div
-          key={i}
-          style={{
-            flex: 1,
-            background: colors.navy[800],
-            borderTop: `3px solid ${colors_tier[i]}`,
-            borderRadius: 10,
-            padding: "20px 18px",
-          }}
-        >
+      {tiers.map((tier, i) => {
+        const tierIn = spring({
+          frame: frame - i * 8,
+          fps,
+          config: springs.snappy,
+        });
+        return (
           <div
+            key={i}
             style={{
-              fontFamily: fonts.mono,
-              fontSize: 13,
-              color: colors_tier[i],
-              letterSpacing: 2,
-              textTransform: "uppercase" as const,
-              marginBottom: 14,
-              fontWeight: fontWeight.bodyEmphasis,
+              flex: 1,
+              background: colors.navy[800],
+              borderTop: `3px solid ${colors_tier[i]}`,
+              borderRadius: 10,
+              padding: "20px 18px",
+              opacity: tierIn * (1 - exitP),
+              transform: `translateY(${interpolate(tierIn, [0, 1], [20, 0])}px)`,
             }}
           >
-            {tier.title}
+            <div
+              style={{
+                fontFamily: fonts.mono,
+                fontSize: 13,
+                color: colors_tier[i],
+                letterSpacing: 2,
+                textTransform: "uppercase" as const,
+                marginBottom: 14,
+                fontWeight: fontWeight.bodyEmphasis,
+              }}
+            >
+              {tier.title}
+            </div>
+            <ul
+              style={{
+                listStyle: "none",
+                margin: 0,
+                padding: 0,
+                display: "flex",
+                flexDirection: "column" as const,
+                gap: 8,
+              }}
+            >
+              {tier.items.map((item, j) => (
+                <li
+                  key={j}
+                  style={{
+                    fontFamily: fonts.primary,
+                    fontSize: 15,
+                    fontWeight: fontWeight.body,
+                    color: colors.purple[100],
+                    lineHeight: 1.35,
+                  }}
+                >
+                  {item}
+                </li>
+              ))}
+            </ul>
           </div>
-          <ul
-            style={{
-              listStyle: "none",
-              margin: 0,
-              padding: 0,
-              display: "flex",
-              flexDirection: "column" as const,
-              gap: 8,
-            }}
-          >
-            {tier.items.map((item, j) => (
-              <li
-                key={j}
-                style={{
-                  fontFamily: fonts.primary,
-                  fontSize: 15,
-                  fontWeight: fontWeight.body,
-                  color: colors.purple[100],
-                  lineHeight: 1.35,
-                }}
-              >
-                {item}
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 };
@@ -640,6 +782,7 @@ export const EP01: React.FC = () => {
         {/* Scéna 7 — Screenshot BrowserMockup (2850–3150) */}
         <Sequence from={2850} durationInFrames={300}>
           <ScreenPlaceholder
+            imageSrc="screenshots/ep01/18.jpeg"
             url="github.com/vectara/hallucination-leaderboard"
             label="Zdroj: Vectara AI Hallucination Leaderboard — reálné výsledky modelů"
           />
@@ -647,17 +790,26 @@ export const EP01: React.FC = () => {
 
         {/* Scéna 8 — Screenshot RoundedScreenshot (3150–3450) */}
         <Sequence from={3150} durationInFrames={300}>
-          <ScreenPlaceholder label="Zdroj: Goldman Sachs 10,000 Small Businesses Survey — 68 % adopce" />
+          <ScreenPlaceholder
+            imageSrc="screenshots/ep01/19.png"
+            label="Zdroj: Goldman Sachs 10,000 Small Businesses Survey — 68 % adopce"
+          />
         </Sequence>
 
         {/* Scéna 9 — Screenshot RoundedScreenshot (3450–3750) */}
         <Sequence from={3450} durationInFrames={300}>
-          <ScreenPlaceholder label="Zdroj: Thryv AI Business Survey — adopce vzrostla z 39 % na 55 %" />
+          <ScreenPlaceholder
+            imageSrc="screenshots/ep01/16.jpeg"
+            label="Zdroj: Thryv AI Business Survey — adopce vzrostla z 39 % na 55 %"
+          />
         </Sequence>
 
         {/* Scéna 10 — Screenshot Google Trends (3750–4050) */}
         <Sequence from={3750} durationInFrames={300}>
-          <ScreenPlaceholder label="Zdroj: Google Trends — AI hype křivka" />
+          <ScreenPlaceholder
+            imageSrc="screenshots/ep01/17.jpeg"
+            label="Zdroj: Google Trends — AI hype křivka"
+          />
         </Sequence>
 
         {/* Scéna 11 — AnalogyVisual motorová pila (4050–4440, 13s) */}
@@ -773,17 +925,26 @@ export const EP01: React.FC = () => {
 
         {/* Scéna 17 — Screenshot Goldman Sachs barriers (7020–7320) */}
         <Sequence from={7020} durationInFrames={300}>
-          <ScreenPlaceholder label="Zdroj: Goldman Sachs — bariéry AI adopce u SMB (42 %, 60 %...)" />
+          <ScreenPlaceholder
+            imageSrc="screenshots/ep01/23.png"
+            label="Zdroj: Goldman Sachs — bariéry AI adopce u SMB (42 %, 60 %...)"
+          />
         </Sequence>
 
         {/* Scéna 18 — Screenshot Reimagine Main Street (7320–7620) */}
         <Sequence from={7320} durationInFrames={300}>
-          <ScreenPlaceholder label="Zdroj: Reimagine Main Street / PayPal — 73 % chce jednodušší nástroje" />
+          <ScreenPlaceholder
+            imageSrc="screenshots/ep01/20.png"
+            label="Zdroj: Reimagine Main Street / PayPal — 73 % chce jednodušší nástroje"
+          />
         </Sequence>
 
         {/* Scéna 19 — Screenshot Klarna rehiring (7620–7920) */}
         <Sequence from={7620} durationInFrames={300}>
-          <ScreenPlaceholder label="Zdroj: Klarna — AI experiment a zpětné nábory (CNBC)" />
+          <ScreenPlaceholder
+            imageSrc="screenshots/ep01/24.png"
+            label="Zdroj: Klarna — AI experiment a zpětné nábory (CNBC)"
+          />
         </Sequence>
 
         {/* Scéna 20 — AnalogyVisual fitko karta (7920–8220) */}
@@ -941,12 +1102,18 @@ export const EP01: React.FC = () => {
 
         {/* Scéna 27 — Screenshot pricing (11400–11700) */}
         <Sequence from={11400} durationInFrames={300}>
-          <ScreenPlaceholder label="Zdroj: Ceníky ChatGPT / Claude / Gemini / Grok — pricing stránek" />
+          <ScreenPlaceholder
+            imageSrc="screenshots/ep01/03.jpeg"
+            label="Zdroj: Ceníky ChatGPT / Claude / Gemini / Grok — pricing stránek"
+          />
         </Sequence>
 
         {/* Scéna 28 — Screenshot N8N (11700–12000) */}
         <Sequence from={11700} durationInFrames={300}>
-          <ScreenPlaceholder label="Zdroj: N8N rozhraní — ukázka automatizace" />
+          <ScreenPlaceholder
+            imageSrc="screenshots/ep01/01.jpeg"
+            label="Zdroj: N8N rozhraní — ukázka automatizace"
+          />
         </Sequence>
 
         {/* Scéna 29 — AnalogyVisual cena 2022 vs 2025 (12000–12210) */}
@@ -996,36 +1163,14 @@ export const EP01: React.FC = () => {
 
         {/* ═══ MÝTUS 4 — "AI vždy říká pravdu / jenom halucinuje" (12300–15780) ═══ */}
 
-        {/* Scéna 31 — MythVsFact intro (12300–12390) */}
+        {/* Scéna 31 — ChapterCard M04 (12300–12390) */}
         <Sequence from={12300} durationInFrames={90}>
           <FadeTransition>
-            <AbsoluteFill
-              style={{
-                display: "flex",
-                flexDirection: "column" as const,
-                alignItems: "center",
-                justifyContent: "center",
-                padding: "90px 80px 80px",
-                gap: 24,
-              }}
-            >
-              <div
-                style={{
-                  fontFamily: fonts.mono,
-                  fontSize: 20,
-                  color: colors.blue[400],
-                  letterSpacing: 4,
-                  marginBottom: 12,
-                }}
-              >
-                MÝTUS 04
-              </div>
-              <MythVsFact
-                myth="AI vždy říká pravdu"
-                fact="AI není neomylná — může halucinovat"
-                style={{ width: "100%", maxWidth: 1400 }}
-              />
-            </AbsoluteFill>
+            <ChapterCard
+              prefix="MÝTUS"
+              number="04"
+              title="AI vždy říká pravdu / AI jenom halucinuje"
+            />
           </FadeTransition>
         </Sequence>
 
@@ -1123,6 +1268,7 @@ export const EP01: React.FC = () => {
         {/* Scéna 36 — Screenshot Vectara (14790–15090) */}
         <Sequence from={14790} durationInFrames={300}>
           <ScreenPlaceholder
+            imageSrc="screenshots/ep01/25.png"
             url="github.com/vectara/hallucination-leaderboard"
             label="Zdroj: Vectara Hallucination Leaderboard"
           />
@@ -1130,7 +1276,10 @@ export const EP01: React.FC = () => {
 
         {/* Scéna 37 — Screenshot halucinace příklad (15090–15390) */}
         <Sequence from={15090} durationInFrames={300}>
-          <ScreenPlaceholder label="Zdroj: Příklad halucinace — neexistující český zákon" />
+          <ScreenPlaceholder
+            imageSrc="screenshots/ep01/26.png"
+            label="Zdroj: Příklad halucinace — neexistující český zákon"
+          />
         </Sequence>
 
         {/* Scéna 38 — AnalogyVisual praktikant (15390–15690) */}
@@ -1245,12 +1394,18 @@ export const EP01: React.FC = () => {
 
         {/* Scéna 44 — Screenshot Bing chatbot (17970–18270) */}
         <Sequence from={17970} durationInFrames={300}>
-          <ScreenPlaceholder label="Zdroj: Bing chatbot 'I want to be alive' — virální konverzace 2023" />
+          <ScreenPlaceholder
+            imageSrc="screenshots/ep01/07.jpeg"
+            label="Zdroj: Bing chatbot 'I want to be alive' — virální konverzace 2023"
+          />
         </Sequence>
 
         {/* Scéna 45 — Screenshot dokumentace (18270–18570) */}
         <Sequence from={18270} durationInFrames={300}>
-          <ScreenPlaceholder label="Zdroj: OpenAI / Anthropic dokumentace — 'language model' ne 'thinking machine'" />
+          <ScreenPlaceholder
+            imageSrc="screenshots/ep01/05.jpeg"
+            label="Zdroj: OpenAI / Anthropic dokumentace — 'language model' ne 'thinking machine'"
+          />
         </Sequence>
 
         {/* Scéna 46 — AnalogyVisual kalkulačka (18570–18840) */}
@@ -1390,6 +1545,7 @@ export const EP01: React.FC = () => {
         {/* Scéna 52 — Screenshot Ollama GitHub (21120–21420) */}
         <Sequence from={21120} durationInFrames={300}>
           <ScreenPlaceholder
+            imageSrc="screenshots/ep01/14.jpeg"
             url="github.com/ollama/ollama"
             label="Zdroj: Ollama GitHub — 95 000+ stars (2025)"
           />
@@ -1397,12 +1553,18 @@ export const EP01: React.FC = () => {
 
         {/* Scéna 53 — Screenshot LM Studio (21420–21720) */}
         <Sequence from={21420} durationInFrames={300}>
-          <ScreenPlaceholder label="Zdroj: LM Studio — rozhraní pro lokální AI modely" />
+          <ScreenPlaceholder
+            imageSrc="screenshots/ep01/04.jpeg"
+            label="Zdroj: LM Studio — rozhraní pro lokální AI modely"
+          />
         </Sequence>
 
         {/* Scéna 54 — Screenshot Ollama offline demo (21720–22020) */}
         <Sequence from={21720} durationInFrames={300}>
-          <ScreenPlaceholder label="Ukázka: Ollama offline — Wi-Fi vypnuto, AI odpovídá" />
+          <ScreenPlaceholder
+            imageSrc="screenshots/ep01/27.png"
+            label="Ukázka: Ollama offline — Wi-Fi vypnuto, AI odpovídá"
+          />
         </Sequence>
 
         {/* Scéna 55 — AnalogyVisual laptop bez internetu (22020–22230) */}
@@ -1519,17 +1681,24 @@ export const EP01: React.FC = () => {
 
         {/* Scéna 61 — Screenshot špatný vs dobrý prompt (24510–24810) */}
         <Sequence from={24510} durationInFrames={300}>
-          <ScreenPlaceholder label="Ukázka: Špatný vs dobrý prompt — side by side v Claude/ChatGPT" />
+          <ScreenPlaceholder
+            imageSrc="screenshots/ep01/28.png"
+            label="Ukázka: Špatný vs dobrý prompt — side by side v Claude/ChatGPT"
+          />
         </Sequence>
 
         {/* Scéna 62 — Screenshot iterace promptu (24810–25110) */}
         <Sequence from={24810} durationInFrames={300}>
-          <ScreenPlaceholder label="Ukázka: Iterace — 3 kola zpřesnění, výsledek se zlepšuje" />
+          <ScreenPlaceholder
+            imageSrc="screenshots/ep01/07_prompt_iteration.png"
+            label="Ukázka: Iterace — 3 kola zpřesnění, výsledek se zlepšuje"
+          />
         </Sequence>
 
         {/* Scéna 63 — Screenshot Anthropic docs (25110–25410) */}
         <Sequence from={25110} durationInFrames={300}>
           <ScreenPlaceholder
+            imageSrc="screenshots/ep01/15.jpeg"
             url="docs.anthropic.com"
             label="Zdroj: Anthropic Prompt Engineering Dokumentace"
           />
@@ -1661,12 +1830,18 @@ export const EP01: React.FC = () => {
 
         {/* Scéna 70 — Screenshot chatbot za 5 minut (28200–28500) */}
         <Sequence from={28200} durationInFrames={300}>
-          <ScreenPlaceholder label="Ukázka: Od nuly k fungujícímu AI chatbotu za 5 minut" />
+          <ScreenPlaceholder
+            imageSrc="screenshots/ep01/12.jpeg"
+            label="Ukázka: Od nuly k fungujícímu AI chatbotu za 5 minut"
+          />
         </Sequence>
 
         {/* Scéna 71 — Screenshot N8N workflow (28500–28800) */}
         <Sequence from={28500} durationInFrames={300}>
-          <ScreenPlaceholder label="Zdroj: Make.com / N8N — ukázka hotového workflow" />
+          <ScreenPlaceholder
+            imageSrc="screenshots/ep01/22.png"
+            label="Zdroj: Make.com / N8N — ukázka hotového workflow"
+          />
         </Sequence>
 
         {/* Scéna 72 — AnalogyVisual big bang vs start small (28800–29100) */}
@@ -1884,17 +2059,26 @@ export const EP01: React.FC = () => {
 
         {/* Scéna 78 — Screenshot DPD chatbot (32430–32730) */}
         <Sequence from={32430} durationInFrames={300}>
-          <ScreenPlaceholder label="Zdroj: DPD chatbot — báseň o tom jak je DPD nejhorší" />
+          <ScreenPlaceholder
+            imageSrc="screenshots/ep01/10.jpeg"
+            label="Zdroj: DPD chatbot — báseň o tom jak je DPD nejhorší"
+          />
         </Sequence>
 
         {/* Scéna 79 — Screenshot Chevy Tahoe (32730–33030) */}
         <Sequence from={32730} durationInFrames={300}>
-          <ScreenPlaceholder label="Zdroj: Chevy Tahoe za $1 — screenshot konverzace" />
+          <ScreenPlaceholder
+            imageSrc="screenshots/ep01/09.jpeg"
+            label="Zdroj: Chevy Tahoe za $1 — screenshot konverzace"
+          />
         </Sequence>
 
         {/* Scéna 80 — Screenshot Qualtrics (33030–33330) */}
         <Sequence from={33030} durationInFrames={300}>
-          <ScreenPlaceholder label="Zdroj: Qualtrics 2026 CX Trends — AI selhává 4× více" />
+          <ScreenPlaceholder
+            imageSrc="screenshots/ep01/02.jpeg"
+            label="Zdroj: Qualtrics 2026 CX Trends — AI selhává 4× více"
+          />
         </Sequence>
 
         {/* Scéna 81 — StatCard KPI grid (33330–33630) */}
@@ -2188,12 +2372,18 @@ export const EP01: React.FC = () => {
 
         {/* Scéna 89 — Screenshot PayPal/Reimagine (36720–37020) */}
         <Sequence from={36720} durationInFrames={300}>
-          <ScreenPlaceholder label="Zdroj: PayPal / Reimagine Main Street — 82 % SMB: AI nezbytná" />
+          <ScreenPlaceholder
+            imageSrc="screenshots/ep01/29.png"
+            label="Zdroj: PayPal / Reimagine Main Street — 82 % SMB: AI nezbytná"
+          />
         </Sequence>
 
         {/* Scéna 90 — Screenshot no-code nástroje (37020–37320) */}
         <Sequence from={37020} durationInFrames={300}>
-          <ScreenPlaceholder label="Zdroj: Make.com / Tidio / Jasper — ukázka no-code AI nástrojů" />
+          <ScreenPlaceholder
+            imageSrc="screenshots/ep01/11.jpeg"
+            label="Zdroj: Make.com / Tidio / Jasper — ukázka no-code AI nástrojů"
+          />
         </Sequence>
 
         {/* Scéna 91 — BeforeAfterSlider Excel (37320–37620) */}
@@ -2332,6 +2522,38 @@ export const EP01: React.FC = () => {
               showNextFrame
             />
           </FadeTransition>
+        </Sequence>
+
+        {/* ═══ CHAPTER LABELS (vpravo nahoře pod episode info) ═══ */}
+        <Sequence from={660} durationInFrames={4530 - 660}>
+          <ChapterLabel label="Mýtus 01 — AI je jenom bublina" />
+        </Sequence>
+        <Sequence from={4530} durationInFrames={8310 - 4530}>
+          <ChapterLabel label="Mýtus 02 — Stačí koupit AI produkt" />
+        </Sequence>
+        <Sequence from={8310} durationInFrames={12300 - 8310}>
+          <ChapterLabel label="Mýtus 03 — AI jen pro velké korporace" />
+        </Sequence>
+        <Sequence from={12300} durationInFrames={15780 - 12300}>
+          <ChapterLabel label="Mýtus 04 — AI vždy říká pravdu" />
+        </Sequence>
+        <Sequence from={15780} durationInFrames={18930 - 15780}>
+          <ChapterLabel label="Mýtus 05 — AI myslí jako člověk" />
+        </Sequence>
+        <Sequence from={18930} durationInFrames={22320 - 18930}>
+          <ChapterLabel label="Mýtus 06 — AI potřebuje vždy internet" />
+        </Sequence>
+        <Sequence from={22320} durationInFrames={25710 - 22320}>
+          <ChapterLabel label="Mýtus 07 — Stačí zadat prompt" />
+        </Sequence>
+        <Sequence from={25710} durationInFrames={29190 - 25710}>
+          <ChapterLabel label="Mýtus 08 — Implementace trvá měsíce" />
+        </Sequence>
+        <Sequence from={29190} durationInFrames={33930 - 29190}>
+          <ChapterLabel label="Mýtus 09 — AI chatbot = skvělý servis" />
+        </Sequence>
+        <Sequence from={33930} durationInFrames={37710 - 33930}>
+          <ChapterLabel label="Mýtus 10 — AI je příliš složitá" />
         </Sequence>
 
         {/* ═══ DEFINITION OVERLAYS ═══ */}

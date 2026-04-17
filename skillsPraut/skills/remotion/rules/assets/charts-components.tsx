@@ -150,7 +150,7 @@ export const AnimatedBarChart: React.FC<Props> = ({
   const barWidth = (width - (data.length - 1) * 24) / data.length;
 
   return (
-    <svg width={width} height={height + 60} style={style}>
+    <svg width={width} height={height + 80} style={style}>
       {[0, 0.25, 0.5, 0.75, 1].map((t) => (
         <line
           key={t}
@@ -188,16 +188,13 @@ export const AnimatedBarChart: React.FC<Props> = ({
             />
             <text
               x={i * (barWidth + 24) + barWidth / 2}
-              y={height - barHeight - 12}
+              y={Math.max(24, height - barHeight - 14)}
               textAnchor="middle"
-              fill={colors.purple[100]}
+              fill={colors.purple[50]}
               fontFamily={fonts.primary}
-              fontWeight={fontWeight.bodyEmphasis}
-              fontSize={20}
-              opacity={interpolate(localFrame, [12, 24], [0, 1], {
-                extrapolateLeft: "clamp",
-                extrapolateRight: "clamp",
-              })}
+              fontWeight={fontWeight.heading}
+              fontSize={22}
+              opacity={progress}
             >
               {bar.value.toLocaleString("cs-CZ")}
             </text>
@@ -205,9 +202,10 @@ export const AnimatedBarChart: React.FC<Props> = ({
               x={i * (barWidth + 24) + barWidth / 2}
               y={height + 28}
               textAnchor="middle"
-              fill={colors.purple[100]}
+              fill={colors.purple[50]}
               fontFamily={fonts.mono}
               fontSize={14}
+              fontWeight={fontWeight.body}
             >
               {bar.label}
             </text>

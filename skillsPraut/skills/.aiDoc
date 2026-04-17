@@ -1,0 +1,23 @@
+---
+@META
+dir: skillsPraut/skills
+updated: 2026-04-15
+subdirs: 1 (remotion/)
+stack: Claude Code skill (Markdown + TS assets)
+
+@PROCESSES
+skill-install: scripts/install-skill.sh → ln -s $PWD/skills/remotion → ~/.claude/skills/remotion
+skill-activation: user invokes /praut-remotion or matching context → Claude loads skills/remotion/SKILL.md → reads rules/ & assets/ on demand
+
+@DEPENDENCIES
+internal: remotion/ (only child — Praut Remotion skill)
+external: none (skill metadata is framework-agnostic)
+
+@STANDARDS
+- One skill per directory with SKILL.md as entry point
+- Symlinkable into ~/.claude/skills/ for user-level availability
+- Assets self-contained — skill must function without repo sources
+
+@WARNINGS
+- Only one skill present today (remotion); structure supports future multi-skill
+---

@@ -1,7 +1,7 @@
 ---
 @META
-dir: skillsPraut/skills/remotion/rules/assets/
-updated: 2026-04-13
+dir: skillsPraut/skills/remotion/rules/assets
+updated: 2026-04-15
 files: 17
 stack: React, Remotion, TypeScript
 

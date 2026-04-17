@@ -1,5 +1,12 @@
 import React from "react";
-import { colors, fonts, fontWeight, gradients } from "../../styles/tokens";
+import {
+  colors,
+  fonts,
+  fontWeight,
+  gradients,
+  springs,
+} from "../../styles/tokens";
+import { useEnterExit } from "../../hooks/useEnterExit";
 
 type Props = {
   leftTitle: string;
@@ -19,6 +26,10 @@ export const ComparisonCard: React.FC<Props> = ({
   rightContent,
   style,
 }) => {
+  const pLeft = useEnterExit({ delay: 0 });
+  const pVs = useEnterExit({ delay: 8, enterConfig: springs.bouncy });
+  const pRight = useEnterExit({ delay: 16 });
+
   return (
     <div
       style={{
@@ -32,7 +43,13 @@ export const ComparisonCard: React.FC<Props> = ({
         ...style,
       }}
     >
-      <div style={{ padding: "0 32px" }}>
+      <div
+        style={{
+          padding: "0 32px",
+          opacity: pLeft,
+          transform: `translateX(${(1 - pLeft) * -30}px)`,
+        }}
+      >
         <div
           style={{
             fontFamily: fonts.mono,
@@ -62,6 +79,8 @@ export const ComparisonCard: React.FC<Props> = ({
           alignItems: "center",
           justifyContent: "center",
           padding: "0 24px",
+          opacity: pVs,
+          transform: `scale(${0.7 + pVs * 0.3})`,
         }}
       >
         <div
@@ -83,7 +102,13 @@ export const ComparisonCard: React.FC<Props> = ({
           VS
         </div>
       </div>
-      <div style={{ padding: "0 32px" }}>
+      <div
+        style={{
+          padding: "0 32px",
+          opacity: pRight,
+          transform: `translateX(${(1 - pRight) * 30}px)`,
+        }}
+      >
         <div
           style={{
             fontFamily: fonts.mono,

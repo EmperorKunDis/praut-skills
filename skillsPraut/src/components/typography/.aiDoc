@@ -1,7 +1,7 @@
 ---
 @META
-dir: skillsPraut/src/components/typography/
-updated: 2026-04-13
+dir: skillsPraut/src/components/typography
+updated: 2026-04-15
 files: 16
 stack: React, Remotion, TypeScript
 

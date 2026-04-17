@@ -1,35 +1,35 @@
 ---
 @META
-dir: skillsPraut/src/templates/
-updated: 2026-04-13
+dir: skillsPraut/src/templates
+updated: 2026-04-15
 files: 10
 stack: React, Remotion, TypeScript, @remotion/transitions
 
 @EXPORTS
-CaseStudyTemplate.tsx: CaseStudyTemplate — Problem → Solution → Implementation → Results
-ComparisonTemplate.tsx: ComparisonTemplate — A vs B side-by-side + recommendation
-DeepDiveTemplate.tsx: DeepDiveTemplate — Hook → 5 chapters → Outro
-ExplainerTemplate.tsx: ExplainerTemplate — Hook → Definition + Example → Takeaway → Outro
-MythBustingTemplate.tsx: MythBustingTemplate — Hook → Myth vs Reality → Evidence → Conclusion
-NewsTemplate.tsx: NewsTemplate — Headline → Context → Details → Impact → Opinion → Outro
-ReviewTemplate.tsx: ReviewTemplate — Hook → Demo → Pros/Cons → Verdict
-ShortTemplate.tsx: ShortTemplate — 9:16 Hook → Punchline → CTA (60s)
-TopTenTemplate.tsx: TopTenTemplate — Hook → countdown #10→#1 → Outro
-TutorialTemplate.tsx: TutorialTemplate — Hook → Heading → Steps → Outro
+CaseStudyTemplate.tsx: CaseStudyTemplate(episodeNumber, hook, problem, solution, implementation, results)
+ComparisonTemplate.tsx: ComparisonTemplate(episodeNumber, hook, leftName, rightName, leftSummary, rightSummary, sideBySide, recommendation)
+DeepDiveTemplate.tsx: DeepDiveTemplate(episodeNumber, hook, chapters: {number,title,body}[])
+ExplainerTemplate.tsx: ExplainerTemplate(episodeNumber, episodeTitle?, hook, term, definition, example, takeaway, nextVideoTitle?)
+MythBustingTemplate.tsx: MythBustingTemplate(episodeNumber, hook, myth, reality, evidence, conclusion)
+NewsTemplate.tsx: NewsTemplate(episodeNumber, headline, context, details, impact, opinion)
+ReviewTemplate.tsx: ReviewTemplate(episodeNumber, productName, hook, pros[], cons[], demo, verdict)
+ShortTemplate.tsx: ShortTemplate(hook, punchline, cta?)
+TopTenTemplate.tsx: TopTenTemplate(episodeNumber, hook, items: {title, description?}[])
+TutorialTemplate.tsx: TutorialTemplate(episodeNumber, episodeTitle, hook, steps: {title, description?, icon?}[], nextVideoTitle?)
 
 @PROCESSES
-video-flow: Hook (HookCard 90f) → TransitionSeries (fade) → content slides → EndScreen
+video-flow: Hook (HookCard 90f) → TransitionSeries fade × content slides → EndScreen (120f)
+short-flow: Hook → Punchline → optional CTA via slide transition (60s total)
+tutorial-flow: Hook → Heading → Steps × 60f each → Outro
 
 @DEPENDENCIES
-internal: components/frame/* | components/chapters/* | components/cards/* | components/lists/* | components/typography/* | components/cta/* | components/educational/* | styles/tokens
+internal: components/frame/{PrautVideoFrame, PrautShortFrame, ExplainerSlide, SlideRoot} | components/chapters/{HookCard, ChapterCard, EndScreen} | components/cards/{ComparisonCard} | components/lists/{MythVsFact, ProsConsTable, StepByStep, TopTenReveal} | components/typography/{DisplayHeading, BodyText, KeyTakeaway} | components/educational/{DefinitionBox} | components/cta/{SubscribeButton} | styles/tokens
 external: @remotion/transitions (TransitionSeries, linearTiming, fade, slide)
 
 @STANDARDS
-- ALL templates use PrautVideoFrame (or PrautShortFrame for ShortTemplate)
-- ALL transitions use fade() with timing.medium (24f)
-- ShortTemplate uses slide() transition instead of fade
-- Hook phase: 90 frames (3s)
-- Chapter intro: 60 frames (2s)
-- EndScreen: 120 frames (4s)
-- All templates are fade-transitioned via TransitionSeries
+- All templates wrap in PrautVideoFrame (ShortTemplate → PrautShortFrame)
+- Fade transitions with timing.medium (24f) — ShortTemplate uses slide
+- Hook phase = 90 frames (3s) | ChapterCard = 60 frames (2s) | EndScreen = 120 frames (4s)
+- Templates are composable building blocks — pair with compositions in Root.tsx
+- Typical structure: Hook → body sections → Outro
 ---

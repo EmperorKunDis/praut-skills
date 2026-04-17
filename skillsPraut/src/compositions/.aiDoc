@@ -1,43 +1,59 @@
 ---
 @META
-dir: skillsPraut/src/compositions/
-updated: 2026-04-13
+dir: skillsPraut/src/compositions
+updated: 2026-04-15
 files: 18
 stack: React, Remotion, TypeScript
 
 @EXPORTS
-BackgroundsShowcase.tsx: BackgroundsShowcase — full-frame SpiralGalaxy demo
-BarChartDemo.tsx: BarChartDemo — bar chart with Q1-Q4 LLM model growth
-BrandShowcase.tsx: BrandShowcase — brand system overview (gradient text + stat cards + icons)
-CardsShowcase.tsx: CardsShowcase — card components gallery (Stat + Glow + semantic)
-ChapterIntro.tsx: ChapterIntro — chapter card "01 / Co je to LLM"
-CTAShowcase.tsx: CTAShowcase — CTA components (subscribe + like + bell + newsletter)
+BackgroundsShowcase.tsx: BackgroundsShowcase — SpaceNebula full-frame demo
+BarChartDemo.tsx: BarChartDemo — Q1-Q4 LLM growth bar chart
+BrandShowcase.tsx: BrandShowcase — brand system overview (icons + GlowCard + StatCard + typo)
+CardsShowcase.tsx: CardsShowcase — card gallery (Stat, Glow, semantic callouts)
+ChapterIntro.tsx: ChapterIntro — ChapterCard "01 / Co je to LLM"
+CTAShowcase.tsx: CTAShowcase — Subscribe + Like + Bell + Newsletter CTAs
 EducationalShowcase.tsx: EducationalShowcase — DefinitionBox + Formula + Analogy
-EP01.tsx: EP01 — "10 Mýtů o AI" production episode (93 scén, 38160 framů, prefix="MÝTUS", neutral › bullets, DefOverlay top-center tooltip, no watermark, green-screen webcam, IntroAnimation 640 logo)
-ExplainerVideoDemo.tsx: ExplainerVideoDemo — full ExplainerTemplate about tokenization
-FrameShowcase.tsx: FrameShowcase — SplitLayout demo
-IconShowcase.tsx: IconShowcase — Phosphor icon grid (12 icons × 6 weights)
+EP01.tsx: EP01 — "10 Mýtů o AI" production episode (93 scenes, 38160 frames)
+ExplainerVideoDemo.tsx: ExplainerVideoDemo — ExplainerTemplate about tokenization
+FrameShowcase.tsx: FrameShowcase — SplitLayout 50/50 demo
+IconShowcase.tsx: IconShowcase — 12 Phosphor icons × 6 weights grid
 IntroAnimationDemo.tsx: IntroAnimationDemo — IntroAnimation with "AI Channel" tagline
 NeuralNetDemo.tsx: NeuralNetDemo — feedforward NN [4,6,6,2]
 RAGDemo.tsx: RAGDemo — RAG pipeline diagram
-ShortVideoDemo.tsx: ShortVideoDemo — 9:16 short via ShortTemplate
-TerminalDemo.tsx: TerminalDemo — terminal with Python code typewriter
-TopTenDemo.tsx: TopTenDemo — top 3 LLM models (Claude, GPT-5, Gemini)
-TypographyShowcase.tsx: TypographyShowcase — full typography hierarchy demo
+ShortVideoDemo.tsx: ShortVideoDemo — 9:16 vertical short (strawberry tokenization)
+TerminalDemo.tsx: TerminalDemo — Python code in TerminalWindow + CodeTypewriter
+TopTenDemo.tsx: TopTenDemo — Claude Opus 4.6, GPT-5, Gemini 2.5 Pro ranking
+TypographyShowcase.tsx: TypographyShowcase — full type hierarchy + animations
 
 @PROCESSES
-demo-render: Root.tsx registers composition → remotion studio previews → remotion render exports
-ep01-production: 93 scenes → FadeTransition sequences → 38160 frames @ 30fps → ~21 min video
+demo-render: Root.tsx <Composition> → remotion studio preview → remotion render <id> → mp4
+ep01-production: 93 scenes via Sequence + TransitionSeries → 38160 frames @ 30fps → ~21 min
+ep01-structure: Intro overlay → Myth 1..10 × (ChapterCard + PRO/CON SideList + ExplainerSlide + evidence screenshots + MythBustedCard closure) → Outro
 
 @DEPENDENCIES
-internal: components/* | templates/* | styles/tokens
-external: remotion (AbsoluteFill, Sequence)
+internal: components/** | templates/** | styles/tokens | hooks/**
+external: remotion (AbsoluteFill, Sequence, interpolate, spring, useCurrentFrame), @remotion/transitions
 
 @STANDARDS
-- All compositions wrapped in PrautVideoFrame (except ShortVideoDemo → PrautShortFrame)
+- All wrapped in PrautVideoFrame (ShortVideoDemo → PrautShortFrame)
 - Default episodeNumber "00" for showcases, numbered for production
-- Standard: 1920×1080 @ 30fps (except ShortVideo: 1080×1920)
-- Demo data in Czech language
-- EP01 uses local SideList + ScreenPlaceholder helper components
-- EP01 patterns (best practices): no watermark, green-screen WebcamPlaceholder 240×240, neutral › bullets in SideList, DefOverlay top-center tooltip (no darkening), ChapterCard prefix="MÝTUS", IntroAnimation 640 logo, MythBustedCard with italic myth text above verdict
+- 1920×1080 @ 30fps (ShortVideo: 1080×1920)
+- Demo data in Czech (diacritics require latin-ext subset)
+
+@EP01_LOCAL_HELPERS
+SideList: one-side list with › bullets, purple[200] heading, inline spring opacity
+ScreenPlaceholder: BrowserMockup placeholder for evidence
+DefOverlay: small top-center tooltip, 15% H-padding, no bg darkening
+KeyPoints: ordered list of key takeaways
+BigQuote: gradient large-quote callout
+MythBustedCard: closure card — italic myth + verdict
+
+@EP01_PATTERNS (established best practices)
+- No watermark (PrautVideoFrame includeWatermark=false default)
+- WebcamPlaceholder 240×240 green-screen (#00FF00), bottom-RIGHT, no border
+- ChapterCard prefix="MÝTUS" (overrides "KAPITOLA")
+- IntroAnimation: logo 640×640, no tagline, gap=240, paddingBottom=240
+- SideList › bullets (not checkmarks), purple[200] heading, inline spring opacity
+- DefOverlay top-center, no darkening, ≤ 70% width
+- All local helpers (SideList, DefOverlay, KeyPoints, BigQuote, MythBustedCard) have enter+exit+hierarchy animations
 ---

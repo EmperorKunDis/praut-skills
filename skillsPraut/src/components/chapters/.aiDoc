@@ -1,7 +1,7 @@
 ---
 @META
-dir: skillsPraut/src/components/chapters/
-updated: 2026-04-13
+dir: skillsPraut/src/components/chapters
+updated: 2026-04-15
 files: 8
 stack: React, Remotion, TypeScript
 
@@ -30,6 +30,8 @@ external: remotion (AbsoluteFill, Img, interpolate, spring, staticFile, useCurre
 @STANDARDS
 - IntroAnimation: logo 640×640, no tagline, gap 240, paddingBottom 240px, faster spring timing
 - ChapterCard overline: fonts.mono, prefix (default "KAPITOLA") + number
+- ChapterCard: 3D perspective tilt + exit animation before next scene
+- EndScreen: staggered element enter + exit animation
 - EndScreen uses empty NextVideoCard — no content inside
 - ProgressBar gradient: gradients.brandPrimary
 - Czech labels: "Díky za sledování", "KAPITOLA"
