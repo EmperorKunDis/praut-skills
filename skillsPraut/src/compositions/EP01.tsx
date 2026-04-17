@@ -7,9 +7,11 @@
 import React from "react";
 import {
   AbsoluteFill,
+  Img,
   Sequence,
   interpolate,
   spring,
+  staticFile,
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
@@ -193,12 +195,14 @@ const SideList: React.FC<{
   );
 };
 
-/** Empty screenshot / screencast placeholder with source label. */
+/** Screenshot or green-screen placeholder with source label. */
 const ScreenPlaceholder: React.FC<{
   url?: string;
   label: string;
   withWebcam?: boolean;
-}> = ({ url, label, withWebcam = true }) => {
+  /** Path to actual screenshot image (staticFile). Replaces green placeholder. */
+  imageSrc?: string;
+}> = ({ url, label, withWebcam = true, imageSrc }) => {
   const frame = useCurrentFrame();
   const { fps, durationInFrames } = useVideoConfig();
   const frameIn = spring({ frame, fps, config: springs.snappy });
@@ -222,16 +226,28 @@ const ScreenPlaceholder: React.FC<{
           transform: `scale(${interpolate(frameIn, [0, 1], [0.92, 1])})`,
         }}
       >
-        {url ? (
+        {imageSrc ? (
+          <Img
+            src={staticFile(imageSrc)}
+            style={{
+              width: "100%",
+              aspectRatio: "16 / 9",
+              objectFit: "cover",
+              borderRadius: 12,
+              boxShadow: "0 0 40px rgba(141,42,243,0.15)",
+            }}
+          />
+        ) : url ? (
           <BrowserMockup url={url} style={{ width: "100%" }}>
             <div
               style={{
-                height: 460,
+                aspectRatio: "16 / 9",
+                width: "100%",
                 display: "flex",
                 flexDirection: "column" as const,
                 alignItems: "center",
                 justifyContent: "center",
-                background: colors.navy[900],
+                background: "#00FF00",
                 gap: 12,
               }}
             >
@@ -256,14 +272,14 @@ const ScreenPlaceholder: React.FC<{
           <div
             style={{
               width: "100%",
-              height: 520,
+              aspectRatio: "16 / 9",
               border: `2px dashed ${colors.blue[400]}`,
               borderRadius: 12,
               display: "flex",
               flexDirection: "column" as const,
               alignItems: "center",
               justifyContent: "center",
-              background: colors.navy[900],
+              background: "#00FF00",
               gap: 12,
             }}
           >
@@ -766,6 +782,7 @@ export const EP01: React.FC = () => {
         {/* Scéna 7 — Screenshot BrowserMockup (2850–3150) */}
         <Sequence from={2850} durationInFrames={300}>
           <ScreenPlaceholder
+            imageSrc="screenshots/ep01/18.jpeg"
             url="github.com/vectara/hallucination-leaderboard"
             label="Zdroj: Vectara AI Hallucination Leaderboard — reálné výsledky modelů"
           />
@@ -773,17 +790,26 @@ export const EP01: React.FC = () => {
 
         {/* Scéna 8 — Screenshot RoundedScreenshot (3150–3450) */}
         <Sequence from={3150} durationInFrames={300}>
-          <ScreenPlaceholder label="Zdroj: Goldman Sachs 10,000 Small Businesses Survey — 68 % adopce" />
+          <ScreenPlaceholder
+            imageSrc="screenshots/ep01/19.png"
+            label="Zdroj: Goldman Sachs 10,000 Small Businesses Survey — 68 % adopce"
+          />
         </Sequence>
 
         {/* Scéna 9 — Screenshot RoundedScreenshot (3450–3750) */}
         <Sequence from={3450} durationInFrames={300}>
-          <ScreenPlaceholder label="Zdroj: Thryv AI Business Survey — adopce vzrostla z 39 % na 55 %" />
+          <ScreenPlaceholder
+            imageSrc="screenshots/ep01/16.jpeg"
+            label="Zdroj: Thryv AI Business Survey — adopce vzrostla z 39 % na 55 %"
+          />
         </Sequence>
 
         {/* Scéna 10 — Screenshot Google Trends (3750–4050) */}
         <Sequence from={3750} durationInFrames={300}>
-          <ScreenPlaceholder label="Zdroj: Google Trends — AI hype křivka" />
+          <ScreenPlaceholder
+            imageSrc="screenshots/ep01/17.jpeg"
+            label="Zdroj: Google Trends — AI hype křivka"
+          />
         </Sequence>
 
         {/* Scéna 11 — AnalogyVisual motorová pila (4050–4440, 13s) */}
@@ -899,17 +925,26 @@ export const EP01: React.FC = () => {
 
         {/* Scéna 17 — Screenshot Goldman Sachs barriers (7020–7320) */}
         <Sequence from={7020} durationInFrames={300}>
-          <ScreenPlaceholder label="Zdroj: Goldman Sachs — bariéry AI adopce u SMB (42 %, 60 %...)" />
+          <ScreenPlaceholder
+            imageSrc="screenshots/ep01/23.png"
+            label="Zdroj: Goldman Sachs — bariéry AI adopce u SMB (42 %, 60 %...)"
+          />
         </Sequence>
 
         {/* Scéna 18 — Screenshot Reimagine Main Street (7320–7620) */}
         <Sequence from={7320} durationInFrames={300}>
-          <ScreenPlaceholder label="Zdroj: Reimagine Main Street / PayPal — 73 % chce jednodušší nástroje" />
+          <ScreenPlaceholder
+            imageSrc="screenshots/ep01/20.png"
+            label="Zdroj: Reimagine Main Street / PayPal — 73 % chce jednodušší nástroje"
+          />
         </Sequence>
 
         {/* Scéna 19 — Screenshot Klarna rehiring (7620–7920) */}
         <Sequence from={7620} durationInFrames={300}>
-          <ScreenPlaceholder label="Zdroj: Klarna — AI experiment a zpětné nábory (CNBC)" />
+          <ScreenPlaceholder
+            imageSrc="screenshots/ep01/24.png"
+            label="Zdroj: Klarna — AI experiment a zpětné nábory (CNBC)"
+          />
         </Sequence>
 
         {/* Scéna 20 — AnalogyVisual fitko karta (7920–8220) */}
@@ -1067,12 +1102,18 @@ export const EP01: React.FC = () => {
 
         {/* Scéna 27 — Screenshot pricing (11400–11700) */}
         <Sequence from={11400} durationInFrames={300}>
-          <ScreenPlaceholder label="Zdroj: Ceníky ChatGPT / Claude / Gemini / Grok — pricing stránek" />
+          <ScreenPlaceholder
+            imageSrc="screenshots/ep01/03.jpeg"
+            label="Zdroj: Ceníky ChatGPT / Claude / Gemini / Grok — pricing stránek"
+          />
         </Sequence>
 
         {/* Scéna 28 — Screenshot N8N (11700–12000) */}
         <Sequence from={11700} durationInFrames={300}>
-          <ScreenPlaceholder label="Zdroj: N8N rozhraní — ukázka automatizace" />
+          <ScreenPlaceholder
+            imageSrc="screenshots/ep01/01.jpeg"
+            label="Zdroj: N8N rozhraní — ukázka automatizace"
+          />
         </Sequence>
 
         {/* Scéna 29 — AnalogyVisual cena 2022 vs 2025 (12000–12210) */}
@@ -1227,6 +1268,7 @@ export const EP01: React.FC = () => {
         {/* Scéna 36 — Screenshot Vectara (14790–15090) */}
         <Sequence from={14790} durationInFrames={300}>
           <ScreenPlaceholder
+            imageSrc="screenshots/ep01/25.png"
             url="github.com/vectara/hallucination-leaderboard"
             label="Zdroj: Vectara Hallucination Leaderboard"
           />
@@ -1234,7 +1276,10 @@ export const EP01: React.FC = () => {
 
         {/* Scéna 37 — Screenshot halucinace příklad (15090–15390) */}
         <Sequence from={15090} durationInFrames={300}>
-          <ScreenPlaceholder label="Zdroj: Příklad halucinace — neexistující český zákon" />
+          <ScreenPlaceholder
+            imageSrc="screenshots/ep01/26.png"
+            label="Zdroj: Příklad halucinace — neexistující český zákon"
+          />
         </Sequence>
 
         {/* Scéna 38 — AnalogyVisual praktikant (15390–15690) */}
@@ -1349,12 +1394,18 @@ export const EP01: React.FC = () => {
 
         {/* Scéna 44 — Screenshot Bing chatbot (17970–18270) */}
         <Sequence from={17970} durationInFrames={300}>
-          <ScreenPlaceholder label="Zdroj: Bing chatbot 'I want to be alive' — virální konverzace 2023" />
+          <ScreenPlaceholder
+            imageSrc="screenshots/ep01/07.jpeg"
+            label="Zdroj: Bing chatbot 'I want to be alive' — virální konverzace 2023"
+          />
         </Sequence>
 
         {/* Scéna 45 — Screenshot dokumentace (18270–18570) */}
         <Sequence from={18270} durationInFrames={300}>
-          <ScreenPlaceholder label="Zdroj: OpenAI / Anthropic dokumentace — 'language model' ne 'thinking machine'" />
+          <ScreenPlaceholder
+            imageSrc="screenshots/ep01/05.jpeg"
+            label="Zdroj: OpenAI / Anthropic dokumentace — 'language model' ne 'thinking machine'"
+          />
         </Sequence>
 
         {/* Scéna 46 — AnalogyVisual kalkulačka (18570–18840) */}
@@ -1494,6 +1545,7 @@ export const EP01: React.FC = () => {
         {/* Scéna 52 — Screenshot Ollama GitHub (21120–21420) */}
         <Sequence from={21120} durationInFrames={300}>
           <ScreenPlaceholder
+            imageSrc="screenshots/ep01/14.jpeg"
             url="github.com/ollama/ollama"
             label="Zdroj: Ollama GitHub — 95 000+ stars (2025)"
           />
@@ -1501,12 +1553,18 @@ export const EP01: React.FC = () => {
 
         {/* Scéna 53 — Screenshot LM Studio (21420–21720) */}
         <Sequence from={21420} durationInFrames={300}>
-          <ScreenPlaceholder label="Zdroj: LM Studio — rozhraní pro lokální AI modely" />
+          <ScreenPlaceholder
+            imageSrc="screenshots/ep01/04.jpeg"
+            label="Zdroj: LM Studio — rozhraní pro lokální AI modely"
+          />
         </Sequence>
 
         {/* Scéna 54 — Screenshot Ollama offline demo (21720–22020) */}
         <Sequence from={21720} durationInFrames={300}>
-          <ScreenPlaceholder label="Ukázka: Ollama offline — Wi-Fi vypnuto, AI odpovídá" />
+          <ScreenPlaceholder
+            imageSrc="screenshots/ep01/27.png"
+            label="Ukázka: Ollama offline — Wi-Fi vypnuto, AI odpovídá"
+          />
         </Sequence>
 
         {/* Scéna 55 — AnalogyVisual laptop bez internetu (22020–22230) */}
@@ -1623,17 +1681,24 @@ export const EP01: React.FC = () => {
 
         {/* Scéna 61 — Screenshot špatný vs dobrý prompt (24510–24810) */}
         <Sequence from={24510} durationInFrames={300}>
-          <ScreenPlaceholder label="Ukázka: Špatný vs dobrý prompt — side by side v Claude/ChatGPT" />
+          <ScreenPlaceholder
+            imageSrc="screenshots/ep01/28.png"
+            label="Ukázka: Špatný vs dobrý prompt — side by side v Claude/ChatGPT"
+          />
         </Sequence>
 
         {/* Scéna 62 — Screenshot iterace promptu (24810–25110) */}
         <Sequence from={24810} durationInFrames={300}>
-          <ScreenPlaceholder label="Ukázka: Iterace — 3 kola zpřesnění, výsledek se zlepšuje" />
+          <ScreenPlaceholder
+            imageSrc="screenshots/ep01/07_prompt_iteration.png"
+            label="Ukázka: Iterace — 3 kola zpřesnění, výsledek se zlepšuje"
+          />
         </Sequence>
 
         {/* Scéna 63 — Screenshot Anthropic docs (25110–25410) */}
         <Sequence from={25110} durationInFrames={300}>
           <ScreenPlaceholder
+            imageSrc="screenshots/ep01/15.jpeg"
             url="docs.anthropic.com"
             label="Zdroj: Anthropic Prompt Engineering Dokumentace"
           />
@@ -1765,12 +1830,18 @@ export const EP01: React.FC = () => {
 
         {/* Scéna 70 — Screenshot chatbot za 5 minut (28200–28500) */}
         <Sequence from={28200} durationInFrames={300}>
-          <ScreenPlaceholder label="Ukázka: Od nuly k fungujícímu AI chatbotu za 5 minut" />
+          <ScreenPlaceholder
+            imageSrc="screenshots/ep01/12.jpeg"
+            label="Ukázka: Od nuly k fungujícímu AI chatbotu za 5 minut"
+          />
         </Sequence>
 
         {/* Scéna 71 — Screenshot N8N workflow (28500–28800) */}
         <Sequence from={28500} durationInFrames={300}>
-          <ScreenPlaceholder label="Zdroj: Make.com / N8N — ukázka hotového workflow" />
+          <ScreenPlaceholder
+            imageSrc="screenshots/ep01/22.png"
+            label="Zdroj: Make.com / N8N — ukázka hotového workflow"
+          />
         </Sequence>
 
         {/* Scéna 72 — AnalogyVisual big bang vs start small (28800–29100) */}
@@ -1988,17 +2059,26 @@ export const EP01: React.FC = () => {
 
         {/* Scéna 78 — Screenshot DPD chatbot (32430–32730) */}
         <Sequence from={32430} durationInFrames={300}>
-          <ScreenPlaceholder label="Zdroj: DPD chatbot — báseň o tom jak je DPD nejhorší" />
+          <ScreenPlaceholder
+            imageSrc="screenshots/ep01/10.jpeg"
+            label="Zdroj: DPD chatbot — báseň o tom jak je DPD nejhorší"
+          />
         </Sequence>
 
         {/* Scéna 79 — Screenshot Chevy Tahoe (32730–33030) */}
         <Sequence from={32730} durationInFrames={300}>
-          <ScreenPlaceholder label="Zdroj: Chevy Tahoe za $1 — screenshot konverzace" />
+          <ScreenPlaceholder
+            imageSrc="screenshots/ep01/09.jpeg"
+            label="Zdroj: Chevy Tahoe za $1 — screenshot konverzace"
+          />
         </Sequence>
 
         {/* Scéna 80 — Screenshot Qualtrics (33030–33330) */}
         <Sequence from={33030} durationInFrames={300}>
-          <ScreenPlaceholder label="Zdroj: Qualtrics 2026 CX Trends — AI selhává 4× více" />
+          <ScreenPlaceholder
+            imageSrc="screenshots/ep01/02.jpeg"
+            label="Zdroj: Qualtrics 2026 CX Trends — AI selhává 4× více"
+          />
         </Sequence>
 
         {/* Scéna 81 — StatCard KPI grid (33330–33630) */}
@@ -2292,12 +2372,18 @@ export const EP01: React.FC = () => {
 
         {/* Scéna 89 — Screenshot PayPal/Reimagine (36720–37020) */}
         <Sequence from={36720} durationInFrames={300}>
-          <ScreenPlaceholder label="Zdroj: PayPal / Reimagine Main Street — 82 % SMB: AI nezbytná" />
+          <ScreenPlaceholder
+            imageSrc="screenshots/ep01/29.png"
+            label="Zdroj: PayPal / Reimagine Main Street — 82 % SMB: AI nezbytná"
+          />
         </Sequence>
 
         {/* Scéna 90 — Screenshot no-code nástroje (37020–37320) */}
         <Sequence from={37020} durationInFrames={300}>
-          <ScreenPlaceholder label="Zdroj: Make.com / Tidio / Jasper — ukázka no-code AI nástrojů" />
+          <ScreenPlaceholder
+            imageSrc="screenshots/ep01/11.jpeg"
+            label="Zdroj: Make.com / Tidio / Jasper — ukázka no-code AI nástrojů"
+          />
         </Sequence>
 
         {/* Scéna 91 — BeforeAfterSlider Excel (37320–37620) */}
