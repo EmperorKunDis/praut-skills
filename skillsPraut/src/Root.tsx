@@ -33,7 +33,7 @@ loadMontserrat("normal", {
   subsets: ["latin", "latin-ext"],
 });
 loadIBMPlexMono("normal", {
-  weights: ["400", "500"],
+  weights: ["400", "500", "600"],
   subsets: ["latin", "latin-ext"],
 });
 

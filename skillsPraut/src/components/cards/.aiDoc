@@ -33,5 +33,6 @@ external: none
 - Semantic cards (Error|Info|Success|Tip|Warning) share same layout — colored left border
 - All use navy[800] background
 - StatCard gradient number via background-clip
+- ComparisonCard: stagger A/B entry + VS badge bounce + exit animation
 - maxWidth 880px for semantic cards
 ---

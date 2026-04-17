@@ -1,6 +1,7 @@
 import React from "react";
 import { colors, fonts, fontWeight } from "../../styles/tokens";
 import { PhosphorIcon } from "../icons/PhosphorIcon";
+import { useEnterExit } from "../../hooks/useEnterExit";
 
 type Props = {
   dos: string[];
@@ -71,19 +72,40 @@ const Column: React.FC<{
   </div>
 );
 
-export const DoVsDont: React.FC<Props> = ({ dos, donts, style }) => (
-  <div style={{ display: "flex", gap: 24, ...style }}>
-    <Column
-      items={dos}
-      title="Dělej"
-      color={colors.semantic.success}
-      icon="check"
-    />
-    <Column
-      items={donts}
-      title="Nedělej"
-      color={colors.semantic.error}
-      icon="x"
-    />
-  </div>
-);
+export const DoVsDont: React.FC<Props> = ({ dos, donts, style }) => {
+  const pLeft = useEnterExit({ delay: 0 });
+  const pRight = useEnterExit({ delay: 8 });
+
+  return (
+    <div style={{ display: "flex", gap: 24, ...style }}>
+      <div
+        style={{
+          flex: 1,
+          opacity: pLeft,
+          transform: `translateX(${(1 - pLeft) * -30}px)`,
+        }}
+      >
+        <Column
+          items={dos}
+          title="Dělej"
+          color={colors.semantic.success}
+          icon="check"
+        />
+      </div>
+      <div
+        style={{
+          flex: 1,
+          opacity: pRight,
+          transform: `translateX(${(1 - pRight) * 30}px)`,
+        }}
+      >
+        <Column
+          items={donts}
+          title="Nedělej"
+          color={colors.semantic.error}
+          icon="x"
+        />
+      </div>
+    </div>
+  );
+};

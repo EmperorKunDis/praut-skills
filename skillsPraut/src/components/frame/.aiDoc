@@ -41,5 +41,7 @@ external: remotion (AbsoluteFill, Img, staticFile)
 - PrautVideoFrame defaults: includeWatermark=false (no watermark in production)
 - SafeArea handles resolution independence
 - WebcamPlaceholder green-screen (#00FF00), 240×240 square, bottom-right — keyed out in post-production
+- TopBar: slide-in enter + exit animation
+- BrainMark: renders praut-logo.png from public/logo/
 - TopBar auto-generates tagline via pickTagline()
 ---

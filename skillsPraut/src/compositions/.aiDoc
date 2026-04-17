@@ -55,4 +55,5 @@ MythBustedCard: closure card — italic myth + verdict
 - IntroAnimation: logo 640×640, no tagline, gap=240, paddingBottom=240
 - SideList › bullets (not checkmarks), purple[200] heading, inline spring opacity
 - DefOverlay top-center, no darkening, ≤ 70% width
+- All local helpers (SideList, DefOverlay, KeyPoints, BigQuote, MythBustedCard) have enter+exit+hierarchy animations
 ---

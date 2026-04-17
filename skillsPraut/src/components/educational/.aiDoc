@@ -30,6 +30,8 @@ external: remotion (interpolate, useCurrentFrame)
 - ConceptMap positions manually specified (x,y)
 - DecisionTree active path: brandPrimary gradient + cta glow
 - FormulaDisplay: plain text — KaTeX intentionally NOT a dependency
+- DefinitionBox: subtle footnote + enter/exit animation lifecycle
+- AnalogyVisual: stagger left→center→right element entry
 - Czech labels: "Definice" (purple[200] for contrast), "jako"
 - BeforeAfterSlider: timing.reveal (60f / 2s)
 ---

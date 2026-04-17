@@ -38,5 +38,6 @@ external: remotion (interpolate, spring, useCurrentFrame, useVideoConfig)
 - Max 4 series recommended
 - All charts animate via timing.reveal (60 frames / 2s)
 - Highlighted items get glow.cta
+- AnimatedBarChart: exit animation — bars shrink back down
 - Czech axis labels default (Čas, Compute, Cena, Výkon)
 ---

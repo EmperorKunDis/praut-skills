@@ -44,12 +44,16 @@ export const colors = {
 
 export const gradients = {
   logoText: "linear-gradient(135deg, #506FFB 0%, #8D2AF3 100%)",
+  /** Light pastel variant for logo on dark backgrounds. */
+  logoTextLight: "linear-gradient(135deg, #9FBFFF 0%, #D6B0FF 100%)",
   brandPrimary: "linear-gradient(135deg, #8D2AF3 0%, #3B4EF0 100%)",
   brandWide: "linear-gradient(135deg, #BC7EFF 0%, #8D2AF3 50%, #3B4EF0 100%)",
   dark: "linear-gradient(145deg, #0a0e2e 0%, #141a52 100%)",
   card: "linear-gradient(145deg, #0f1440 0%, #141a52 100%)",
   topBarFade:
     "linear-gradient(180deg, rgba(6,8,24,0.92) 0%, rgba(6,8,24,0.6) 60%, transparent 100%)",
+  cyberNeon:
+    "linear-gradient(90deg, rgba(188,126,255,0.0) 0%, rgba(188,126,255,0.15) 50%, rgba(188,126,255,0.0) 100%)",
 } as const;
 
 export const fonts = {
@@ -86,6 +90,8 @@ export const frame = {
   borderColor: "#506FFB",
   borderRadius: 4,
   bg: "#060818",
+  /** LiquidGlassPanel inset from frame border. */
+  glassInset: 28,
 } as const;
 
 // Short (9:16) and Square (1:1) frame variants
@@ -120,6 +126,8 @@ export const glow = {
   ctaHover: "0 6px 32px rgba(141,42,243,0.65)",
   subtle: "0 2px 16px rgba(141,42,243,0.3)",
   card: "0 0 0 1px rgba(141,42,243,0.18)",
+  deepPulse: "0 0 40px rgba(141,42,243,0.45), 0 0 80px rgba(80,111,251,0.2)",
+  neon: "0 0 12px rgba(188,126,255,0.6), 0 0 24px rgba(80,111,251,0.4)",
 } as const;
 
 // Spring presets — unified rhythm across all videos
@@ -128,6 +136,8 @@ export const springs = {
   bouncy: { damping: 12, stiffness: 100, mass: 0.5 },
   snappy: { damping: 200, stiffness: 300, mass: 0.5 },
   gentle: { damping: 30, stiffness: 80, mass: 1.0 },
+  heavy: { damping: 15, stiffness: 80, mass: 2.0 },
+  wobbly: { damping: 8, stiffness: 120, mass: 0.5 },
 } as const;
 
 // Standard timing (frames @ 30fps)
@@ -326,6 +336,11 @@ export const defOverlay = {
  * Screenshoty NESMÍ být ploché obdélníky.
  * Povinné: zaoblené rohy + glow stín.
  * Grafy: mřížka nikdy bílá — použít fialový rgba.
+ *
+ * ⚠️ GRAFY MUSÍ BÝT VŽDY PLNĚ ČITELNÉ:
+ *   - Žádná jiná komponenta (webcam, DefOverlay, text) nesmí překrývat graf
+ *   - Osy, popisky a hodnoty musí být viditelné po celou dobu zobrazení
+ *   - Pokud je na scéně graf, webcam a ostatní prvky se MUSÍ vyhnout jeho oblasti
  */
 export const screenshot = {
   borderRadius: 12,
@@ -333,6 +348,81 @@ export const screenshot = {
   /** Mřížka a osy grafů — jemná fialová. */
   gridColor: "rgba(141,42,243,0.08)",
   gridColorStrong: "rgba(141,42,243,0.18)",
+  /** Grafy nesmí být překryty žádnou jinou komponentou. */
+  chartsMustBeFullyVisible: true,
+} as const;
+
+// ──────────────────────────────────────────────────────────
+// Motion tokens
+// ──────────────────────────────────────────────────────────
+
+export const motion = {
+  staggerDelay: 6,
+  minTextDisplay: 45,
+  minHeadingDisplay: 24,
+  minChartDisplay: 60,
+  maxFlashRate: 3,
+  exitRatio: 0.5,
+} as const;
+
+// ──────────────────────────────────────────────────────────
+// Accessibility tokens
+// ──────────────────────────────────────────────────────────
+
+export const accessibility = {
+  captionSafeBottom: 162,
+  minContrastBody: 4.5,
+  minContrastCritical: 7.0,
+  reducedMotionDuration: 1,
+  maxFlashAreaPercent: 25,
+} as const;
+
+// ──────────────────────────────────────────────────────────
+// Depth tokens (z-index layers & parallax scale)
+// ──────────────────────────────────────────────────────────
+
+export const depth = {
+  foreground: 1.03,
+  background: 0.97,
+  layers: {
+    galaxyBg: 0,
+    glassPanel: 5,
+    content: 10,
+    overlay: 20,
+    topBar: 30,
+    defOverlay: 40,
+    webcam: 50,
+    modal: 60,
+  },
+} as const;
+
+// ──────────────────────────────────────────────────────────
+// Locale tokens (Czech register & UI labels)
+// ──────────────────────────────────────────────────────────
+
+export const locale = {
+  defaultRegister: "tykan" as "tykan" | "vykan",
+  labels: {
+    subscribe: { tykan: "Odebrej", vykan: "Odebrejte" },
+    like: { tykan: "Dej like", vykan: "Dejte like" },
+    comment: { tykan: "Napiš do komentů", vykan: "Napište do komentářů" },
+    thanks: { tykan: "Díky za sledování", vykan: "Děkujeme za sledování" },
+    chapter: "Kapitola",
+    myth: "Mýtus",
+    fact: "Pravda",
+    definition: "Definice",
+    source: "Zdroj",
+  },
+} as const;
+
+// ──────────────────────────────────────────────────────────
+// Audio tokens (EBU R128 loudness targets)
+// ──────────────────────────────────────────────────────────
+
+export const audio = {
+  targetLoudness: -23,
+  loudnessTolerance: 1,
+  truePeakMax: -1,
 } as const;
 
 // ──────────────────────────────────────────────────────────
@@ -357,6 +447,11 @@ export type Tokens = {
   webcam: typeof webcam;
   defOverlay: typeof defOverlay;
   screenshot: typeof screenshot;
+  motion: typeof motion;
+  accessibility: typeof accessibility;
+  depth: typeof depth;
+  locale: typeof locale;
+  audio: typeof audio;
 };
 
 // ──────────────────────────────────────────────────────────
@@ -394,3 +489,5 @@ export type Tokens = {
 // ❌ DefOverlay větší než hlavní sdělení
 // ❌ Heading menší fontem než body text pod ním
 // ❌ Duplicitní definice (např. SaaS) — jen první výskyt
+// ❌ Překrytí grafu jakoukoli komponentou — graf musí být VŽDY plně čitelný
+// ❌ Webcam/DefOverlay/text přes osy, popisky nebo hodnoty grafu

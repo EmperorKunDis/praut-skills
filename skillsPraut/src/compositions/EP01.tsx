@@ -59,7 +59,38 @@ import {
 
 // ─── Local helper components ────────────────────────────────────────────────
 
-/** Single-side ProsCons list (PRO-only or CON-only slide). */
+/** Chapter label overlay — shows current myth/chapter name under episode info. */
+const ChapterLabel: React.FC<{ label: string }> = ({ label }) => {
+  const frame = useCurrentFrame();
+  const { fps, durationInFrames } = useVideoConfig();
+  const fadeIn = spring({ frame, fps, config: springs.smooth });
+  const exitStart = durationInFrames - 12;
+  const exitP =
+    frame >= exitStart
+      ? spring({ frame: frame - exitStart, fps, config: springs.smooth })
+      : 0;
+  return (
+    <div
+      style={{
+        position: "absolute",
+        top: 60,
+        right: 24,
+        zIndex: 51,
+        fontFamily: fonts.mono,
+        fontSize: 11,
+        color: colors.purple[300],
+        letterSpacing: 1.5,
+        textTransform: "uppercase" as const,
+        opacity: fadeIn * (1 - exitP),
+        pointerEvents: "none",
+      }}
+    >
+      {label}
+    </div>
+  );
+};
+
+/** Single-side ProsCons list — staggered slide-in items. */
 const SideList: React.FC<{
   heading: string;
   items: string[];
@@ -69,8 +100,14 @@ const SideList: React.FC<{
   const accentColor = side === "pro" ? colors.purple[300] : colors.blue[400];
   const bulletChar = "›";
   const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
-  const fadeIn = spring({ frame, fps, config: springs.smooth });
+  const { fps, durationInFrames } = useVideoConfig();
+  const cardIn = spring({ frame, fps, config: springs.snappy });
+  const exitStart = durationInFrames - 12;
+  const exitP =
+    frame >= exitStart
+      ? spring({ frame: frame - exitStart, fps, config: springs.smooth })
+      : 0;
+  const headingIn = spring({ frame: frame - 6, fps, config: springs.snappy });
   return (
     <>
       <AbsoluteFill
@@ -87,7 +124,8 @@ const SideList: React.FC<{
             borderLeft: `4px solid ${accentColor}`,
             borderRadius: 12,
             padding: "36px 44px",
-            opacity: fadeIn,
+            opacity: cardIn * (1 - exitP),
+            transform: `scale(${interpolate(cardIn, [0, 1], [0.95, 1]) * (1 - exitP * 0.05)})`,
           }}
         >
           <div
@@ -99,6 +137,8 @@ const SideList: React.FC<{
               color: colors.purple[200],
               marginBottom: 28,
               fontWeight: fontWeight.bodyEmphasis,
+              opacity: headingIn,
+              transform: `translateX(${interpolate(headingIn, [0, 1], [-16, 0])}px)`,
             }}
           >
             {heading}
@@ -113,29 +153,38 @@ const SideList: React.FC<{
               gap: 18,
             }}
           >
-            {items.map((item, i) => (
-              <li
-                key={i}
-                style={{
-                  fontFamily: fonts.primary,
-                  fontSize: 23,
-                  fontWeight: fontWeight.body,
-                  color: colors.purple[100],
-                  lineHeight: 1.4,
-                }}
-              >
-                <span
+            {items.map((item, i) => {
+              const itemIn = spring({
+                frame: frame - 12 - i * 6,
+                fps,
+                config: springs.snappy,
+              });
+              return (
+                <li
+                  key={i}
                   style={{
-                    color: accentColor,
-                    marginRight: 10,
-                    fontWeight: fontWeight.heading,
+                    fontFamily: fonts.primary,
+                    fontSize: 23,
+                    fontWeight: fontWeight.body,
+                    color: colors.purple[100],
+                    lineHeight: 1.4,
+                    opacity: itemIn,
+                    transform: `translateX(${interpolate(itemIn, [0, 1], [-24, 0])}px)`,
                   }}
                 >
-                  {bulletChar}
-                </span>
-                {item}
-              </li>
-            ))}
+                  <span
+                    style={{
+                      color: accentColor,
+                      marginRight: 10,
+                      fontWeight: fontWeight.heading,
+                    }}
+                  >
+                    {bulletChar}
+                  </span>
+                  {item}
+                </li>
+              );
+            })}
           </ul>
         </div>
       </AbsoluteFill>
@@ -151,8 +200,14 @@ const ScreenPlaceholder: React.FC<{
   withWebcam?: boolean;
 }> = ({ url, label, withWebcam = true }) => {
   const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
-  const fadeIn = spring({ frame, fps, config: springs.smooth });
+  const { fps, durationInFrames } = useVideoConfig();
+  const frameIn = spring({ frame, fps, config: springs.snappy });
+  const labelIn = spring({ frame: frame - 10, fps, config: springs.smooth });
+  const exitStart = durationInFrames - 12;
+  const exitP =
+    frame >= exitStart
+      ? spring({ frame: frame - exitStart, fps, config: springs.smooth })
+      : 0;
   return (
     <AbsoluteFill style={{ padding: "120px 160px 100px" }}>
       <div
@@ -163,7 +218,8 @@ const ScreenPlaceholder: React.FC<{
           margin: "auto",
           width: "100%",
           maxWidth: 1400,
-          opacity: fadeIn,
+          opacity: frameIn * (1 - exitP),
+          transform: `scale(${interpolate(frameIn, [0, 1], [0.92, 1])})`,
         }}
       >
         {url ? (
@@ -237,6 +293,8 @@ const ScreenPlaceholder: React.FC<{
             letterSpacing: 1,
             textAlign: "center" as const,
             maxWidth: 1300,
+            opacity: labelIn * (1 - exitP),
+            transform: `translateY(${interpolate(labelIn, [0, 1], [12, 0])}px)`,
           }}
         >
           {label}
@@ -253,8 +311,13 @@ const DefOverlay: React.FC<{ term: string; definition: string }> = ({
   definition,
 }) => {
   const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
+  const { fps, durationInFrames } = useVideoConfig();
   const fadeIn = spring({ frame, fps, config: springs.smooth });
+  const exitStart = durationInFrames - 10;
+  const exitP =
+    frame >= exitStart
+      ? spring({ frame: frame - exitStart, fps, config: springs.smooth })
+      : 0;
   return (
     <div
       style={{
@@ -264,8 +327,8 @@ const DefOverlay: React.FC<{ term: string; definition: string }> = ({
         right: "15%",
         zIndex: 40,
         pointerEvents: "none",
-        opacity: fadeIn,
-        transform: `translateY(${interpolate(fadeIn, [0, 1], [20, 0])}px)`,
+        opacity: fadeIn * (1 - exitP),
+        transform: `translateY(${interpolate(fadeIn, [0, 1], [20, 0]) + exitP * 20}px)`,
       }}
     >
       <DefinitionBox
@@ -277,108 +340,152 @@ const DefOverlay: React.FC<{ term: string; definition: string }> = ({
   );
 };
 
-/** Key points list for ExplainerSlide bottomText. */
+/** Key points list — heading first, then staggered items. */
 const KeyPoints: React.FC<{ heading?: string; points: string[] }> = ({
   heading,
   points,
-}) => (
-  <div
-    style={{
-      display: "flex",
-      flexDirection: "column" as const,
-      gap: 14,
-      maxWidth: 1200,
-    }}
-  >
-    {heading && (
-      <div
-        style={{
-          fontFamily: fonts.primary,
-          fontWeight: fontWeight.display,
-          fontSize: 34,
-          color: colors.purple[50],
-          lineHeight: 1.2,
-          marginBottom: 4,
-        }}
-      >
-        {heading}
-      </div>
-    )}
-    <ol
+}) => {
+  const frame = useCurrentFrame();
+  const { fps, durationInFrames } = useVideoConfig();
+  const headIn = spring({ frame, fps, config: springs.snappy });
+  const exitStart = durationInFrames - 12;
+  const exitP =
+    frame >= exitStart
+      ? spring({ frame: frame - exitStart, fps, config: springs.smooth })
+      : 0;
+  return (
+    <div
       style={{
-        margin: 0,
-        padding: 0,
-        listStyle: "none",
         display: "flex",
         flexDirection: "column" as const,
-        gap: 12,
+        gap: 14,
+        maxWidth: 1200,
       }}
     >
-      {points.map((pt, i) => (
-        <li
-          key={i}
-          style={{ display: "flex", gap: 14, alignItems: "flex-start" }}
+      {heading && (
+        <div
+          style={{
+            fontFamily: fonts.primary,
+            fontWeight: fontWeight.display,
+            fontSize: 34,
+            color: colors.purple[50],
+            lineHeight: 1.2,
+            marginBottom: 4,
+            opacity: headIn * (1 - exitP),
+            transform: `translateX(${interpolate(headIn, [0, 1], [-20, 0])}px)`,
+          }}
         >
-          <span
-            style={{
-              fontFamily: fonts.mono,
-              color: colors.blue[400],
-              fontWeight: fontWeight.bodyEmphasis,
-              fontSize: 21,
-              minWidth: 30,
-            }}
-          >
-            {i + 1}.
-          </span>
-          <span
-            style={{
-              fontFamily: fonts.primary,
-              fontSize: 21,
-              fontWeight: fontWeight.body,
-              color: colors.purple[100],
-              lineHeight: 1.45,
-            }}
-          >
-            {pt}
-          </span>
-        </li>
-      ))}
-    </ol>
-  </div>
-);
+          {heading}
+        </div>
+      )}
+      <ol
+        style={{
+          margin: 0,
+          padding: 0,
+          listStyle: "none",
+          display: "flex",
+          flexDirection: "column" as const,
+          gap: 12,
+        }}
+      >
+        {points.map((pt, i) => {
+          const itemIn = spring({
+            frame: frame - 8 - i * 6,
+            fps,
+            config: springs.snappy,
+          });
+          return (
+            <li
+              key={i}
+              style={{
+                display: "flex",
+                gap: 14,
+                alignItems: "flex-start",
+                opacity: itemIn * (1 - exitP),
+                transform: `translateX(${interpolate(itemIn, [0, 1], [-16, 0])}px)`,
+              }}
+            >
+              <span
+                style={{
+                  fontFamily: fonts.mono,
+                  color: colors.blue[400],
+                  fontWeight: fontWeight.bodyEmphasis,
+                  fontSize: 21,
+                  minWidth: 30,
+                }}
+              >
+                {i + 1}.
+              </span>
+              <span
+                style={{
+                  fontFamily: fonts.primary,
+                  fontSize: 21,
+                  fontWeight: fontWeight.body,
+                  color: colors.purple[100],
+                  lineHeight: 1.45,
+                }}
+              >
+                {pt}
+              </span>
+            </li>
+          );
+        })}
+      </ol>
+    </div>
+  );
+};
 
-/** Big quote heading for ExplainerSlide topContent. */
-const BigQuote: React.FC<{ text: string }> = ({ text }) => (
-  <div
-    style={{
-      fontFamily: fonts.primary,
-      fontWeight: fontWeight.display,
-      fontSize: 46,
-      background: gradients.logoText,
-      WebkitBackgroundClip: "text",
-      WebkitTextFillColor: "transparent",
-      backgroundClip: "text",
-      textAlign: "center" as const,
-      lineHeight: 1.15,
-      maxWidth: 1400,
-      padding: "0 60px",
-    }}
-  >
-    {text}
-  </div>
-);
+/** Big quote heading — clip-path wipe reveal + subtle scale. */
+const BigQuote: React.FC<{ text: string }> = ({ text }) => {
+  const frame = useCurrentFrame();
+  const { fps, durationInFrames } = useVideoConfig();
+  const reveal = spring({ frame, fps, config: springs.snappy });
+  const wipePercent = interpolate(reveal, [0, 1], [0, 100]);
+  const exitStart = durationInFrames - 12;
+  const exitP =
+    frame >= exitStart
+      ? spring({ frame: frame - exitStart, fps, config: springs.smooth })
+      : 0;
+  const exitWipe = interpolate(exitP, [0, 1], [0, 100]);
+  return (
+    <div
+      style={{
+        fontFamily: fonts.primary,
+        fontWeight: fontWeight.display,
+        fontSize: 46,
+        background: gradients.logoText,
+        WebkitBackgroundClip: "text",
+        WebkitTextFillColor: "transparent",
+        backgroundClip: "text",
+        textAlign: "center" as const,
+        lineHeight: 1.15,
+        maxWidth: 1400,
+        padding: "0 60px",
+        clipPath: `inset(0 ${100 - wipePercent}% 0 ${exitWipe}%)`,
+        transform: `scale(${interpolate(reveal, [0, 1], [0.96, 1])})`,
+      }}
+    >
+      {text}
+    </div>
+  );
+};
 
-/** Chapter "Mýtus vyvrácen" closing card. */
+/** Chapter "Mýtus vyvrácen" closing card — elastic verdict pop. */
 const MythBustedCard: React.FC<{
   number: string;
   subtitle: string;
   mythText?: string;
 }> = ({ number, subtitle, mythText }) => {
   const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
-  const p1 = spring({ frame, fps, config: springs.smooth });
-  const p2 = spring({ frame: frame - 10, fps, config: springs.smooth });
-  const pSub = spring({ frame: frame - 20, fps, config: springs.smooth });
+  const { fps, durationInFrames } = useVideoConfig();
+  const p1 = spring({ frame, fps, config: springs.bouncy });
+  const p2 = spring({ frame: frame - 10, fps, config: springs.snappy });
+  const pSub = spring({ frame: frame - 20, fps, config: springs.bouncy });
+  const exitStart = durationInFrames - 12;
+  const exitP =
+    frame >= exitStart
+      ? spring({ frame: frame - exitStart, fps, config: springs.smooth })
+      : 0;
   return (
     <AbsoluteFill
       style={{
@@ -396,7 +503,7 @@ const MythBustedCard: React.FC<{
             fontSize: 18,
             fontWeight: fontWeight.body,
             color: colors.purple[300],
-            opacity: p1,
+            opacity: p1 * (1 - exitP),
             marginBottom: 8,
             textAlign: "center" as const,
             maxWidth: 1200,
@@ -411,7 +518,8 @@ const MythBustedCard: React.FC<{
           fontFamily: fonts.mono,
           fontSize: 22,
           color: colors.semantic.success,
-          opacity: p1,
+          opacity: p1 * (1 - exitP),
+          transform: `scale(${interpolate(p1, [0, 1], [0.7, 1]) * (1 - exitP * 0.1)})`,
           letterSpacing: 4,
           marginBottom: 14,
         }}
@@ -420,10 +528,11 @@ const MythBustedCard: React.FC<{
       </div>
       <div
         style={{
-          width: interpolate(p2, [0, 1], [0, 300]),
+          width: interpolate(p2, [0, 1], [0, 300]) * (1 - exitP),
           height: 2,
           background: colors.semantic.success,
           marginBottom: 28,
+          opacity: 1 - exitP,
         }}
       />
       <div
@@ -435,8 +544,8 @@ const MythBustedCard: React.FC<{
           WebkitBackgroundClip: "text",
           WebkitTextFillColor: "transparent",
           backgroundClip: "text",
-          opacity: pSub,
-          transform: `translateY(${interpolate(pSub, [0, 1], [20, 0])}px)`,
+          opacity: pSub * (1 - exitP),
+          transform: `translateY(${interpolate(pSub, [0, 1], [30, 0])}px) scale(${interpolate(pSub, [0, 1], [0.9, 1]) * (1 - exitP * 0.1)})`,
           textAlign: "center" as const,
           maxWidth: 1400,
           lineHeight: 1.15,
@@ -450,7 +559,15 @@ const MythBustedCard: React.FC<{
 };
 
 /** Timeline grid for Myth 8 scene 69. */
+/** Timeline grid — cards stagger left-to-right with exit. */
 const TimelineGrid: React.FC = () => {
+  const frame = useCurrentFrame();
+  const { fps, durationInFrames } = useVideoConfig();
+  const exitStart = durationInFrames - 12;
+  const exitP =
+    frame >= exitStart
+      ? spring({ frame: frame - exitStart, fps, config: springs.smooth })
+      : 0;
   const tiers = [
     {
       title: "Do 1 dne",
@@ -510,57 +627,66 @@ const TimelineGrid: React.FC = () => {
         padding: "0 40px",
       }}
     >
-      {tiers.map((tier, i) => (
-        <div
-          key={i}
-          style={{
-            flex: 1,
-            background: colors.navy[800],
-            borderTop: `3px solid ${colors_tier[i]}`,
-            borderRadius: 10,
-            padding: "20px 18px",
-          }}
-        >
+      {tiers.map((tier, i) => {
+        const tierIn = spring({
+          frame: frame - i * 8,
+          fps,
+          config: springs.snappy,
+        });
+        return (
           <div
+            key={i}
             style={{
-              fontFamily: fonts.mono,
-              fontSize: 13,
-              color: colors_tier[i],
-              letterSpacing: 2,
-              textTransform: "uppercase" as const,
-              marginBottom: 14,
-              fontWeight: fontWeight.bodyEmphasis,
+              flex: 1,
+              background: colors.navy[800],
+              borderTop: `3px solid ${colors_tier[i]}`,
+              borderRadius: 10,
+              padding: "20px 18px",
+              opacity: tierIn * (1 - exitP),
+              transform: `translateY(${interpolate(tierIn, [0, 1], [20, 0])}px)`,
             }}
           >
-            {tier.title}
+            <div
+              style={{
+                fontFamily: fonts.mono,
+                fontSize: 13,
+                color: colors_tier[i],
+                letterSpacing: 2,
+                textTransform: "uppercase" as const,
+                marginBottom: 14,
+                fontWeight: fontWeight.bodyEmphasis,
+              }}
+            >
+              {tier.title}
+            </div>
+            <ul
+              style={{
+                listStyle: "none",
+                margin: 0,
+                padding: 0,
+                display: "flex",
+                flexDirection: "column" as const,
+                gap: 8,
+              }}
+            >
+              {tier.items.map((item, j) => (
+                <li
+                  key={j}
+                  style={{
+                    fontFamily: fonts.primary,
+                    fontSize: 15,
+                    fontWeight: fontWeight.body,
+                    color: colors.purple[100],
+                    lineHeight: 1.35,
+                  }}
+                >
+                  {item}
+                </li>
+              ))}
+            </ul>
           </div>
-          <ul
-            style={{
-              listStyle: "none",
-              margin: 0,
-              padding: 0,
-              display: "flex",
-              flexDirection: "column" as const,
-              gap: 8,
-            }}
-          >
-            {tier.items.map((item, j) => (
-              <li
-                key={j}
-                style={{
-                  fontFamily: fonts.primary,
-                  fontSize: 15,
-                  fontWeight: fontWeight.body,
-                  color: colors.purple[100],
-                  lineHeight: 1.35,
-                }}
-              >
-                {item}
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 };
@@ -996,36 +1122,14 @@ export const EP01: React.FC = () => {
 
         {/* ═══ MÝTUS 4 — "AI vždy říká pravdu / jenom halucinuje" (12300–15780) ═══ */}
 
-        {/* Scéna 31 — MythVsFact intro (12300–12390) */}
+        {/* Scéna 31 — ChapterCard M04 (12300–12390) */}
         <Sequence from={12300} durationInFrames={90}>
           <FadeTransition>
-            <AbsoluteFill
-              style={{
-                display: "flex",
-                flexDirection: "column" as const,
-                alignItems: "center",
-                justifyContent: "center",
-                padding: "90px 80px 80px",
-                gap: 24,
-              }}
-            >
-              <div
-                style={{
-                  fontFamily: fonts.mono,
-                  fontSize: 20,
-                  color: colors.blue[400],
-                  letterSpacing: 4,
-                  marginBottom: 12,
-                }}
-              >
-                MÝTUS 04
-              </div>
-              <MythVsFact
-                myth="AI vždy říká pravdu"
-                fact="AI není neomylná — může halucinovat"
-                style={{ width: "100%", maxWidth: 1400 }}
-              />
-            </AbsoluteFill>
+            <ChapterCard
+              prefix="MÝTUS"
+              number="04"
+              title="AI vždy říká pravdu / AI jenom halucinuje"
+            />
           </FadeTransition>
         </Sequence>
 
@@ -2332,6 +2436,38 @@ export const EP01: React.FC = () => {
               showNextFrame
             />
           </FadeTransition>
+        </Sequence>
+
+        {/* ═══ CHAPTER LABELS (vpravo nahoře pod episode info) ═══ */}
+        <Sequence from={660} durationInFrames={4530 - 660}>
+          <ChapterLabel label="Mýtus 01 — AI je jenom bublina" />
+        </Sequence>
+        <Sequence from={4530} durationInFrames={8310 - 4530}>
+          <ChapterLabel label="Mýtus 02 — Stačí koupit AI produkt" />
+        </Sequence>
+        <Sequence from={8310} durationInFrames={12300 - 8310}>
+          <ChapterLabel label="Mýtus 03 — AI jen pro velké korporace" />
+        </Sequence>
+        <Sequence from={12300} durationInFrames={15780 - 12300}>
+          <ChapterLabel label="Mýtus 04 — AI vždy říká pravdu" />
+        </Sequence>
+        <Sequence from={15780} durationInFrames={18930 - 15780}>
+          <ChapterLabel label="Mýtus 05 — AI myslí jako člověk" />
+        </Sequence>
+        <Sequence from={18930} durationInFrames={22320 - 18930}>
+          <ChapterLabel label="Mýtus 06 — AI potřebuje vždy internet" />
+        </Sequence>
+        <Sequence from={22320} durationInFrames={25710 - 22320}>
+          <ChapterLabel label="Mýtus 07 — Stačí zadat prompt" />
+        </Sequence>
+        <Sequence from={25710} durationInFrames={29190 - 25710}>
+          <ChapterLabel label="Mýtus 08 — Implementace trvá měsíce" />
+        </Sequence>
+        <Sequence from={29190} durationInFrames={33930 - 29190}>
+          <ChapterLabel label="Mýtus 09 — AI chatbot = skvělý servis" />
+        </Sequence>
+        <Sequence from={33930} durationInFrames={37710 - 33930}>
+          <ChapterLabel label="Mýtus 10 — AI je příliš složitá" />
         </Sequence>
 
         {/* ═══ DEFINITION OVERLAYS ═══ */}

@@ -28,5 +28,6 @@ external: remotion (Img, OffthreadVideo, spring, useCurrentFrame, useVideoConfig
 - All media wrappers use frame.borderWidth + colors.blue[400] border
 - glow.active for image/video borders
 - ProcessedImage adds bottom-fade overlay for visual polish
+- BrowserMockup: chrome bar enter → content enter/exit animation
 - BrowserMockup default URL: https://praut.cz
 ---

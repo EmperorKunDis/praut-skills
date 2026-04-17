@@ -6,7 +6,8 @@ files: 6
 stack: TypeScript, Remotion
 
 @EXPORTS
-easings.ts: easings — { linear, out, standard } — sanctioned curves
+easings.ts: easings — { linear, out, standard, inOutExpo, outBack, outQuart, inOutCubic } + easeOutElastic, easeOutBounce functions
+useEnterExit.ts: useEnterExit — reusable enter+exit spring lifecycle (delay, enterDuration, exitDuration)
 interpolateColors.ts: interpolateColors — linear hex lerp → "rgb()"
 useCountUp.ts: useCountUp — spring-driven numeric count-up
 useScaleToFit.ts: useScaleToFit — scale factor reference→actual
@@ -41,5 +42,6 @@ external: remotion (spring, useCurrentFrame, useVideoConfig, Easing, interpolate
 - useStaggeredAnimation default: staggerFrames=12 (timing.fast)
 - useTypewriter default: 2 frames per char
 - Deterministic per-frame output (no randomness, cacheable)
-- easings.ts has only 3 curves — never use custom cubic-bezier
+- easings.ts has 7 bezier curves + 2 easing functions — never use custom cubic-bezier
+- useEnterExit returns 0→1→0 progress driven by parent Sequence durationInFrames
 ---

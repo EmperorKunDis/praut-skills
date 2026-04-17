@@ -28,5 +28,6 @@ external: remotion (interpolate, spring, useCurrentFrame, useVideoConfig)
 - NextVideoCard intentionally empty — composited in YouTube editor
 - SubscribeButton uses gradients.brandPrimary + glow.cta
 - Czech labels: "Odebírat", "Sdílej video", "Zapni zvoneček"
+- SubscribeButton: bouncy enter/exit animation
 - EndScreenGrid defaults to 4 cards (2×2)
 ---
