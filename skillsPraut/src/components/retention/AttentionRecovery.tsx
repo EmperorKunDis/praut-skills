@@ -1,6 +1,7 @@
 import React from "react";
 import { useCurrentFrame, spring, useVideoConfig } from "remotion";
 import { colors, fonts, fontWeight, springs } from "../../styles/tokens";
+import { PhosphorIcon } from "../icons/PhosphorIcon";
 
 type Props = {
   variant: "question" | "preview" | "callout";
@@ -17,8 +18,12 @@ export const AttentionRecovery: React.FC<Props> = ({
   const { fps } = useVideoConfig();
   const p = spring({ frame, fps, config: springs.bouncy });
 
-  const icon =
-    variant === "question" ? "❓" : variant === "preview" ? "👀" : "⚡";
+  const iconName =
+    variant === "question"
+      ? "question"
+      : variant === "preview"
+        ? "eye"
+        : "lightning";
   const borderColor =
     variant === "question"
       ? colors.blue[400]
@@ -42,7 +47,12 @@ export const AttentionRecovery: React.FC<Props> = ({
         ...style,
       }}
     >
-      <span style={{ fontSize: 28 }}>{icon}</span>
+      <PhosphorIcon
+        name={iconName}
+        size={28}
+        color={borderColor}
+        weight="bold"
+      />
       <span
         style={{
           fontFamily: fonts.primary,

@@ -23,6 +23,7 @@ import { BackgroundsShowcase } from "./compositions/BackgroundsShowcase";
 import { EducationalShowcase } from "./compositions/EducationalShowcase";
 import { IntroAnimationDemo } from "./compositions/IntroAnimationDemo";
 import { ExplainerVideoDemo } from "./compositions/ExplainerVideoDemo";
+import { ThreeDemo } from "./compositions/ThreeDemo";
 import { ShortVideoDemo } from "./compositions/ShortVideoDemo";
 import { EP01 } from "./compositions/EP01";
 
@@ -199,6 +200,16 @@ export const RemotionRoot: React.FC = () => (
       fps={FPS}
       width={1080}
       height={1920}
+    />
+
+    {/* Three.js geometric demo */}
+    <Composition
+      id="ThreeDemo"
+      component={ThreeDemo}
+      durationInFrames={300}
+      fps={FPS}
+      width={W}
+      height={H}
     />
 
     {/* EP01 — 10 Mýtů o AI */}

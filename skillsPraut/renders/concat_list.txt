@@ -1,0 +1,4 @@
+file 'EP01-seg1.mp4'
+file 'EP01-seg2.mp4'
+file 'EP01-seg3.mp4'
+file 'EP01-seg4.mp4'

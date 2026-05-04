@@ -43,6 +43,39 @@ import { PhosphorIcon } from "../components/icons/PhosphorIcon";
 
 // Charts
 import { AnimatedBarChart } from "../components/charts/AnimatedBarChart";
+import { AdoptionStatsChart } from "../components/charts/AdoptionStatsChart";
+import { AIBarriersChart } from "../components/charts/AIBarriersChart";
+import { ChangeMgmtStats } from "../components/charts/ChangeMgmtStats";
+import { AIPricingCards } from "../components/charts/AIPricingCards";
+import { LocalAIModelsGrid } from "../components/charts/LocalAIModelsGrid";
+import { PromptQualityChart } from "../components/charts/PromptQualityChart";
+
+// Educational — Mýtus 1
+import { HypeCycleChart } from "../components/educational/HypeCycleChart";
+import { DotcomTimeline } from "../components/educational/DotcomTimeline";
+import { ROIParadoxCard } from "../components/educational/ROIParadoxCard";
+// Educational — Mýtus 2
+import { KlarnaCaseStudy } from "../components/educational/KlarnaCaseStudy";
+import { AIStackTimeline } from "../components/educational/AIStackTimeline";
+// Educational — Mýtus 4
+import { HallucinationLeaderboard } from "../components/educational/HallucinationLeaderboard";
+import { HallucinationExample } from "../components/educational/HallucinationExample";
+// Educational — Mýtus 5
+import { TokenPredictionVisual } from "../components/educational/TokenPredictionVisual";
+import { AIVsHumanCard } from "../components/educational/AIVsHumanCard";
+// Educational — Mýtus 6
+import { OllamaGrowthCard } from "../components/educational/OllamaGrowthCard";
+// Educational — Mýtus 7
+import { PromptAnatomyVisual } from "../components/educational/PromptAnatomyVisual";
+import { PromptIterationSteps } from "../components/educational/PromptIterationSteps";
+// Educational — Mýtus 8
+import { ImplementationSpeedChart } from "../components/educational/ImplementationSpeedChart";
+import { StartSmallFramework } from "../components/educational/StartSmallFramework";
+// Educational — Mýtus 9
+import { ChatbotFailsCard } from "../components/educational/ChatbotFailsCard";
+import { ThreeTierCustomerService } from "../components/educational/ThreeTierCustomerService";
+// Educational — Mýtus 10
+import { NoCodeToolsGrid } from "../components/educational/NoCodeToolsGrid";
 
 // Transitions
 import { FadeTransition } from "../components/transitions/FadeTransition";
@@ -540,7 +573,13 @@ const MythBustedCard: React.FC<{
           marginBottom: 14,
         }}
       >
-        MÝTUS {number} — VYVRÁCEN ✓
+        MÝTUS {number} — VYVRÁCEN{" "}
+        <PhosphorIcon
+          name="check-circle"
+          size={28}
+          color={colors.semantic.success}
+          weight="fill"
+        />
       </div>
       <div
         style={{
@@ -779,37 +818,68 @@ export const EP01: React.FC = () => {
           </FadeTransition>
         </Sequence>
 
-        {/* Scéna 7 — Screenshot BrowserMockup (2850–3150) */}
+        {/* Scéna 7 — ROI Paradox (2850–3150, 10s) */}
         <Sequence from={2850} durationInFrames={300}>
-          <ScreenPlaceholder
-            imageSrc="screenshots/ep01/18.jpeg"
-            url="github.com/vectara/hallucination-leaderboard"
-            label="Zdroj: Vectara AI Hallucination Leaderboard — reálné výsledky modelů"
-          />
+          <FadeTransition>
+            <AbsoluteFill
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                padding: "100px 80px 80px",
+              }}
+            >
+              <ROIParadoxCard />
+              <ChapterLabel label="Mýtus 01 — AI je jenom bublina" />
+            </AbsoluteFill>
+          </FadeTransition>
         </Sequence>
 
-        {/* Scéna 8 — Screenshot RoundedScreenshot (3150–3450) */}
+        {/* Scéna 8 — Adoption Stats Chart (3150–3450, 10s) */}
         <Sequence from={3150} durationInFrames={300}>
-          <ScreenPlaceholder
-            imageSrc="screenshots/ep01/19.png"
-            label="Zdroj: Goldman Sachs 10,000 Small Businesses Survey — 68 % adopce"
-          />
+          <FadeTransition>
+            <AbsoluteFill
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                padding: "100px 100px 80px",
+              }}
+            >
+              <AdoptionStatsChart />
+              <ChapterLabel label="Mýtus 01 — AI je jenom bublina" />
+            </AbsoluteFill>
+          </FadeTransition>
         </Sequence>
 
-        {/* Scéna 9 — Screenshot RoundedScreenshot (3450–3750) */}
+        {/* Scéna 9 — Dot-com Timeline (3450–3750, 10s) */}
         <Sequence from={3450} durationInFrames={300}>
-          <ScreenPlaceholder
-            imageSrc="screenshots/ep01/16.jpeg"
-            label="Zdroj: Thryv AI Business Survey — adopce vzrostla z 39 % na 55 %"
-          />
+          <FadeTransition>
+            <AbsoluteFill
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                padding: "100px 60px 80px",
+              }}
+            >
+              <DotcomTimeline />
+              <ChapterLabel label="Mýtus 01 — AI je jenom bublina" />
+            </AbsoluteFill>
+          </FadeTransition>
         </Sequence>
 
-        {/* Scéna 10 — Screenshot Google Trends (3750–4050) */}
+        {/* Scéna 10 — Hype Cycle Chart (3750–4050, 10s) */}
         <Sequence from={3750} durationInFrames={300}>
-          <ScreenPlaceholder
-            imageSrc="screenshots/ep01/17.jpeg"
-            label="Zdroj: Google Trends — AI hype křivka"
-          />
+          <FadeTransition>
+            <AbsoluteFill
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                padding: "100px 60px 80px",
+              }}
+            >
+              <HypeCycleChart />
+              <ChapterLabel label="Mýtus 01 — AI je jenom bublina" />
+            </AbsoluteFill>
+          </FadeTransition>
         </Sequence>
 
         {/* Scéna 11 — AnalogyVisual motorová pila (4050–4440, 13s) */}
@@ -923,28 +993,52 @@ export const EP01: React.FC = () => {
           </FadeTransition>
         </Sequence>
 
-        {/* Scéna 17 — Screenshot Goldman Sachs barriers (7020–7320) */}
+        {/* Scéna 17 — AI Adoption Barriers (7020–7320) */}
         <Sequence from={7020} durationInFrames={300}>
-          <ScreenPlaceholder
-            imageSrc="screenshots/ep01/23.png"
-            label="Zdroj: Goldman Sachs — bariéry AI adopce u SMB (42 %, 60 %...)"
-          />
+          <FadeTransition>
+            <AbsoluteFill
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                padding: "100px 80px 80px",
+              }}
+            >
+              <AIBarriersChart />
+              <ChapterLabel label="Mýtus 02 — Stačí koupit AI produkt" />
+            </AbsoluteFill>
+          </FadeTransition>
         </Sequence>
 
-        {/* Scéna 18 — Screenshot Reimagine Main Street (7320–7620) */}
+        {/* Scéna 18 — Change Management Stats (7320–7620) */}
         <Sequence from={7320} durationInFrames={300}>
-          <ScreenPlaceholder
-            imageSrc="screenshots/ep01/20.png"
-            label="Zdroj: Reimagine Main Street / PayPal — 73 % chce jednodušší nástroje"
-          />
+          <FadeTransition>
+            <AbsoluteFill
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                padding: "100px 80px 80px",
+              }}
+            >
+              <ChangeMgmtStats />
+              <ChapterLabel label="Mýtus 02 — Stačí koupit AI produkt" />
+            </AbsoluteFill>
+          </FadeTransition>
         </Sequence>
 
-        {/* Scéna 19 — Screenshot Klarna rehiring (7620–7920) */}
+        {/* Scéna 19 — Klarna Case Study (7620–7920) */}
         <Sequence from={7620} durationInFrames={300}>
-          <ScreenPlaceholder
-            imageSrc="screenshots/ep01/24.png"
-            label="Zdroj: Klarna — AI experiment a zpětné nábory (CNBC)"
-          />
+          <FadeTransition>
+            <AbsoluteFill
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                padding: "100px 80px 80px",
+              }}
+            >
+              <KlarnaCaseStudy />
+              <ChapterLabel label="Mýtus 02 — Stačí koupit AI produkt" />
+            </AbsoluteFill>
+          </FadeTransition>
         </Sequence>
 
         {/* Scéna 20 — AnalogyVisual fitko karta (7920–8220) */}
@@ -1100,20 +1194,36 @@ export const EP01: React.FC = () => {
           </FadeTransition>
         </Sequence>
 
-        {/* Scéna 27 — Screenshot pricing (11400–11700) */}
+        {/* Scéna 27 — AI Pricing Cards (11400–11700) */}
         <Sequence from={11400} durationInFrames={300}>
-          <ScreenPlaceholder
-            imageSrc="screenshots/ep01/03.jpeg"
-            label="Zdroj: Ceníky ChatGPT / Claude / Gemini / Grok — pricing stránek"
-          />
+          <FadeTransition>
+            <AbsoluteFill
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                padding: "100px 80px 80px",
+              }}
+            >
+              <AIPricingCards />
+              <ChapterLabel label="Mýtus 03 — AI jen pro korporace" />
+            </AbsoluteFill>
+          </FadeTransition>
         </Sequence>
 
-        {/* Scéna 28 — Screenshot N8N (11700–12000) */}
+        {/* Scéna 28 — AI Stack Timeline (11700–12000) */}
         <Sequence from={11700} durationInFrames={300}>
-          <ScreenPlaceholder
-            imageSrc="screenshots/ep01/01.jpeg"
-            label="Zdroj: N8N rozhraní — ukázka automatizace"
-          />
+          <FadeTransition>
+            <AbsoluteFill
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                padding: "100px 80px 80px",
+              }}
+            >
+              <AIStackTimeline />
+              <ChapterLabel label="Mýtus 03 — AI jen pro korporace" />
+            </AbsoluteFill>
+          </FadeTransition>
         </Sequence>
 
         {/* Scéna 29 — AnalogyVisual cena 2022 vs 2025 (12000–12210) */}
@@ -1265,21 +1375,36 @@ export const EP01: React.FC = () => {
           </FadeTransition>
         </Sequence>
 
-        {/* Scéna 36 — Screenshot Vectara (14790–15090) */}
+        {/* Scéna 36 — Hallucination Leaderboard (14790–15090) */}
         <Sequence from={14790} durationInFrames={300}>
-          <ScreenPlaceholder
-            imageSrc="screenshots/ep01/25.png"
-            url="github.com/vectara/hallucination-leaderboard"
-            label="Zdroj: Vectara Hallucination Leaderboard"
-          />
+          <FadeTransition>
+            <AbsoluteFill
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                padding: "100px 80px 80px",
+              }}
+            >
+              <HallucinationLeaderboard />
+              <ChapterLabel label="Mýtus 04 — AI vždy říká pravdu" />
+            </AbsoluteFill>
+          </FadeTransition>
         </Sequence>
 
-        {/* Scéna 37 — Screenshot halucinace příklad (15090–15390) */}
+        {/* Scéna 37 — Hallucination Example (15090–15390) */}
         <Sequence from={15090} durationInFrames={300}>
-          <ScreenPlaceholder
-            imageSrc="screenshots/ep01/26.png"
-            label="Zdroj: Příklad halucinace — neexistující český zákon"
-          />
+          <FadeTransition>
+            <AbsoluteFill
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                padding: "100px 80px 80px",
+              }}
+            >
+              <HallucinationExample />
+              <ChapterLabel label="Mýtus 04 — AI vždy říká pravdu" />
+            </AbsoluteFill>
+          </FadeTransition>
         </Sequence>
 
         {/* Scéna 38 — AnalogyVisual praktikant (15390–15690) */}
@@ -1393,19 +1518,37 @@ export const EP01: React.FC = () => {
         </Sequence>
 
         {/* Scéna 44 — Screenshot Bing chatbot (17970–18270) */}
+        {/* Scéna — TokenPredictionVisual (17970) */}
         <Sequence from={17970} durationInFrames={300}>
-          <ScreenPlaceholder
-            imageSrc="screenshots/ep01/07.jpeg"
-            label="Zdroj: Bing chatbot 'I want to be alive' — virální konverzace 2023"
-          />
+          <FadeTransition>
+            <AbsoluteFill
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                padding: "100px 80px 80px",
+              }}
+            >
+              <TokenPredictionVisual />
+              <ChapterLabel label="Mýtus 05 — AI myslí jako člověk" />
+            </AbsoluteFill>
+          </FadeTransition>
         </Sequence>
 
         {/* Scéna 45 — Screenshot dokumentace (18270–18570) */}
+        {/* Scéna — AIVsHumanCard (18270) */}
         <Sequence from={18270} durationInFrames={300}>
-          <ScreenPlaceholder
-            imageSrc="screenshots/ep01/05.jpeg"
-            label="Zdroj: OpenAI / Anthropic dokumentace — 'language model' ne 'thinking machine'"
-          />
+          <FadeTransition>
+            <AbsoluteFill
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                padding: "100px 80px 80px",
+              }}
+            >
+              <AIVsHumanCard />
+              <ChapterLabel label="Mýtus 05 — AI myslí jako člověk" />
+            </AbsoluteFill>
+          </FadeTransition>
         </Sequence>
 
         {/* Scéna 46 — AnalogyVisual kalkulačka (18570–18840) */}
@@ -1543,28 +1686,54 @@ export const EP01: React.FC = () => {
         </Sequence>
 
         {/* Scéna 52 — Screenshot Ollama GitHub (21120–21420) */}
+        {/* Scéna — OllamaGrowthCard (21120) */}
         <Sequence from={21120} durationInFrames={300}>
-          <ScreenPlaceholder
-            imageSrc="screenshots/ep01/14.jpeg"
-            url="github.com/ollama/ollama"
-            label="Zdroj: Ollama GitHub — 95 000+ stars (2025)"
-          />
+          <FadeTransition>
+            <AbsoluteFill
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                padding: "100px 80px 80px",
+              }}
+            >
+              <OllamaGrowthCard />
+              <ChapterLabel label="Mýtus 06 — AI potřebuje internet" />
+            </AbsoluteFill>
+          </FadeTransition>
         </Sequence>
 
         {/* Scéna 53 — Screenshot LM Studio (21420–21720) */}
+        {/* Scéna — LocalAIModelsGrid (21420) */}
         <Sequence from={21420} durationInFrames={300}>
-          <ScreenPlaceholder
-            imageSrc="screenshots/ep01/04.jpeg"
-            label="Zdroj: LM Studio — rozhraní pro lokální AI modely"
-          />
+          <FadeTransition>
+            <AbsoluteFill
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                padding: "100px 80px 80px",
+              }}
+            >
+              <LocalAIModelsGrid />
+              <ChapterLabel label="Mýtus 06 — AI potřebuje internet" />
+            </AbsoluteFill>
+          </FadeTransition>
         </Sequence>
 
         {/* Scéna 54 — Screenshot Ollama offline demo (21720–22020) */}
+        {/* Scéna — AIBarriersChart (21720) */}
         <Sequence from={21720} durationInFrames={300}>
-          <ScreenPlaceholder
-            imageSrc="screenshots/ep01/27.png"
-            label="Ukázka: Ollama offline — Wi-Fi vypnuto, AI odpovídá"
-          />
+          <FadeTransition>
+            <AbsoluteFill
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                padding: "100px 80px 80px",
+              }}
+            >
+              <AIBarriersChart />
+              <ChapterLabel label="Mýtus 06 — AI potřebuje internet" />
+            </AbsoluteFill>
+          </FadeTransition>
         </Sequence>
 
         {/* Scéna 55 — AnalogyVisual laptop bez internetu (22020–22230) */}
@@ -1680,28 +1849,54 @@ export const EP01: React.FC = () => {
         </Sequence>
 
         {/* Scéna 61 — Screenshot špatný vs dobrý prompt (24510–24810) */}
+        {/* Scéna — PromptAnatomyVisual (24510) */}
         <Sequence from={24510} durationInFrames={300}>
-          <ScreenPlaceholder
-            imageSrc="screenshots/ep01/28.png"
-            label="Ukázka: Špatný vs dobrý prompt — side by side v Claude/ChatGPT"
-          />
+          <FadeTransition>
+            <AbsoluteFill
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                padding: "100px 80px 80px",
+              }}
+            >
+              <PromptAnatomyVisual />
+              <ChapterLabel label="Mýtus 07 — Stačí zadat prompt" />
+            </AbsoluteFill>
+          </FadeTransition>
         </Sequence>
 
         {/* Scéna 62 — Screenshot iterace promptu (24810–25110) */}
+        {/* Scéna — PromptIterationSteps (24810) */}
         <Sequence from={24810} durationInFrames={300}>
-          <ScreenPlaceholder
-            imageSrc="screenshots/ep01/07_prompt_iteration.png"
-            label="Ukázka: Iterace — 3 kola zpřesnění, výsledek se zlepšuje"
-          />
+          <FadeTransition>
+            <AbsoluteFill
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                padding: "100px 80px 80px",
+              }}
+            >
+              <PromptIterationSteps />
+              <ChapterLabel label="Mýtus 07 — Stačí zadat prompt" />
+            </AbsoluteFill>
+          </FadeTransition>
         </Sequence>
 
         {/* Scéna 63 — Screenshot Anthropic docs (25110–25410) */}
+        {/* Scéna — PromptQualityChart (25110) */}
         <Sequence from={25110} durationInFrames={300}>
-          <ScreenPlaceholder
-            imageSrc="screenshots/ep01/15.jpeg"
-            url="docs.anthropic.com"
-            label="Zdroj: Anthropic Prompt Engineering Dokumentace"
-          />
+          <FadeTransition>
+            <AbsoluteFill
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                padding: "100px 80px 80px",
+              }}
+            >
+              <PromptQualityChart />
+              <ChapterLabel label="Mýtus 07 — Stačí zadat prompt" />
+            </AbsoluteFill>
+          </FadeTransition>
         </Sequence>
 
         {/* Scéna 64 — AnalogyVisual vague vs precise prompt (25410–25620) */}
@@ -1829,19 +2024,37 @@ export const EP01: React.FC = () => {
         </Sequence>
 
         {/* Scéna 70 — Screenshot chatbot za 5 minut (28200–28500) */}
+        {/* Scéna — ImplementationSpeedChart (28200) */}
         <Sequence from={28200} durationInFrames={300}>
-          <ScreenPlaceholder
-            imageSrc="screenshots/ep01/12.jpeg"
-            label="Ukázka: Od nuly k fungujícímu AI chatbotu za 5 minut"
-          />
+          <FadeTransition>
+            <AbsoluteFill
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                padding: "100px 80px 80px",
+              }}
+            >
+              <ImplementationSpeedChart />
+              <ChapterLabel label="Mýtus 08 — Implementace trvá měsíce" />
+            </AbsoluteFill>
+          </FadeTransition>
         </Sequence>
 
         {/* Scéna 71 — Screenshot N8N workflow (28500–28800) */}
+        {/* Scéna — StartSmallFramework (28500) */}
         <Sequence from={28500} durationInFrames={300}>
-          <ScreenPlaceholder
-            imageSrc="screenshots/ep01/22.png"
-            label="Zdroj: Make.com / N8N — ukázka hotového workflow"
-          />
+          <FadeTransition>
+            <AbsoluteFill
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                padding: "100px 80px 80px",
+              }}
+            >
+              <StartSmallFramework />
+              <ChapterLabel label="Mýtus 08 — Implementace trvá měsíce" />
+            </AbsoluteFill>
+          </FadeTransition>
         </Sequence>
 
         {/* Scéna 72 — AnalogyVisual big bang vs start small (28800–29100) */}
@@ -2058,27 +2271,54 @@ export const EP01: React.FC = () => {
         </Sequence>
 
         {/* Scéna 78 — Screenshot DPD chatbot (32430–32730) */}
+        {/* Scéna — ChatbotFailsCard (32430) */}
         <Sequence from={32430} durationInFrames={300}>
-          <ScreenPlaceholder
-            imageSrc="screenshots/ep01/10.jpeg"
-            label="Zdroj: DPD chatbot — báseň o tom jak je DPD nejhorší"
-          />
+          <FadeTransition>
+            <AbsoluteFill
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                padding: "100px 80px 80px",
+              }}
+            >
+              <ChatbotFailsCard />
+              <ChapterLabel label="Mýtus 09 — AI chatbot = skvělý servis" />
+            </AbsoluteFill>
+          </FadeTransition>
         </Sequence>
 
         {/* Scéna 79 — Screenshot Chevy Tahoe (32730–33030) */}
+        {/* Scéna — ThreeTierCustomerService (32730) */}
         <Sequence from={32730} durationInFrames={300}>
-          <ScreenPlaceholder
-            imageSrc="screenshots/ep01/09.jpeg"
-            label="Zdroj: Chevy Tahoe za $1 — screenshot konverzace"
-          />
+          <FadeTransition>
+            <AbsoluteFill
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                padding: "100px 80px 80px",
+              }}
+            >
+              <ThreeTierCustomerService />
+              <ChapterLabel label="Mýtus 09 — AI chatbot = skvělý servis" />
+            </AbsoluteFill>
+          </FadeTransition>
         </Sequence>
 
         {/* Scéna 80 — Screenshot Qualtrics (33030–33330) */}
+        {/* Scéna — ChangeMgmtStats (33030) */}
         <Sequence from={33030} durationInFrames={300}>
-          <ScreenPlaceholder
-            imageSrc="screenshots/ep01/02.jpeg"
-            label="Zdroj: Qualtrics 2026 CX Trends — AI selhává 4× více"
-          />
+          <FadeTransition>
+            <AbsoluteFill
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                padding: "100px 80px 80px",
+              }}
+            >
+              <ChangeMgmtStats />
+              <ChapterLabel label="Mýtus 09 — AI chatbot = skvělý servis" />
+            </AbsoluteFill>
+          </FadeTransition>
         </Sequence>
 
         {/* Scéna 81 — StatCard KPI grid (33330–33630) */}
@@ -2371,19 +2611,37 @@ export const EP01: React.FC = () => {
         </Sequence>
 
         {/* Scéna 89 — Screenshot PayPal/Reimagine (36720–37020) */}
+        {/* Scéna — AdoptionStatsChart (36720) */}
         <Sequence from={36720} durationInFrames={300}>
-          <ScreenPlaceholder
-            imageSrc="screenshots/ep01/29.png"
-            label="Zdroj: PayPal / Reimagine Main Street — 82 % SMB: AI nezbytná"
-          />
+          <FadeTransition>
+            <AbsoluteFill
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                padding: "100px 80px 80px",
+              }}
+            >
+              <AdoptionStatsChart />
+              <ChapterLabel label="Mýtus 10 — AI je příliš složitá" />
+            </AbsoluteFill>
+          </FadeTransition>
         </Sequence>
 
         {/* Scéna 90 — Screenshot no-code nástroje (37020–37320) */}
+        {/* Scéna — NoCodeToolsGrid (37020) */}
         <Sequence from={37020} durationInFrames={300}>
-          <ScreenPlaceholder
-            imageSrc="screenshots/ep01/11.jpeg"
-            label="Zdroj: Make.com / Tidio / Jasper — ukázka no-code AI nástrojů"
-          />
+          <FadeTransition>
+            <AbsoluteFill
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                padding: "100px 80px 80px",
+              }}
+            >
+              <NoCodeToolsGrid />
+              <ChapterLabel label="Mýtus 10 — AI je příliš složitá" />
+            </AbsoluteFill>
+          </FadeTransition>
         </Sequence>
 
         {/* Scéna 91 — BeforeAfterSlider Excel (37320–37620) */}
