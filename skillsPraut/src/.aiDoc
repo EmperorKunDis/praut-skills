@@ -1,37 +1,41 @@
 ---
 @META
-dir: skillsPraut/src/
-updated: 2026-04-13
-files: 2
-stack: React, Remotion, TypeScript
+dir: skillsPraut/src
+updated: 2026-04-15
+files: 2 (index.ts, Root.tsx)
+stack: React 19, Remotion 4, TypeScript
 
 @EXPORTS
-index.ts: registerRoot(RemotionRoot) — app entry point
-Root.tsx: RemotionRoot — registers all 18 compositions
+index.ts: registerRoot(RemotionRoot) — app entry
+Root.tsx: RemotionRoot — registers all 18 <Composition> entries
 
 @VARS_CONSTANTS
-FPS: number = 30 — frame rate
-W: number = 1920 — width
-H: number = 1080 — height
+FPS: 30 — frame rate for all compositions
+W: 1920 — default width (16:9)
+H: 1080 — default height (16:9)
 
 @FUNCTIONS
 RemotionRoot() → React.FC
-  purpose: register all compositions + load fonts
-  side-effects: font loading (Montserrat, IBM Plex Mono, Phosphor 6 weights)
+  purpose: register compositions + trigger font loading as side-effect
+  side-effects: loadMontserrat, loadIBMPlexMono, loadPhosphorFont import
 
 @PROCESSES
-boot: index.ts → registerRoot → Root.tsx → font loading → 18 compositions
+boot: index.ts → registerRoot → Root.tsx → font loading → <Composition> × 18
 
 @INTERFACES
-Compositions: BrandShowcase | FrameShowcase | TypographyShowcase | IconShowcase | ChapterIntro | IntroAnimation | BarChartDemo | NeuralNetDemo | RAGDemo | TerminalDemo | TopTenDemo | CardsShowcase | CTAShowcase | BackgroundsShowcase | EducationalShowcase | ExplainerVideo | ShortVideo | EP01
+Compositions IDs: BrandShowcase | FrameShowcase | TypographyShowcase | IconShowcase | ChapterIntro | IntroAnimation | BarChartDemo | NeuralNetDemo | RAGDemo | TerminalDemo | TopTenDemo | CardsShowcase | CTAShowcase | BackgroundsShowcase | EducationalShowcase | ExplainerVideo | ShortVideo | EP01
 
 @DEPENDENCIES
-internal: styles/tokens | components/* | compositions/* | hooks/*
-external: remotion | @remotion/google-fonts
+internal: styles/tokens | components/** | compositions/** | hooks/**
+external: remotion, @remotion/google-fonts/{Montserrat,IBMPlexMono}
 
 @STANDARDS
-- Montserrat weights 500-800, subsets latin + latin-ext
-- IBM Plex Mono weights 400-500, subsets latin + latin-ext
-- ShortVideo uses 1080x1920 (9:16), all others 1920x1080
-- EP01 is 38160 frames (~21 min) — production episode "10 Mýtů o AI"
+- Montserrat: weights 500-800, subsets latin + latin-ext (Czech)
+- IBM Plex Mono: weights 400-500, subsets latin + latin-ext
+- ShortVideo = 1080×1920 (9:16); all others = 1920×1080
+- EP01 = 38160 frames = 21m12s @ 30fps — production episode
+- durationInFrames is explicit per composition
+
+@WARNINGS
+- Phosphor font registered via side-effect import (./components/icons/loadPhosphorFont)
 ---

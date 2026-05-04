@@ -1,5 +1,6 @@
 import React from "react";
 import { colors, fonts, fontWeight } from "../../styles/tokens";
+import { useEnterExit } from "../../hooks/useEnterExit";
 
 type Props = {
   myth: string;
@@ -11,6 +12,9 @@ type Props = {
  * Side-by-side "Mýtus" vs "Pravda" cards with semantic borders.
  */
 export const MythVsFact: React.FC<Props> = ({ myth, fact, style }) => {
+  const pMyth = useEnterExit({ delay: 0 });
+  const pFact = useEnterExit({ delay: 10 });
+
   return (
     <div style={{ display: "flex", gap: 24, ...style }}>
       <div
@@ -20,6 +24,8 @@ export const MythVsFact: React.FC<Props> = ({ myth, fact, style }) => {
           borderLeft: `4px solid ${colors.semantic.warning}`,
           borderRadius: 8,
           padding: "24px 32px",
+          opacity: pMyth,
+          transform: `translateX(${(1 - pMyth) * -30}px)`,
         }}
       >
         <div
@@ -54,6 +60,8 @@ export const MythVsFact: React.FC<Props> = ({ myth, fact, style }) => {
           borderLeft: `4px solid ${colors.semantic.success}`,
           borderRadius: 8,
           padding: "24px 32px",
+          opacity: pFact,
+          transform: `translateX(${(1 - pFact) * 30}px)`,
         }}
       >
         <div

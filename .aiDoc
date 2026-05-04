@@ -1,29 +1,42 @@
 ---
 @META
 dir: /
-updated: 2026-04-13
+updated: 2026-04-15
 files: 2
-stack: Remotion 4, React 19, TypeScript 5.4, Phosphor Icons
+stack: Remotion 4, React 19, TypeScript 5.4, Phosphor Icons, Montserrat + IBM Plex Mono
+
+@EXPORTS
+(no code exports at root — monorepo wrapper)
+
+@VARS_CONSTANTS
+BRAND: Praut s.r.o. — Martin Švanda AI Channel
+VIDEO_DIMS: 1920×1080 (long) | 1080×1920 (short) | 1080×1080 (square) @ 30fps
+PROD_EPISODE: EP01 = 38160 frames (~21 min, 93 scenes)
 
 @PROCESSES
-praut-video-production: tokens.ts → component library (152) → templates (10) → compositions → rendered videos
+video-production: tokens.ts → components (152) → templates (10) → compositions → Remotion render → mp4
+skill-install: scripts/install-skill.sh → symlink skills/remotion → ~/.claude/skills/remotion
+phosphor-extraction: scripts/extract-phosphor-glyphs.mjs → phosphor-icons/Fonts/*/style.css → phosphor-glyphs.json
 
 @DEPENDENCIES
-internal: skillsPraut/
-external: none (monorepo root)
+internal: skillsPraut/ (single workspace)
+external: none at root
 
 @STANDARDS
 - Single source of truth: skillsPraut/src/styles/tokens.ts
-- Brand: Praut s.r.o. — Martin Švanda AI Channel
-- Fonts: Montserrat (primary) + IBM Plex Mono (mono)
-- Colors: navy bg (60%) | blue accent (30%) | purple CTA (10%)
-- Icons: Phosphor icon font (6 weights, ~1530 glyphs)
-- No hardcoded hex outside tokens.ts
-- fontWeight >= 500 on dark mode
-- glow.* instead of boxShadow rgba(0,0,0,...)
-- Animations via springs.* and timing.* presets only
+- Colors: navy 60% | blue accent 30% | purple CTA 10%
+- Fonts: Montserrat primary + IBM Plex Mono mono | fontWeight ≥ 500 on dark mode
+- Never hardcode hex outside tokens.ts
+- glow.* instead of rgba boxShadow
+- Springs & timing.* presets only — no custom animation curves
+- Czech diacritics via latin-ext subset
+- Layouts: singleFocus | splitScreen only
+- safeZone: 64px padding all sides
+- Branch: main | gitignore: node_modules, out/, renders/*.mp4
 
 @WARNINGS
-- docs/, img/, phosphor-icons/ directories removed from working tree
-- Public font assets in skillsPraut/public/fonts/phosphor/
+- skillsPraut/renders/ untracked (large mp4 outputs & PNG frames)
+- skillsPraut/out/ untracked (per-frame render PNGs)
+- public/fonts/phosphor/ contains 6 binary font variants (thin..duotone)
+- phosphor-icons/ referenced by extract script but not in working tree (removed)
 ---

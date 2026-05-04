@@ -1,7 +1,7 @@
 ---
 @META
-dir: skillsPraut/src/components/cards/
-updated: 2026-04-13
+dir: skillsPraut/src/components/cards
+updated: 2026-04-15
 files: 12
 stack: React, TypeScript
 
@@ -33,5 +33,6 @@ external: none
 - Semantic cards (Error|Info|Success|Tip|Warning) share same layout — colored left border
 - All use navy[800] background
 - StatCard gradient number via background-clip
+- ComparisonCard: stagger A/B entry + VS badge bounce + exit animation
 - maxWidth 880px for semantic cards
 ---

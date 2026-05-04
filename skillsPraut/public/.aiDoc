@@ -1,0 +1,33 @@
+---
+@META
+dir: skillsPraut/public
+updated: 2026-04-15
+subdirs: 2 (fonts/, logo/)
+stack: static assets (SVG, PNG, TTF/WOFF)
+
+@EXPORTS
+logo/brain-mark.svg — Praut brain puzzle mark (isolated)
+logo/logopraut.svg — full logo + wordmark
+logo/praut.svg — alt logo variant
+logo/praut-logo.png — raster logo
+logo/praut-large.png — large raster variant
+logo/icon-zapisovatel-{256,1024}.png — "zapisovatel" (notetaker) app icon
+fonts/phosphor/{thin,light,regular,bold,fill,duotone}/ — 6 Phosphor icon font variants (binary)
+
+@PROCESSES
+asset-loading: Remotion `staticFile(path)` → resolves against public/ → URL for <Img>/<Video>
+font-loading: loadPhosphorFont.ts → loadFont() per weight → registers as Phosphor-{Weight}
+
+@DEPENDENCIES
+referenced-by: components/frame/BrainMark.tsx (logopraut.svg) | components/frame/BrandLogo.tsx | components/icons/loadPhosphorFont.ts | renders (for YouTube thumbnails)
+
+@STANDARDS
+- All static assets served via Remotion staticFile() helper
+- Logo variants: brain-mark (icon only) | full (mark + wordmark) | text-only
+- Phosphor font files follow phosphor-icons v2 naming convention
+- No user-uploaded content — only branded assets
+
+@WARNINGS
+- Phosphor font binaries are large; commit only essential weights
+- logo/icon-zapisovatel-*.png referenced for secondary app/channel; not EP01 mainline
+---

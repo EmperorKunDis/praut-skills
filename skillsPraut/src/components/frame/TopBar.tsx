@@ -1,9 +1,12 @@
 import React from "react";
+import { spring, useCurrentFrame, useVideoConfig } from "remotion";
 import {
   channel,
   colors,
   fonts,
   fontWeight,
+  frame as frameTokens,
+  springs,
   typeScale,
 } from "../../styles/tokens";
 import { BrandLogo } from "./BrandLogo";
@@ -18,27 +21,32 @@ type Props = {
 
 /**
  * TopBar — positioned inside the glass panel's top area.
- *
- * Layout: logo left, two-line text right, both vertically centered.
- * Padding is measured from the GLASS border (not the frame border),
- * so content sits comfortably inside the frosted panel.
- *
- * Line 1: "EP 01 / 10 Mýtů o AI"  (episodeNumber + episodeName)
- * Line 2: "MÝTUS 03 — AI nahradí …" (chapterLabel)
+ * Logo slides in from left, episode text slides in from right.
  */
 export const TopBar: React.FC<Props> = ({
   episodeNumber,
   episodeName,
   chapterLabel,
 }) => {
+  const frame = useCurrentFrame();
+  const { fps, durationInFrames } = useVideoConfig();
+
+  const logoIn = spring({ frame, fps, config: springs.snappy });
+  const textIn = spring({ frame: frame - 8, fps, config: springs.snappy });
+
+  // Exit — logo slides back left, text slides back right in last 12 frames
+  const exitStart = durationInFrames - 12;
+  const exitProgress =
+    frame >= exitStart
+      ? spring({ frame: frame - exitStart, fps, config: springs.smooth })
+      : 0;
+
   const rightLabel = episodeNumber
     ? `${channel.episodePrefix} ${episodeNumber}${episodeName ? ` / ${episodeName}` : ""}`
     : (episodeName ?? "");
   const subline = chapterLabel ?? "";
 
-  // Glass panel: inset=28 from frame border, borderRadius=20.
-  // TopBar sits INSIDE the glass, so padding = distance from glass inner edge.
-  const innerPad = 24;
+  const innerPad = frameTokens.sidePadding + 10;
 
   return (
     <div
@@ -54,7 +62,14 @@ export const TopBar: React.FC<Props> = ({
         zIndex: 50,
       }}
     >
-      <BrandLogo size={36} variant="mark" glow />
+      <div
+        style={{
+          opacity: logoIn * (1 - exitProgress),
+          transform: `translateX(${(1 - logoIn) * -20 + exitProgress * -20}px)`,
+        }}
+      >
+        <BrandLogo size={36} variant="mark" glow />
+      </div>
 
       <div
         style={{
@@ -62,6 +77,8 @@ export const TopBar: React.FC<Props> = ({
           flexDirection: "column",
           alignItems: "flex-end",
           gap: 4,
+          opacity: textIn * (1 - exitProgress),
+          transform: `translateX(${(1 - textIn) * 20 + exitProgress * 20}px)`,
         }}
       >
         <span

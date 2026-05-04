@@ -1,48 +1,47 @@
 ---
 @META
-dir: skillsPraut/src/hooks/
-updated: 2026-04-13
+dir: skillsPraut/src/hooks
+updated: 2026-04-15
 files: 6
 stack: TypeScript, Remotion
 
 @EXPORTS
-easings.ts: easings — 3 sanctioned easing curves (linear | out | standard)
-interpolateColors.ts: interpolateColors — linear hex color interpolation
-useCountUp.ts: useCountUp — spring-based count-up animation hook
-useScaleToFit.ts: useScaleToFit — scale factor for reference→actual dimensions
-useStaggeredAnimation.ts: useStaggeredAnimation — (index)→progress stagger mapper
-useTypewriter.ts: useTypewriter — character-by-character typing effect
+easings.ts: easings — { linear, out, standard, inOutExpo, outBack, outQuart, inOutCubic } + easeOutElastic, easeOutBounce functions
+useEnterExit.ts: useEnterExit — reusable enter+exit spring lifecycle (delay, enterDuration, exitDuration)
+interpolateColors.ts: interpolateColors — linear hex lerp → "rgb()"
+useCountUp.ts: useCountUp — spring-driven numeric count-up
+useScaleToFit.ts: useScaleToFit — scale factor reference→actual
+useStaggeredAnimation.ts: useStaggeredAnimation — index→progress stagger
+useTypewriter.ts: useTypewriter — character-by-character typing
 
 @FUNCTIONS
-interpolateColors(t:number, from:string, to:string) → string
-  purpose: lerp between two #RRGGBB hex colors
+interpolateColors(t: number, from: string, to: string) → string
+  purpose: lerp two #RRGGBB hex colors → rgb(…)
   side-effects: none
-
-useCountUp({from?,to,startFrame?,config?}) → number
-  purpose: animated numeric count-up via spring
-  side-effects: none
-
-useScaleToFit(refW?:number, refH?:number) → number
-  purpose: scale 1920x1080 reference to actual composition size
-  side-effects: none
-
-useStaggeredAnimation({staggerFrames?,startFrame?,config?}) → (index:number)→number
-  purpose: staggered spring progress per list item index
-  side-effects: none
-
-useTypewriter({fullText,pauseAfter?,charFrames?,pauseSeconds?}) → string
+useCountUp({from?, to, startFrame?, config?}) → number
+  purpose: count-up numeric animation via spring
+  side-effects: useCurrentFrame, useVideoConfig
+useScaleToFit(refWidth?: 1920, refHeight?: 1080) → number
+  purpose: CSS scale to fit reference dims into composition dims
+  side-effects: useVideoConfig
+useStaggeredAnimation({staggerFrames?, startFrame?, config?}) → (index)→number
+  purpose: per-index spring progress for staggered reveals
+  side-effects: useCurrentFrame, useVideoConfig
+useTypewriter({fullText, pauseAfter?, charFrames?, pauseSeconds?}) → string
   purpose: typewriter substring at current frame
-  side-effects: none
+  side-effects: useCurrentFrame, useVideoConfig
 
 @DEPENDENCIES
 internal: styles/tokens (springs, timing, frame)
 external: remotion (spring, useCurrentFrame, useVideoConfig, Easing, interpolate)
 
 @STANDARDS
-- All hooks use tokens.springs/timing defaults
-- No custom easing — use easings.ts only (linear | out | standard)
-- Deterministic output per frame — stable across renders
-- useCountUp defaults to springs.smooth
-- useStaggeredAnimation defaults to timing.fast (12f) stagger
-- useTypewriter defaults to 2 frames per character
+- All animation hooks depend on useCurrentFrame + useVideoConfig
+- Defaults pulled from tokens.springs / tokens.timing
+- useCountUp default: springs.smooth
+- useStaggeredAnimation default: staggerFrames=12 (timing.fast)
+- useTypewriter default: 2 frames per char
+- Deterministic per-frame output (no randomness, cacheable)
+- easings.ts has 7 bezier curves + 2 easing functions — never use custom cubic-bezier
+- useEnterExit returns 0→1→0 progress driven by parent Sequence durationInFrames
 ---

@@ -6,7 +6,7 @@ import { Img, staticFile } from "remotion";
 import { glow as glowTokens } from "../../styles/tokens";
 
 type Props = {
-  /** Height in px. Width scales automatically (aspect ~1.19:1). Defaults to 48. */
+  /** Size in px (width = height, square). Defaults to 48. */
   size?: number;
   /** Apply brand active glow as a CSS filter. */
   glow?: boolean;
@@ -15,9 +15,8 @@ type Props = {
 };
 
 /**
- * Praut brain puzzle mark — isolated SVG `public/logo/brain-mark.svg`.
- * Native viewBox 108x91 -> wider than tall.
- * `size` controls HEIGHT; width auto-scales via aspect ratio.
+ * Praut brain puzzle mark — renders `public/logo/praut-logo.png`.
+ * `size` controls both width and height (square).
  */
 export const BrainMark: React.FC<Props> = ({
   size = 48,
@@ -26,11 +25,11 @@ export const BrainMark: React.FC<Props> = ({
 }) => {
   return (
     <Img
-      src={staticFile("logo/logopraut.svg")}
+      src={staticFile("logo/praut-logo.png")}
       alt="Praut brain mark"
       style={{
+        width: size,
         height: size,
-        width: "auto",
         objectFit: "contain",
         filter: glow ? `drop-shadow(${glowTokens.active})` : undefined,
         ...style,
@@ -764,6 +763,7 @@ import {
   colors,
   fonts,
   fontWeight,
+  frame,
   pickTagline,
   typeScale,
 } from "../../styles/tokens";
@@ -794,7 +794,7 @@ export const TopBar: React.FC<Props> = ({
 
   // Glass panel: inset=28 from frame border, borderRadius=20.
   // TopBar sits INSIDE the glass, so padding = distance from glass inner edge.
-  const innerPad = 24;
+  const innerPad = frame.sidePadding + 10;
 
   return (
     <div

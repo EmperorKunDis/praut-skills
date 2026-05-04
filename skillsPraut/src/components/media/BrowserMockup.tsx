@@ -1,5 +1,6 @@
 import React from "react";
 import { colors, fonts } from "../../styles/tokens";
+import { useEnterExit } from "../../hooks/useEnterExit";
 
 type Props = {
   url?: string;
@@ -15,6 +16,9 @@ export const BrowserMockup: React.FC<Props> = ({
   children,
   style,
 }) => {
+  const pChrome = useEnterExit({ delay: 0 });
+  const pContent = useEnterExit({ delay: 8 });
+
   return (
     <div
       style={{
@@ -33,6 +37,7 @@ export const BrowserMockup: React.FC<Props> = ({
           alignItems: "center",
           padding: "0 16px",
           gap: 8,
+          opacity: pChrome,
         }}
       >
         <div
@@ -77,7 +82,17 @@ export const BrowserMockup: React.FC<Props> = ({
           {url}
         </div>
       </div>
-      <div style={{ padding: 0, background: colors.navy[900] }}>{children}</div>
+      <div
+        style={{
+          padding: 0,
+          background: colors.navy[900],
+          opacity: pContent,
+          transform: `scale(${0.95 + pContent * 0.05})`,
+          transformOrigin: "top center",
+        }}
+      >
+        {children}
+      </div>
     </div>
   );
 };

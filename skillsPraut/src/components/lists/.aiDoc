@@ -1,7 +1,7 @@
 ---
 @META
-dir: skillsPraut/src/components/lists/
-updated: 2026-04-13
+dir: skillsPraut/src/components/lists
+updated: 2026-04-15
 files: 9
 stack: React, Remotion, TypeScript
 
@@ -28,6 +28,8 @@ external: remotion (Sequence, interpolate)
 @STANDARDS
 - Staggered animations use timing.fast or timing.medium
 - Color coding: success = green, error = red, warning = yellow
+- DoVsDont: slide columns in + exit animation
+- MythVsFact: slide cards in + exit animation
 - Czech labels: "Mýtus", "Pravda", "Ano", "Ne", "Dělej", "Nedělej"
 - TopTenReveal: index 0 = #10, index 9 = #1
 ---

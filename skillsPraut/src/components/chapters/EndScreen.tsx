@@ -1,9 +1,10 @@
 import React from "react";
 import { AbsoluteFill } from "remotion";
-import { fonts, fontWeight, gradients } from "../../styles/tokens";
+import { fonts, fontWeight, gradients, springs } from "../../styles/tokens";
 import { SubscribeButton } from "../cta/SubscribeButton";
 import { NextVideoCard } from "../cta/NextVideoCard";
 import { LikeAnimation } from "../cta/LikeAnimation";
+import { useEnterExit } from "../../hooks/useEnterExit";
 
 type Props = {
   thanks?: string;
@@ -19,37 +20,57 @@ type Props = {
 export const EndScreen: React.FC<Props> = ({
   thanks = "Díky za sledování",
   showNextFrame = true,
-}) => (
-  <AbsoluteFill
-    style={{
-      background: "transparent",
-      padding: 80,
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      justifyContent: "center",
-      gap: 48,
-    }}
-  >
-    <h1
+}) => {
+  const pHeading = useEnterExit({ delay: 0, enterConfig: springs.bouncy });
+  const pCta = useEnterExit({ delay: 12 });
+  const pNext = useEnterExit({ delay: 24 });
+
+  return (
+    <AbsoluteFill
       style={{
-        fontFamily: fonts.primary,
-        fontWeight: fontWeight.display,
-        fontSize: 72,
-        background: gradients.logoText,
-        WebkitBackgroundClip: "text",
-        WebkitTextFillColor: "transparent",
-        backgroundClip: "text",
-        margin: 0,
-        textAlign: "center",
+        background: "transparent",
+        padding: 80,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 48,
       }}
     >
-      {thanks}
-    </h1>
-    <div style={{ display: "flex", gap: 48, alignItems: "center" }}>
-      <SubscribeButton label="Odebírat" />
-      <LikeAnimation size={80} />
-    </div>
-    {showNextFrame ? <NextVideoCard /> : null}
-  </AbsoluteFill>
-);
+      <h1
+        style={{
+          fontFamily: fonts.primary,
+          fontWeight: fontWeight.display,
+          fontSize: 72,
+          background: gradients.logoText,
+          WebkitBackgroundClip: "text",
+          WebkitTextFillColor: "transparent",
+          backgroundClip: "text",
+          margin: 0,
+          textAlign: "center",
+          opacity: pHeading,
+          transform: `scale(${0.7 + pHeading * 0.3})`,
+        }}
+      >
+        {thanks}
+      </h1>
+      <div
+        style={{
+          display: "flex",
+          gap: 48,
+          alignItems: "center",
+          opacity: pCta,
+          transform: `translateY(${(1 - pCta) * 20}px)`,
+        }}
+      >
+        <SubscribeButton label="Odebírat" />
+        <LikeAnimation size={80} />
+      </div>
+      {showNextFrame ? (
+        <div style={{ opacity: pNext }}>
+          <NextVideoCard />
+        </div>
+      ) : null}
+    </AbsoluteFill>
+  );
+};

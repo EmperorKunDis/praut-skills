@@ -292,22 +292,22 @@ export const DefinitionBox: React.FC<Props> = ({ term, definition, style }) => (
   <div
     style={{
       background: gradients.card,
-      borderLeft: `4px solid ${colors.purple[600]}`,
-      borderRadius: 12,
-      padding: "36px 48px",
-      maxWidth: 1200,
+      borderLeft: `3px solid ${colors.purple[600]}`,
+      borderRadius: 8,
+      padding: "16px 24px",
+      maxWidth: 600,
       ...style,
     }}
   >
     <div
       style={{
         fontFamily: fonts.mono,
-        fontSize: 14,
-        color: colors.purple[200],
+        fontSize: 11,
+        color: colors.purple[300],
         letterSpacing: 2,
         textTransform: "uppercase",
-        marginBottom: 12,
-        fontWeight: fontWeight.bodyEmphasis,
+        marginBottom: 6,
+        fontWeight: fontWeight.body,
       }}
     >
       Definice
@@ -315,10 +315,10 @@ export const DefinitionBox: React.FC<Props> = ({ term, definition, style }) => (
     <div
       style={{
         fontFamily: fonts.primary,
-        fontWeight: fontWeight.display,
-        fontSize: 36,
-        color: colors.purple[50],
-        marginBottom: 16,
+        fontWeight: fontWeight.heading,
+        fontSize: 18,
+        color: colors.purple[200],
+        marginBottom: 6,
       }}
     >
       {term}
@@ -326,10 +326,10 @@ export const DefinitionBox: React.FC<Props> = ({ term, definition, style }) => (
     <div
       style={{
         fontFamily: fonts.primary,
-        fontSize: 22,
+        fontSize: 14,
         fontWeight: fontWeight.body,
-        color: colors.purple[100],
-        lineHeight: 1.5,
+        color: colors.purple[300],
+        lineHeight: 1.4,
       }}
     >
       {definition}

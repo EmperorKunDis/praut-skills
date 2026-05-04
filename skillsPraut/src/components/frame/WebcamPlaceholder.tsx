@@ -1,5 +1,6 @@
 import React from "react";
 import { colors, frame, glow } from "../../styles/tokens";
+import { useEnterExit } from "../../hooks/useEnterExit";
 
 type Props = {
   /** Width in px. Defaults to 240. */
@@ -29,6 +30,8 @@ export const WebcamPlaceholder: React.FC<Props> = ({
   bottomInset = 48,
   style,
 }) => {
+  const p = useEnterExit({ delay: 0 });
+
   return (
     <div
       style={{
@@ -42,6 +45,7 @@ export const WebcamPlaceholder: React.FC<Props> = ({
         background: "#00FF00",
         boxShadow: glow.active,
         zIndex: 30,
+        opacity: p,
         ...style,
       }}
     />

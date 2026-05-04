@@ -5,8 +5,10 @@ import {
   fontWeight,
   glow,
   gradients,
+  springs,
 } from "../../styles/tokens";
 import { PhosphorIcon } from "../icons/PhosphorIcon";
+import { useEnterExit } from "../../hooks/useEnterExit";
 
 type Props = {
   label?: string;
@@ -25,6 +27,8 @@ export const SubscribeButton: React.FC<Props> = ({
   hover = false,
   style,
 }) => {
+  const p = useEnterExit({ delay: 0, enterConfig: springs.bouncy });
+
   return (
     <button
       type="button"
@@ -42,14 +46,12 @@ export const SubscribeButton: React.FC<Props> = ({
         gap: 12,
         boxShadow: hover ? glow.ctaHover : glow.cta,
         cursor: "pointer",
+        opacity: p,
+        transform: `scale(${0.7 + p * 0.3})`,
         ...style,
       }}
     >
-      <PhosphorIcon
-        name={icon}
-        size={26}
-        color={colors.purple[50]}
-      />
+      <PhosphorIcon name={icon} size={26} color={colors.purple[50]} />
       {label}
     </button>
   );

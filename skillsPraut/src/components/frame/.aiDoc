@@ -1,7 +1,7 @@
 ---
 @META
-dir: skillsPraut/src/components/frame/
-updated: 2026-04-13
+dir: skillsPraut/src/components/frame
+updated: 2026-04-15
 files: 16
 stack: React, Remotion, TypeScript
 
@@ -41,5 +41,7 @@ external: remotion (AbsoluteFill, Img, staticFile)
 - PrautVideoFrame defaults: includeWatermark=false (no watermark in production)
 - SafeArea handles resolution independence
 - WebcamPlaceholder green-screen (#00FF00), 240×240 square, bottom-right — keyed out in post-production
+- TopBar: slide-in enter + exit animation
+- BrainMark: renders praut-logo.png from public/logo/
 - TopBar auto-generates tagline via pickTagline()
 ---

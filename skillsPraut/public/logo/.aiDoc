@@ -1,0 +1,32 @@
+---
+@META
+dir: skillsPraut/public/logo
+updated: 2026-04-15
+files: 7 (SVG + PNG brand assets)
+stack: SVG, PNG
+
+@EXPORTS
+brain-mark.svg — Praut brain puzzle mark (isolated icon)
+logopraut.svg — full logo: brain mark + PRAUT wordmark
+praut.svg — alternate logo variant
+praut-logo.png — raster logo
+praut-large.png — large raster variant
+icon-zapisovatel-256.png — secondary app icon @ 256px
+icon-zapisovatel-1024.png — secondary app icon @ 1024px
+
+@PROCESSES
+logo-loading: staticFile("/logo/<file>") → <Img> component → Remotion bundle
+brain-mark-render: components/frame/BrainMark.tsx → staticFile("/logo/logopraut.svg") → <Img>
+
+@DEPENDENCIES
+referenced-by: components/frame/BrainMark.tsx | components/frame/BrandLogo.tsx | components/chapters/IntroAnimation.tsx | components/frame/WatermarkPraut.tsx
+
+@STANDARDS
+- SVG preferred for scalable UI (brain mark, wordmark)
+- PNG for raster-only contexts (YouTube thumbnails, app icons)
+- File names lowercase-kebab-case
+- Brain mark uses #506FFB (blue.400) stroke on transparent
+
+@WARNINGS
+- icon-zapisovatel-* is for secondary "zapisovatel" brand — not main Praut AI Channel
+---

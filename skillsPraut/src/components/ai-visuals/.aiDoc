@@ -1,44 +1,38 @@
 ---
 @META
-dir: skillsPraut/src/components/ai-visuals/
-updated: 2026-04-13
+dir: skillsPraut/src/components/ai-visuals
+updated: 2026-04-15
 files: 18
 stack: React, Remotion, TypeScript, SVG
 
 @EXPORTS
-AgentLoop.tsx: AgentLoop — animated Think → Act → Observe cycle (30f per step)
-AttentionMatrix.tsx: AttentionMatrix — token attention weights (wraps HeatmapGrid)
-ContextWindow.tsx: ContextWindow — sliding context window over token sequence
-CostCalculator.tsx: CostCalculator — LLM cost breakdown (input + output pricing)
-DiffusionSteps.tsx: DiffusionSteps — denoising step squares (noise → image)
-EmbeddingSpace.tsx: EmbeddingSpace — 2D embedding scatter (wraps ScatterPlot)
-HallucinationDemo.tsx: HallucinationDemo — correct vs hallucinated side-by-side
-ModelArchitecture.tsx: ModelArchitecture — encoder/decoder layer box diagram
-MoEDiagram.tsx: MoEDiagram — Mixture of Experts routing with active highlights
-NeuralNetwork.tsx: NeuralNetwork — animated feedforward NN (SVG neurons + synapses)
-ParameterCounter.tsx: ParameterCounter — model parameter count comparison cards
-PromptResponse.tsx: PromptResponse — chat-style prompt + typewriter streaming response
-RAGPipeline.tsx: RAGPipeline — Query → Vector DB → Context → LLM → Answer diagram
-TemperatureSlider.tsx: TemperatureSlider — visual slider for LLM temperature (0..1)
-TokenizerView.tsx: TokenizerView — colored token chips in series colors
-ToolCallVisual.tsx: ToolCallVisual — function call visualization (name + args + result)
-TrainingLoss.tsx: TrainingLoss — exponential decay loss curve (wraps AnimatedLineChart)
-TransformerBlock.tsx: TransformerBlock — Multi-Head Attention + FFN block diagram
-
-@INTERFACES
-NeuralNetworkProps: { layers: number[], width?, height?, style? }
-RAGPipelineProps: { style? }
-AgentLoopProps: { style? }
-TokenizerViewProps: { tokens: string[], style? }
+AgentLoop.tsx: AgentLoop({style?}) — animated Think→Act→Observe loop (30f per step)
+AttentionMatrix.tsx: AttentionMatrix({tokens[], weights[][], cellSize?, style?}) — wraps HeatmapGrid
+ContextWindow.tsx: ContextWindow({tokens[], windowStart, windowSize, style?}) — sliding window
+CostCalculator.tsx: CostCalculator({model, inputTokens, outputTokens, prices, style?}) — cost breakdown
+DiffusionSteps.tsx: DiffusionSteps({steps, style?}) — noise→image denoising squares
+EmbeddingSpace.tsx: EmbeddingSpace({embeddings[], width, height, style?}) — wraps ScatterPlot
+HallucinationDemo.tsx: HallucinationDemo({prompt, correct, hallucinated, style?}) — side-by-side
+MoEDiagram.tsx: MoEDiagram({expertCount, activeExperts, style?}) — MoE routing highlights
+ModelArchitecture.tsx: ModelArchitecture({layers[], style?}) — encoder/decoder boxes
+NeuralNetwork.tsx: NeuralNetwork({layers: number[], width?, height?, style?}) — SVG NN animated
+ParameterCounter.tsx: ParameterCounter({models[], style?}) — param-size comparison cards
+PromptResponse.tsx: PromptResponse({prompt, response, style?}) — chat + typewriter
+RAGPipeline.tsx: RAGPipeline({style?}) — Query→Vector DB→Context→LLM→Answer
+TemperatureSlider.tsx: TemperatureSlider({value, style?}) — 0..1 temperature visual
+TokenizerView.tsx: TokenizerView({tokens: string[], style?}) — colored token chips
+ToolCallVisual.tsx: ToolCallVisual({functionName, args, result, style?}) — function-call viz
+TrainingLoss.tsx: TrainingLoss({epochs, finalLoss, startLoss, style?}) — wraps AnimatedLineChart
+TransformerBlock.tsx: TransformerBlock({style?}) — MHA + FFN block diagram
 
 @DEPENDENCIES
-internal: styles/tokens | icons/PhosphorIcon | charts/HeatmapGrid | charts/ScatterPlot | charts/AnimatedLineChart | typography/CountUpNumber | code/CodeBlock | hooks/useTypewriter
+internal: ../../styles/tokens | ../icons/PhosphorIcon | ../charts/{HeatmapGrid, ScatterPlot, AnimatedLineChart} | ../typography/CountUpNumber | ../code/CodeBlock | ../../hooks/useTypewriter
 external: remotion (interpolate, spring, useCurrentFrame, useVideoConfig)
 
 @STANDARDS
-- Composite: AttentionMatrix→HeatmapGrid, EmbeddingSpace→ScatterPlot, TrainingLoss→AnimatedLineChart
-- AgentLoop cycles every 30 frames per step
-- NeuralNetwork activates layer-by-layer with springs.snappy
+- Composites: AttentionMatrix→HeatmapGrid, EmbeddingSpace→ScatterPlot, TrainingLoss→AnimatedLineChart
+- AgentLoop cycles 30f per step; NeuralNetwork activates layer-by-layer with springs.snappy
 - Czech labels where applicable ("Deterministicky", "Kreativní")
-- All diagrams use gradients.card background + blue[400] borders
+- Diagrams use gradients.card background + blue.400 borders
+- AI-specific visualizations — complement charts/ category with domain semantics
 ---
